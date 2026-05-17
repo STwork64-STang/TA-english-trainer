@@ -712,6 +712,7 @@ with tab4:
     st.markdown("#### สนทนากับ AI Tutor")
     st.caption("พูดคุยเป็นภาษาอังกฤษ — AI จะช่วยแก้ไขและโต้ตอบ")
 
+    # ลิสต์คำถามชวนคุยสารพัดประโยชน์ (เพิ่มหรือเปลี่ยนคำถามตรงนี้ได้ตามใจชอบ)
     ICE_BREAKERS = [
         "What did you do today? Tell me a little bit about your day.",
         "What is your favorite food, and why do you like it?",
