@@ -521,9 +521,9 @@ Return ONLY valid JSON, no markdown:
                 for v in art["vocab"]
             )
             st.markdown(
-                '<div style="background:#f4f4fb;border-radius:10px;padding:0.75rem 1rem;' +
-                'font-size:0.85rem;margin-bottom:1rem;line-height:2">' +
-                '<span style="font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:#aaa;display:block;margin-bottom:4px">คำศัพท์ในบทความ</span>' +
+                '<div style="background:#f4f4fb; color:#1e1e2f; border-radius:10px; padding:0.75rem 1rem;' +
+                'font-size:0.85rem; margin-bottom:1rem; line-height:2">' +
+                '<span style="font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:#888888; display:block; margin-bottom:4px">คำศัพท์ในบทความ</span>' +
                 f'{vocab_items}</div>',
                 unsafe_allow_html=True
             )
