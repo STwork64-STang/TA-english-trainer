@@ -347,12 +347,13 @@ if not api_key:
 tab1, tab2, tab3, tab4 = st.tabs(["📇 Flashcards", "📄 Reading", "🧩 Vocab Quiz", "💬 Chat"])
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 1 — FLASHCARDS
+# TAB 1 — FLASHCARDS (Multiple Choice Mode)
 # ══════════════════════════════════════════════════════════════════════════════
 with tab1:
-    st.markdown("#### สร้างแฟลชการ์ดคำศัพท์")
+    st.markdown("#### 🎮 เกมจับคู่ศัพท์ 4 ตัวเลือก")
     st.caption(f"หัวข้อ: **{topic}** · ระดับ: **{user_level}**")
 
+    # ปุ่มสร้างคำศัพท์ชุดใหม่
     if st.button("🔄 สร้างการ์ดชุดใหม่ (5 ใบ)", key="gen_cards"):
         with st.spinner("กำลังสร้างการ์ด..."):
             raw = call_gemini(f"""
@@ -366,77 +367,138 @@ Each object must have exactly these keys:
                 try:
                     st.session_state["cards"] = parse_json(raw)
                     st.session_state["card_idx"] = 0
-                    st.session_state["card_flipped"] = False
+                    st.session_state["flash_score"] = 0
+                    st.session_state["flash_status"] = None
+                    # ล้างค่าช้อยส์เก่าเพื่อให้ระบบสุ่มช้อยส์ใหม่ในข้อแรก
+                    if "current_options" in st.session_state:
+                        del st.session_state["current_options"]
                 except Exception as e:
                     st.error(f"แปลง JSON ไม่ได้: {e}\n\n{raw}")
 
-    # ── render flashcard ──
+    # ── เริ่มระบบเกม ──
     if "cards" in st.session_state and st.session_state["cards"]:
         cards = st.session_state["cards"]
-        idx     = st.session_state.get("card_idx", 0)
-        flipped = st.session_state.get("card_flipped", False)
-        card    = cards[idx]
-
-        # dot nav
-        dots_html = '<div class="dot-nav">' + "".join(
-            f'<span class="dot{"  active" if i == idx else ""}"></span>'
-            for i in range(len(cards))
-        ) + "</div>"
-        st.markdown(dots_html, unsafe_allow_html=True)
-
-        # card HTML — แสดงด้านหน้าหรือด้านหลังตาม state
-        if not flipped:
-            card_html = f"""
-<div class="flashcard-scene">
-  <div class="flashcard">
-    <div class="flashcard-face flashcard-front">
-      <div class="card-word">{card['word']}</div>
-      <div class="card-pron">{card.get('pronunciation','')}</div>
-      <div class="card-hint">กด "พลิกการ์ด" เพื่อดูความหมาย</div>
-    </div>
-  </div>
-</div>"""
-        else:
-            card_html = f"""
-<div class="flashcard-scene">
-  <div class="flashcard">
-    <div class="flashcard-face flashcard-back" style="position:relative;transform:none;">
-      <div>
-        <div class="back-label">Definition</div>
-        <div class="back-value">{card['definition']}</div>
-      </div>
-      <div>
-        <div class="back-label">ความหมาย</div>
-        <div class="back-value">{card.get('thai','')}</div>
-      </div>
-      <div class="back-example">"{card.get('example','')}"</div>
-    </div>
-  </div>
-</div>"""
-        st.markdown(card_html, unsafe_allow_html=True)
-
-        # flip + nav buttons
-        col_prev, col_flip, col_next = st.columns([1, 2, 1])
-        with col_prev:
-            if st.button("← ก่อนหน้า", key="prev_card", disabled=(idx == 0)):
-                st.session_state["card_idx"] = idx - 1
-                st.session_state["card_flipped"] = False
-                st.rerun()
-        with col_flip:
-            flip_label = "🔄 ดูคำแปล" if not flipped else "🔄 ดูคำศัพท์"
-            if st.button(flip_label, key="flip_card", use_container_width=True):
-                st.session_state["card_flipped"] = not flipped
-                st.rerun()
-        with col_next:
-            if st.button("ถัดไป →", key="next_card", disabled=(idx == len(cards) - 1)):
-                st.session_state["card_idx"] = idx + 1
-                st.session_state["card_flipped"] = False
-                st.rerun()
+        idx = st.session_state.get("card_idx", 0)
         
-        st.markdown(
-            f'<p style="text-align:center;color:#888;font-size:0.85rem;margin-top:0.4rem">{idx+1} / {len(cards)}</p>',
-            unsafe_allow_html=True
-        )
+        if "flash_score" not in st.session_state: st.session_state["flash_score"] = 0
+        if "flash_status" not in st.session_state: st.session_state["flash_status"] = None
+
+        # เมื่อเล่นครบ 5 ข้อแล้ว
+        if idx >= len(cards):
+            st.balloons()
+            st.markdown(f"""
+            <div style="background:#e8f4ea; border-radius:12px; padding:2rem; text-align:center; border:1px solid #c3e6cb; margin: 1rem 0;">
+                <h2 style="color:#1e4620; margin:0 0 0.5rem 0;">🏁 สรุปผลคะแนนเกมโชว์!</h2>
+                <h4 style="color:#2e6930; margin:0;">คุณทำคะแนนได้: <span style="font-size:2rem; font-weight:bold; color:#1e4620;">{st.session_state['flash_score']}</span> / {len(cards)} คะแนน</h4>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            if st.button("🔄 เล่นใหม่อีกรอบ (ใช้ศัพท์ชุดเดิม)", use_container_width=True):
+                st.session_state["card_idx"] = 0
+                st.session_state["flash_score"] = 0
+                st.session_state["flash_status"] = None
+                if "current_options" in st.session_state: del st.session_state["current_options"]
+                st.rerun()
+        else:
+            card = cards[idx]
+
+            # ระบบสุ่มสร้างตัวเลือก 4 ช้อยส์ (ดึงความหมายไทยจากคำอื่นในชุดมาลวง)
+            if "current_options" not in st.session_state:
+                import random
+                correct_ans = card.get('thai', '')
+                
+                # ดึงความหมายคำอื่นมาทำตัวลวง
+                wrong_answers = [c.get('thai', '') for i, c in enumerate(cards) if i != idx and c.get('thai', '')]
+                
+                # กรณีศัพท์ในชุดมีไม่พอ (กันเหนียวไว้ก่อน) ให้เติมตัวลวงทั่วไปเข้าไป
+                while len(wrong_answers) < 3:
+                    wrong_answers.append("ตัวเลือกหลอกข้อพิเศษ")
+                
+                # สุ่มเลือกตัวลวงมา 3 อัน + ตัวถูก 1 อัน
+                selected_options = random.sample(wrong_answers, 3) + [correct_ans]
+                random.shuffle(selected_options)  # สับไพ่สลับตำแหน่งช้อยส์
+                st.session_state["current_options"] = selected_options
+
+            # แสดงแผงควบคุมความคืบหน้าและคะแนน
+            col_prog, col_sco = st.columns([3, 1])
+            with col_prog:
+                st.markdown(f"**ข้อที่ {idx + 1} / {len(cards)}**")
+                st.progress((idx) / len(cards))
+            with col_sco:
+                st.markdown(f"<p style='text-align:right; font-weight:bold; color:#ff9800; font-size:1.1rem;'>🔥 คะแนน: {st.session_state['flash_score']}</p>", unsafe_allow_html=True)
+
+            # หน้าจอแสดงคำศัพท์ภาษาอังกฤษตัวโตๆ
+            card_html = f"""
+            <div class="flashcard-scene" style="height:160px; margin-bottom:1.5rem;">
+              <div class="flashcard">
+                <div class="flashcard-face flashcard-front" style="background:#1e1e2f; color:#ffffff; border:none; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+                  <div class="card-word" style="font-size:2.4rem; color:#ffcb6b; margin:0;">{card['word']}</div>
+                  <div class="card-pron" style="color:#80cbd0; font-size:1.1rem; margin-top:5px;">{card.get('pronunciation','')}</div>
+                </div>
+              </div>
+            </div>"""
+            st.markdown(card_html, unsafe_allow_html=True)
+
+            st.markdown("**เลือกความหมายภาษาไทยที่ถูกต้อง:")
+            
+            # เรนเดอร์ปุ่มช้อยส์ 4 ตัวเลือก (แบ่งเป็น 2 แถว แถวละ 2 ปุ่ม เพื่อความสวยงาม)
+            options = st.session_state["current_options"]
+            
+            # แถวที่ 1 (ช้อยส์ 1 และ 2)
+            col1, col2 = st.columns(2)
+            # แถวที่ 2 (ช้อยส์ 3 และ 4)
+            col3, col4 = st.columns(2)
+            
+            choice_buttons = [col1, col2, col3, col4]
+            user_choice = None
+
+            # วนลูปสร้างปุ่มช้อยส์ หากตรวจคำตอบแล้วจะสั่งปิดไม่ให้กดซ้ำ (disabled)
+            for i, col in enumerate(choice_buttons):
+                with col:
+                    if st.button(f"{i+1}. {options[i]}", key=f"opt_{idx}_{i}", use_container_width=True, disabled=(st.session_state["flash_status"] is not None)):
+                        user_choice = options[i]
+
+            # ตรวจคำตอบเมื่อผู้ใช้คลิกเลือกช้อยส์ใดช้อยส์หนึ่ง
+            if user_choice:
+                if user_choice == card.get('thai', ''):
+                    st.session_state["flash_status"] = "correct"
+                    st.session_state["flash_score"] += 1
+                    st.rerun()
+                else:
+                    st.session_state["flash_status"] = "wrong"
+                    st.rerun()
+
+            # ── แสดงหน้าต่างแจ้งผลหลังกดตอบ ──
+            if st.session_state["flash_status"] == "correct":
+                st.success(f"🎉 ถูกต้องแม่นยำ! ** แปลว่า **{card.get('thai','')}")
+                st.markdown(f"""
+                <div style="background:#f0faf1; padding:1rem; border-radius:8px; color:#2e6930; margin-bottom:1rem; border-left:4px solid #4caf50;">
+                    <b>English Definition:</b> {card['definition']}<br>
+                    <b>Example:</b> "{card.get('example','')}"
+                </div>
+                """, unsafe_allow_html=True)
+                
+                if st.button("ลุยต่อข้อถัดไป ➡️", key="next_correct", use_container_width=True):
+                    st.session_state["card_idx"] = idx + 1
+                    st.session_state["flash_status"] = None
+                    if "current_options" in st.session_state: del st.session_state["current_options"]
+                    st.rerun()
+
+            elif st.session_state["flash_status"] == "wrong":
+                st.error(f"❌ ผิดซะแล้ว! ไม่เป็นไร ลองจำใหม่นะ")
+                st.info(f"💡 เฉลยที่ถูกต้อง: ** แปลว่า **{card.get('thai','')}**")
+                st.markdown(f"""
+                <div style="background:#f4f4fb; padding:1rem; border-radius:8px; color:#333; margin-bottom:1rem; border-left:4px solid #5555aa;">
+                    <b>English Definition:</b> {card['definition']}<br>
+                    <b>Example:</b> "{card.get('example','')}"
+                </div>
+                """, unsafe_allow_html=True)
+                
+                if st.button("ข้ามไปข้อถัดไป ➡️", key="next_wrong", use_container_width=True):
+                    st.session_state["card_idx"] = idx + 1
+                    st.session_state["flash_status"] = None
+                    if "current_options" in st.session_state: del st.session_state["current_options"]
+                    st.rerun()
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 2 — READING (interactive)
