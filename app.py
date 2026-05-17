@@ -439,23 +439,45 @@ Each object must have exactly these keys:
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 2 — READING (interactive)
 # ══════════════════════════════════════════════════════════════════════════════
+
+READING_TOPICS = [
+    "Artificial Intelligence", "Climate Change", "Public Health",
+    "Space Exploration", "Economics & Trade", "Psychology",
+    "Renewable Energy", "Human Rights", "Biotechnology",
+    "Urban Planning", "History of Science", "Media & Communication",
+    "Education Systems", "Nutrition & Diet", "Cybersecurity",
+]
+
 with tab2:
     st.markdown("#### อ่านบทความและตอบคำถาม")
-    st.caption(f"หัวข้อ: **{topic}** · ระดับ: **{user_level}**")
+
+    col_sel, col_rand = st.columns([3, 1])
+    with col_sel:
+        reading_topic = st.selectbox("เลือกหัวข้อบทความ:", READING_TOPICS, key="reading_topic_sel")
+    with col_rand:
+        st.markdown("<div style='margin-top:1.6rem'>", unsafe_allow_html=True)
+        if st.button("🎲 สุ่ม", key="random_topic"):
+            import random
+            st.session_state["reading_topic_sel"] = random.choice(READING_TOPICS)
+            st.session_state["article"] = None
+            st.session_state["reading_result"] = None
+            st.rerun()
+        st.markdown("</div>", unsafe_allow_html=True)
 
     if st.button("📖 โหลดบทความใหม่", key="gen_article"):
-        with st.spinner("กำลังสร้างบทความ..."):
+        with st.spinner(f"กำลังสร้างบทความเรื่อง {reading_topic}..."):
             raw = call_gemini(f"""
 You are an academic English reading teacher.
-Write a short academic passage (3-5 sentences) about "{topic}" for level "{user_level}".
+Write a short academic passage (4-6 sentences) about "{reading_topic}" for level "{user_level}".
+Include 2-3 advanced vocabulary words naturally in the passage.
 Then create 1 comprehension question with a short open-ended answer (not multiple choice).
+Also list the key vocabulary words used with brief English definitions.
 Return ONLY valid JSON, no markdown:
-{{"passage":"...","question":"...","model_answer":"...","explanation_th":"..."}}
+{{"topic":"{reading_topic}","passage":"...","question":"...","model_answer":"...","vocab":[{{"word":"...","meaning":"..."}}]}}
 """)
             if raw:
                 try:
                     st.session_state["article"] = parse_json(raw)
-                    st.session_state["reading_answer"] = ""
                     st.session_state["reading_result"] = None
                 except Exception as e:
                     st.error(f"แปลง JSON ไม่ได้: {e}\n\n{raw}")
@@ -463,7 +485,28 @@ Return ONLY valid JSON, no markdown:
     if "article" in st.session_state and st.session_state["article"]:
         art = st.session_state["article"]
 
+        st.markdown(
+            f'<span style="display:inline-block;background:#ececf8;color:#5555aa;font-size:0.75rem;' +
+            'font-weight:500;letter-spacing:0.07em;text-transform:uppercase;' +
+            f'padding:3px 12px;border-radius:6px;margin-bottom:0.75rem">{art.get("topic","")}</span>',
+            unsafe_allow_html=True
+        )
+
         st.markdown(f'<div class="passage-card">{art["passage"]}</div>', unsafe_allow_html=True)
+
+        if art.get("vocab"):
+            vocab_items = "".join(
+                f'<span style="margin-right:1.2rem;display:inline-block"><b>{v["word"]}</b> — <span style="color:#555">{v["meaning"]}</span></span>'
+                for v in art["vocab"]
+            )
+            st.markdown(
+                '<div style="background:#f4f4fb;border-radius:10px;padding:0.75rem 1rem;' +
+                'font-size:0.85rem;margin-bottom:1rem;line-height:2">' +
+                '<span style="font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:#aaa;display:block;margin-bottom:4px">คำศัพท์ในบทความ</span>' +
+                f'{vocab_items}</div>',
+                unsafe_allow_html=True
+            )
+
         st.markdown(f'**คำถาม:** {art["question"]}')
 
         user_ans = st.text_input(
@@ -482,8 +525,7 @@ Passage: "{art['passage']}"
 Question: "{art['question']}"
 Model answer: "{art['model_answer']}"
 Student's answer: "{user_ans}"
-
-Evaluate the student's answer briefly. 
+Evaluate the student's answer briefly.
 - First line: state if it's correct/partially correct/incorrect.
 - Then 2-3 sentences of gentle explanation in Thai.
 Keep it encouraging and concise.
@@ -491,7 +533,6 @@ Keep it encouraging and concise.
                     st.session_state["reading_result"] = {
                         "feedback": feedback,
                         "model": art["model_answer"],
-                        "explain": art["explanation_th"],
                     }
 
         if st.session_state.get("reading_result"):
@@ -499,10 +540,9 @@ Keep it encouraging and concise.
             fb_lower = (res["feedback"] or "").lower()
             css_class = "result-correct" if any(w in fb_lower for w in ["correct","good","right","great","well"]) else "result-wrong"
             st.markdown(
-                f'<div class="{css_class}">'
-                f'<b>ผลการตรวจ:</b><br>{res["feedback"]}<br><br>'
-                f'<b>เฉลย:</b> {res["model"]}'
-                f'</div>',
+                f'<div class="{css_class}">' +
+                f'<b>ผลการตรวจ:</b><br>{res["feedback"]}<br><br>' +
+                f'<b>เฉลย:</b> {res["model"]}</div>',
                 unsafe_allow_html=True
             )
 
