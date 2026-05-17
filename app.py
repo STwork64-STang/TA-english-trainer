@@ -209,46 +209,34 @@ st.markdown('<p class="app-title">Academic English Trainer</p>', unsafe_allow_ht
 st.markdown('<p class="app-sub">AI-Powered · Gemini · ฝึกภาษาอังกฤษเชิงวิชาการ</p>', unsafe_allow_html=True)
 
 # ─── 4. SETTINGS DASHBOARD (กล่องตั้งค่าหน้าแรกแสดงผลตรงกลางสวยงาม แทน Sidebar) ───
-with st.container():
-    st.markdown("""
-    <div class="settings-dashboard">
-        <div class="settings-title">⚙️ แผงควบคุมและตั้งค่าบทเรียน (ไม่ต้องใช้ Sidebar)</div>
-    </div>
-    """, unsafe_allow_html=True)
+api_input = st.text_input(
+    "Gemini API Key", 
+    type="password", 
+    placeholder="AIza...", 
+    value=st.session_state["saved_key"],
+    help="รับคีย์ฟรีที่ https://aistudio.google.com/app/apikey"
+)
+if api_input != st.session_state["saved_key"]:
+    st.session_state["saved_key"] = api_input
+    st.rerun()
     
-    col_k1, col_k2 = st.columns([2, 3])
-    with col_k1:
-        api_input = st.text_input(
-            "Gemini API Key", 
-            type="password", 
-            placeholder="AIza...", 
-            value=st.session_state["saved_key"],
-            help="รับคีย์ฟรีที่ https://aistudio.google.com/app/apikey"
-        )
-        if api_input != st.session_state["saved_key"]:
-            st.session_state["saved_key"] = api_input
-            st.rerun()
-            
-    with col_k2:
-        col_lvl, col_tpc = st.columns(2)
-        with col_lvl:
-            user_level = st.selectbox(
-                "ระดับภาษาอังกฤษ",
-                ["Level 1: Beginner", "Level 2: Intermediate", "Level 3: Advanced"],
-                index=["Level 1: Beginner", "Level 2: Intermediate", "Level 3: Advanced"].index(st.session_state["user_level"])
-            )
-            if user_level != st.session_state["user_level"]:
-                st.session_state["user_level"] = user_level
-                st.rerun()
-        with col_tpc:
-            topic = st.selectbox(
-                "หัวข้อที่สนใจ",
-                ["General Academic", "Science & Technology", "Social Sciences", "Business & Economics", "Medicine & Health", "Law & Ethics", "Literature & Arts"],
-                index=["General Academic", "Science & Technology", "Social Sciences", "Business & Economics", "Medicine & Health", "Law & Ethics", "Literature & Arts"].index(st.session_state["topic"])
-            )
-            if topic != st.session_state["topic"]:
-                st.session_state["topic"] = topic
-                st.rerun()
+user_level = st.selectbox(
+    "ระดับภาษาอังกฤษ",
+    ["Level 1: Beginner", "Level 2: Intermediate", "Level 3: Advanced"],
+    index=["Level 1: Beginner", "Level 2: Intermediate", "Level 3: Advanced"].index(st.session_state["user_level"])
+)
+if user_level != st.session_state["user_level"]:
+    st.session_state["user_level"] = user_level
+    st.rerun()
+
+topic = st.selectbox(
+    "หัวข้อที่สนใจ",
+    ["General Academic", "Science & Technology", "Social Sciences", "Business & Economics", "Medicine & Health", "Law & Ethics", "Literature & Arts"],
+    index=["General Academic", "Science & Technology", "Social Sciences", "Business & Economics", "Medicine & Health", "Law & Ethics", "Literature & Arts"].index(st.session_state["topic"])
+)
+if topic != st.session_state["topic"]:
+    st.session_state["topic"] = topic
+    st.rerun()
 
 # บล็อกหยุดถ้ายังไม่ใส่คีย์
 api_key = st.session_state["saved_key"]
