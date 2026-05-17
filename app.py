@@ -23,7 +23,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# ─── 2. STUNNING RESPONSIVE CSS (รองรับ Dark Mode & สวยสไตล์แอป Duolingo) ──────
+# ─── 2. HYBRID RESPONSIVE CSS (ฉลาดขึ้น: รองรับและสวยงามทั้งใน Light & Dark Mode) ───
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;700&display=swap');
@@ -35,34 +35,34 @@ st.markdown("""
 #MainMenu, footer, header { visibility: hidden; }
 .block-container { padding-top: 1.5rem; padding-bottom: 4rem; max-width: 720px; }
 
-/* หัวข้อใหญ่ของแอป */
+/* หัวข้อใหญ่ของแอป - เปลี่ยนมาใช้สีมาตรฐานของสตรีมลิตเพื่อให้คมชัดทุกโหมด */
 .app-title {
     font-family: 'DM Serif Display', serif;
     font-size: 2.3rem;
-    color: #ffcb6b; /* สีทองอร่าม สว่างคมชัดในจอ Dark Mode */
-    text-shadow: 0px 2px 4px rgba(0,0,0,0.3);
+    color: var(--text-color); /* ปรับตามโหมดมืด/สว่างอัตโนมัติ */
     margin-bottom: 0.15rem;
     font-weight: 700;
 }
 .app-sub {
     font-size: 0.9rem;
-    color: #a0a0b0;
+    color: #888899;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     margin-bottom: 1.5rem;
 }
 
-/* แผงควบคุมการตั้งค่าด้านบน (ใช้แทน Sidebar) */
+/* แผงควบคุมการตั้งค่าด้านบน (ใช้สีกึ่งโปร่งใสที่กลืนเข้ากับทุกธีมพื้นหลัง) */
 .settings-dashboard {
-    background: linear-gradient(135deg, rgba(45, 45, 80, 0.4) 0%, rgba(26, 26, 46, 0.6) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: var(--background-color);
+    background-image: linear-gradient(135deg, rgba(120, 120, 150, 0.08) 0%, rgba(120, 120, 150, 0.03) 100%);
+    border: 1px solid rgba(120, 120, 150, 0.2);
     border-radius: 18px;
     padding: 1.5rem;
     margin-bottom: 2rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.05);
 }
 .settings-title {
-    color: #ffcb6b;
+    color: var(--text-color);
     font-size: 1.1rem;
     font-weight: 700;
     margin-bottom: 1rem;
@@ -71,24 +71,24 @@ st.markdown("""
 /* ── Tab Bar ดีไซน์โมเดิร์น ── */
 .stTabs [data-baseweb="tab-list"] {
     gap: 6px;
-    background: rgba(240, 240, 245, 0.1);
+    background: rgba(120, 120, 150, 0.08);
     padding: 6px;
     border-radius: 14px;
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(120, 120, 150, 0.1);
 }
 .stTabs [data-baseweb="tab"] {
     border-radius: 10px;
     padding: 8px 18px;
     font-size: 0.85rem;
     font-weight: 500;
-    color: #a0a0b0;
+    color: #888899;
     background: transparent;
     border: none;
 }
 .stTabs [aria-selected="true"] {
-    background: #ffffff !important;
-    color: #1a1a2e !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    background: var(--background-color) !important;
+    color: var(--text-color) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 .stTabs [data-baseweb="tab-highlight"], .stTabs [data-baseweb="tab-border"] { display: none; }
 
@@ -119,18 +119,18 @@ st.markdown("""
     padding: 2rem;
 }
 .flashcard-front {
-    background: linear-gradient(135deg, #1a1a2e 0%, #2d2d50 100%);
+    background: linear-gradient(135deg, #2b3a60 0%, #1a233d 100%);
     color: white;
-    box-shadow: 0 10px 30px rgba(26,26,46,0.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.05);
 }
 .flashcard-back {
-    background: #ffffff;
-    border: 1.5px solid #e8e8f0;
+    background: var(--background-color);
+    border: 1.5px solid rgba(120, 120, 150, 0.2);
     transform: rotateY(180deg);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     align-items: flex-start;
     justify-content: flex-start;
     gap: 8px;
@@ -138,30 +138,28 @@ st.markdown("""
 .card-word { font-family: 'DM Serif Display', serif; font-size: 2.5rem; color: #ffcb6b; text-align: center; }
 .card-pron { font-size: 1.1rem; opacity: 0.8; color: #fff; }
 .back-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #888; }
-.back-value { font-size: 1rem; color: #1a1a2e; line-height: 1.5; }
+.back-value { font-size: 1rem; color: var(--text-color); line-height: 1.5; }
 
 /* ── Quiz Box & Reading CSS ── */
 .flashcard-quiz-box {
-    background: linear-gradient(135deg, #1a1a2e 0%, #2d2d50 100%);
+    background: linear-gradient(135deg, #2b3a60 0%, #1a233d 100%);
     color: white;
     border-radius: 18px;
     padding: 2.5rem 2rem;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(26,26,46,0.2);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     margin-bottom: 1.5rem;
-    border: 1px solid rgba(255,255,255,0.1);
 }
 div[data-testid="stHorizontalBlock"] .stButton > button {
-    background: rgba(255, 255, 255, 0.95);
-    color: #1a1a2e;
-    border: 1.5px solid #ececf0;
+    background: var(--background-color);
+    color: var(--text-color);
+    border: 1.5px solid rgba(120, 120, 150, 0.2);
     border-radius: 12px;
     padding: 14px 20px;
     text-align: left;
     font-weight: 500;
 }
 div[data-testid="stHorizontalBlock"] .stButton > button:hover {
-    background: #f4f4fb;
     border-color: #ffcb6b;
     transform: translateY(-1px);
 }
@@ -173,34 +171,35 @@ div[data-testid="stHorizontalBlock"] .stButton > button:hover {
     font-weight: 600;
 }
 .passage-card {
-    background: rgba(255,255,255,0.05);
+    background: rgba(120, 120, 150, 0.05);
     border-left: 4px solid #ffcb6b;
     border-radius: 4px 14px 14px 4px;
     padding: 1.5rem 1.75rem;
     font-size: 1rem;
     line-height: 1.9;
-    color: inherit;
+    color: var(--text-color);
     margin-bottom: 1.25rem;
 }
 .quiz-card {
-    background: rgba(255,255,255,0.03);
-    border: 1.5px solid rgba(255,255,255,0.1);
+    background: rgba(120, 120, 150, 0.02);
+    border: 1.5px solid rgba(120, 120, 150, 0.15);
     border-radius: 16px;
     padding: 1.5rem 1.75rem;
     margin-bottom: 1rem;
 }
-.quiz-q { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: inherit; }
+.quiz-q { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: var(--text-color); }
 
 /* ── Chat CSS ── */
 .chat-bubble-user {
     background: #ffcb6b; color: #1a1a2e; border-radius: 18px 18px 4px 18px;
     padding: 0.8rem 1.2rem; font-size: 0.95rem; max-width: 80%; margin-left: auto; margin-bottom: 10px;
     font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 .chat-bubble-ai {
-    background: rgba(255,255,255,0.08); color: inherit; border-radius: 18px 18px 18px 4px;
+    background: rgba(120, 120, 150, 0.08); color: var(--text-color); border-radius: 18px 18px 18px 4px;
     padding: 0.8rem 1.2rem; font-size: 0.95rem; max-width: 80%; margin-right: auto; margin-bottom: 10px;
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(120, 120, 150, 0.05);
 }
 </style>
 """, unsafe_allow_html=True)
@@ -209,11 +208,11 @@ div[data-testid="stHorizontalBlock"] .stButton > button:hover {
 st.markdown('<p class="app-title">Academic English Trainer</p>', unsafe_allow_html=True)
 st.markdown('<p class="app-sub">AI-Powered · Gemini · ฝึกภาษาอังกฤษเชิงวิชาการ</p>', unsafe_allow_html=True)
 
-# ─── 4. SETTINGS DASHBOARD (กล่องตั้งค่าที่ย้ายมาไว้หน้าหลัก) ────────────────────
+# ─── 4. SETTINGS DASHBOARD (กล่องตั้งค่าหน้าแรกแสดงผลตรงกลางสวยงาม แทน Sidebar) ───
 with st.container():
     st.markdown("""
     <div class="settings-dashboard">
-        <div class="settings-title">⚙️ แผงควบคุมและตั้งค่าบทเรียน</div>
+        <div class="settings-title">⚙️ แผงควบคุมและตั้งค่าบทเรียน (ไม่ต้องใช้ Sidebar)</div>
     </div>
     """, unsafe_allow_html=True)
     
