@@ -264,8 +264,7 @@ def parse_json(text: str):
     clean = text.strip()
     if clean.startswith("```"):
         lines = clean.split("\n")
-        if lines[0].startswith("
-```"):
+        if lines[0].startswith("```"):
             lines = lines[1:]
         if lines and lines[-1].startswith("```"):
             lines = lines[:-1]
