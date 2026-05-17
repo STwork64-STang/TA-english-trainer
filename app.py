@@ -3,28 +3,35 @@ from google import genai
 from google.genai.errors import APIError
 import json
 import re
+import random
 from gtts import gTTS
 import io
 
+# ─── 1. INITIALIZE SESSION STATE (สร้างระบบความจำป้องกันบั๊กหน้าเด้ง) ───
+if "user_level" not in st.session_state:
+    st.session_state["user_level"] = "Level 1: Beginner"
+if "topic" not in st.session_state:
+    st.session_state["topic"] = "General Academic"
+if "flash_mode" not in st.session_state:
+    st.session_state["flash_mode"] = "study"
+
 st.set_page_config(page_title="Academic English AI Trainer", page_icon="📖", layout="centered")
 
-# ─── CSS ────────────────────────────────────────────────────────────────────
+# ─── 2. CSS GRAPHICS ────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;700&display=swap');
 
 html, body, [class*="css"] {
     font-family: 'DM Sans', sans-serif;
 }
 
-/* ── hide default streamlit chrome ── */
 #MainMenu, footer, header { visibility: hidden; }
 .block-container { padding-top: 2rem; padding-bottom: 4rem; max-width: 720px; }
 
-/* ── page title ── */
 .app-title {
     font-family: 'DM Serif Display', serif;
-    font-size: 2rem;
+    font-size: 2.2rem;
     color: #1a1a2e;
     margin-bottom: 0.15rem;
 }
@@ -36,7 +43,6 @@ html, body, [class*="css"] {
     margin-bottom: 1.5rem;
 }
 
-/* ── tab bar ── */
 .stTabs [data-baseweb="tab-list"] {
     gap: 6px;
     background: #f4f4f6;
@@ -55,59 +61,23 @@ html, body, [class*="css"] {
 .stTabs [aria-selected="true"] {
     background: #ffffff !important;
     color: #1a1a2e !important;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
-.stTabs [data-baseweb="tab-highlight"] { display: none; }
-.stTabs [data-baseweb="tab-border"] { display: none; }
+.stTabs [data-baseweb="tab-highlight"], .stTabs [data-baseweb="tab-border"] { display: none; }
 
-/* ── buttons ── */
-.stButton > button {
-    background: #1a1a2e;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 22px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    width: 100%;
-}
-.stButton > button:hover {
-    background: #2d2d50;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(26,26,46,0.18);
-}
-.stButton > button:active { transform: translateY(0); }
-
-/* ── sidebar ── */
-[data-testid="stSidebar"] {
-    background: #f9f9fb;
-    border-right: 1px solid #ececf0;
-}
-[data-testid="stSidebar"] .stSelectbox label,
-[data-testid="stSidebar"] .stTextInput label {
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: #555;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-}
-
-/* ── flashcard flip ── */
+/* ── 3D Flashcard CSS ── */
 .flashcard-scene {
     width: 100%;
-    height: 240px;
-    perspective: 900px;
-    cursor: pointer;
-    margin: 0.5rem 0 1rem;
+    height: 250px;
+    perspective: 1000px;
+    margin: 1rem 0;
 }
 .flashcard {
     width: 100%;
     height: 100%;
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 18px;
 }
 .flashcard.flipped { transform: rotateY(180deg); }
@@ -119,196 +89,86 @@ html, body, [class*="css"] {
     -webkit-backface-visibility: hidden;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     padding: 2rem;
-    gap: 10px;
 }
 .flashcard-front {
     background: linear-gradient(135deg, #1a1a2e 0%, #2d2d50 100%);
     color: white;
-    box-shadow: 0 10px 40px rgba(26,26,46,0.22);
+    box-shadow: 0 10px 30px rgba(26,26,46,0.2);
+    align-items: center;
+    justify-content: center;
 }
 .flashcard-back {
     background: #ffffff;
     border: 1.5px solid #e8e8f0;
     transform: rotateY(180deg);
-    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
     align-items: flex-start;
     justify-content: flex-start;
-    padding: 1.75rem 2rem;
-    gap: 14px;
+    gap: 8px;
 }
-.card-word {
-    font-family: 'DM Serif Display', serif;
-    font-size: 2.2rem;
-    letter-spacing: -0.01em;
-}
-.card-pron {
-    font-size: 1rem;
-    opacity: 0.6;
-    letter-spacing: 0.04em;
-}
-.card-hint {
-    font-size: 0.75rem;
-    opacity: 0.45;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-top: 1rem;
-}
-.back-label {
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #aaa;
-    margin-bottom: 2px;
-}
-.back-value {
-    font-size: 0.95rem;
-    color: #1a1a2e;
-    line-height: 1.6;
-}
-.back-example {
-    font-size: 0.88rem;
-    color: #555;
-    font-style: italic;
-    line-height: 1.65;
-    border-top: 1px solid #f0f0f4;
-    padding-top: 12px;
-    margin-top: 4px;
-}
+.card-word { font-family: 'DM Serif Display', serif; font-size: 2.4rem; color: #ffcb6b; }
+.card-pron { font-size: 1.1rem; opacity: 0.7; }
+.back-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #aaa; }
+.back-value { font-size: 1rem; color: #1a1a2e; line-height: 1.5; }
 
-/* ── card nav dots ── */
-.dot-nav {
-    display: flex;
-    justify-content: center;
-    gap: 7px;
-    margin: 0.5rem 0 1rem;
-}
-.dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: #d8d8e0;
-    display: inline-block;
-    transition: all 0.2s;
-}
-.dot.active {
-    background: #1a1a2e;
-    width: 22px;
-    border-radius: 4px;
-}
-
-/* ── reading passage ── */
-.passage-card {
-    background: #f9f9fb;
-    border-left: 3px solid #1a1a2e;
-    border-radius: 0 14px 14px 0;
-    padding: 1.4rem 1.6rem;
-    font-size: 0.97rem;
-    line-height: 1.85;
-    color: #1a1a2e;
-    margin-bottom: 1.25rem;
-}
-
-/* ── answer result ── */
-.result-correct {
-    background: #f0faf4;
-    border: 1px solid #6fcf97;
-    border-radius: 12px;
-    padding: 1rem 1.25rem;
-    color: #1e6b3f;
-    font-size: 0.9rem;
-    line-height: 1.6;
-}
-.result-wrong {
-    background: #fff5f5;
-    border: 1px solid #f48c8c;
-    border-radius: 12px;
-    padding: 1rem 1.25rem;
-    color: #8b1a1a;
-    font-size: 0.9rem;
-    line-height: 1.6;
-}
-
-/* ── quiz question card ── */
-.quiz-card {
-    background: #fff;
-    border: 1.5px solid #e8e8f0;
-    border-radius: 16px;
-    padding: 1.5rem 1.75rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-}
-.quiz-q {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.25rem;
-    color: #1a1a2e;
-    margin-bottom: 0.5rem;
-}
-.quiz-type-badge {
-    display: inline-block;
-    background: #ececf8;
-    color: #5555aa;
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 3px 10px;
-    border-radius: 6px;
-    margin-bottom: 0.75rem;
-}
-
-/* ── chat ── */
-.chat-bubble-user {
-    background: #1a1a2e;
+/* ── Quiz Box CSS ── */
+.flashcard-quiz-box {
+    background: linear-gradient(135deg, #1a1a2e 0%, #2d2d50 100%);
     color: white;
-    border-radius: 18px 18px 4px 18px;
-    padding: 0.75rem 1.1rem;
-    font-size: 0.92rem;
-    line-height: 1.6;
-    max-width: 80%;
-    margin-left: auto;
-    margin-bottom: 10px;
+    border-radius: 18px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(26,26,46,0.15);
+    margin-bottom: 1.5rem;
 }
-.chat-bubble-ai {
-    background: #f4f4f8;
+div[data-testid="stHorizontalBlock"] .stButton > button {
+    background: #ffffff;
     color: #1a1a2e;
-    border-radius: 18px 18px 18px 4px;
-    padding: 0.75rem 1.1rem;
-    font-size: 0.92rem;
-    line-height: 1.6;
-    max-width: 80%;
-    margin-right: auto;
-    margin-bottom: 10px;
+    border: 1.5px solid #ececf0;
+    border-radius: 12px;
+    padding: 14px 20px;
+    text-align: left;
 }
-.chat-wrap { padding: 0.5rem 0; }
-
-/* ── selectbox & text input ── */
-.stSelectbox > div > div,
-.stTextInput > div > div > input {
-    border-radius: 10px !important;
-    font-family: 'DM Sans', sans-serif !important;
+div[data-testid="stHorizontalBlock"] .stButton > button:hover {
+    background: #f4f4fb;
+    border-color: #1a1a2e;
+}
+.stButton > button {
+    background: #1a1a2e;
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px 22px;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# ─── SIDEBAR ─────────────────────────────────────────────────────────────────
-st.sidebar.markdown("### ⚙️ ตั้งค่า")
-api_key = st.sidebar.text_input("Gemini API Key", type="password", placeholder="AIza...")
+# ─── 3. SIDEBAR CONFIG (เชื่อมเข้ากับ SESSION STATE) ──────────────────────
+st.sidebar.markdown("### ⚙️ ตั้งค่าคอร์สเรียน")
+
+# ใช้ตระกูลสตรีมลิตอินพุตผูกตรงเข้าสเตทหลักเพื่อกันหน้าจอดับรีเซ็ต
+api_key = st.sidebar.text_input("Gemini API Key", type="password", placeholder="AIza...", value=st.session_state.get("saved_key", ""))
+if api_key:
+    st.session_state["saved_key"] = api_key
+
 user_level = st.sidebar.selectbox(
     "ระดับภาษาอังกฤษ",
-    ["Level 1: Beginner", "Level 2: Intermediate", "Level 3: Advanced"]
+    ["Level 1: Beginner", "Level 2: Intermediate", "Level 3: Advanced"],
+    index=["Level 1: Beginner", "Level 2: Intermediate", "Level 3: Advanced"].index(st.session_state["user_level"])
 )
+st.session_state["user_level"] = user_level
+
 topic = st.sidebar.selectbox(
     "หัวข้อที่สนใจ",
-    ["General Academic", "Science & Technology", "Social Sciences",
-     "Business & Economics", "Medicine & Health", "Law & Ethics", "Literature & Arts"]
+    ["General Academic", "Science & Technology", "Social Sciences", "Business & Economics", "Medicine & Health", "Law & Ethics", "Literature & Arts"],
+    index=["General Academic", "Science & Technology", "Social Sciences", "Business & Economics", "Medicine & Health", "Law & Ethics", "Literature & Arts"].index(st.session_state["topic"])
 )
+st.session_state["topic"] = topic
+
 st.sidebar.markdown("---")
 st.sidebar.caption("💡 รับ API Key ฟรีที่ [Google AI Studio](https://aistudio.google.com/app/apikey)")
 
-# ─── GEMINI HELPER ────────────────────────────────────────────────────────────
+# ─── 4. GEMINI HELPER ────────────────────────────────────────────────────────
 def call_gemini(prompt: str) -> str | None:
     try:
         client = genai.Client(api_key=api_key)
@@ -325,25 +185,15 @@ def parse_json(text: str):
     clean = re.sub(r"```(?:json)?|```", "", text or "").strip()
     return json.loads(clean)
 
-# ─── TITLE ───────────────────────────────────────────────────────────────────
+# ─── 5. TITLE ────────────────────────────────────────────────────────────────
 st.markdown('<p class="app-title">Academic English Trainer</p>', unsafe_allow_html=True)
 st.markdown('<p class="app-sub">AI-Powered · Gemini · ฝึกภาษาอังกฤษเชิงวิชาการ</p>', unsafe_allow_html=True)
 
 if not api_key:
-    st.markdown("#### 🔑 ใส่ Gemini API Key เพื่อเริ่มใช้งาน")
-    main_key = st.text_input(
-        "Gemini API Key",
-        type="password",
-        placeholder="AIza...",
-        help="รับคีย์ฟรีที่ https://aistudio.google.com/app/apikey"
-    )
-    if main_key:
-        api_key = main_key
-    else:
-        st.caption("💡 รับ API Key ฟรีที่ [Google AI Studio](https://aistudio.google.com/app/apikey)")
-        st.stop()
+    st.markdown("#### 🔑 ใส่ Gemini API Key ในแถบด้านข้าง (Sidebar) เพื่อเริ่มใช้งาน")
+    st.stop()
 
-# ─── TABS ─────────────────────────────────────────────────────────────────────
+# ─── 6. TABS ──────────────────────────────────────────────────────────────────
 tab1, tab2, tab3, tab4 = st.tabs(["📇 Flashcards", "📄 Reading", "🧩 Vocab Quiz", "💬 Chat"])
 
 # ==============================================================================
