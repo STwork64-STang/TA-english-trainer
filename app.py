@@ -214,6 +214,7 @@ with st.container():
     st.markdown("""
     <div class="settings-dashboard">
         <div class="settings-title">⚙️ แผงควบคุมและตั้งค่าบทเรียน</div>
+    </div>
     """, unsafe_allow_html=True)
     
     col_k1, col_k2 = st.columns([2, 3])
