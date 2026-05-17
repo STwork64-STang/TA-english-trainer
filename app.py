@@ -310,7 +310,7 @@ st.sidebar.caption("💡 รับ API Key ฟรีที่ [Google AI Studio]
 def call_gemini(prompt: str) -> str | None:
     try:
         client = genai.Client(api_key=api_key)
-        response = client.models.generate_content(model="gemini-2.0-flash", contents=prompt)
+        response = client.models.generate_content(model="gemini-1.5-flash", contents=prompt)
         return response.text
     except APIError as e:
         st.error(f"🚨 Gemini API Error {e.code}: {e.message}")
