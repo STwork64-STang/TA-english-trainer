@@ -7,7 +7,7 @@ import random
 from gtts import gTTS
 import io
 
-# ─── 1. INITIALIZE SESSION STATE (สร้างระบบความจำป้องกันบั๊กหน้าเด้ง) ───
+# ─── 1. INITIALIZE SESSION STATE ─────────────────────────────────────────────
 if "user_level" not in st.session_state:
     st.session_state["user_level"] = "Level 1: Beginner"
 if "topic" not in st.session_state:
@@ -15,53 +15,73 @@ if "topic" not in st.session_state:
 if "flash_mode" not in st.session_state:
     st.session_state["flash_mode"] = "study"
 
-st.set_page_config(page_title="Academic English AI Trainer", page_icon="📖", layout="centered")
+# บังคับให้ Sidebar กางออกตั้งแต่แรกด้วย initial_sidebar_state="expanded"
+st.set_page_config(
+    page_title="Academic English AI Trainer", 
+    page_icon="📖", 
+    layout="centered",
+    initial_sidebar_state="expanded"
+)
 
-# ─── 2. CSS GRAPHICS ────────────────────────────────────────────────────────
+# ─── 2. NEW RESPONSIVE CSS (แก้ปัญหาตัวหนังสือจม + กราฟิกหรูหราขึ้น) ───────────
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;700&display=swap');
 
-html, body, [class*="css"] {
+.stApp {
     font-family: 'DM Sans', sans-serif;
 }
 
 #MainMenu, footer, header { visibility: hidden; }
 .block-container { padding-top: 2rem; padding-bottom: 4rem; max-width: 720px; }
 
+/* แก้ปัญหาตัวหนังสือพาดหัวจมในโหมดมืด (รองรับทุกสภาวะแสง) */
 .app-title {
     font-family: 'DM Serif Display', serif;
-    font-size: 2.2rem;
-    color: #1a1a2e;
+    font-size: 2.4rem;
+    color: #ffcb6b; /* ปรับเป็นสีทองสว่าง ให้เด่นทั้งจอขาวและจอดำ */
+    text-shadow: 0px 2px 4px rgba(0,0,0,0.15);
     margin-bottom: 0.15rem;
 }
 .app-sub {
-    font-size: 0.85rem;
-    color: #888;
+    font-size: 0.9rem;
+    color: #a0a0b0;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     margin-bottom: 1.5rem;
 }
 
+/* ตกแต่งสไตล์กล่องต้อนรับกรณีไม่มี API Key */
+.welcome-card {
+    background: linear-gradient(135deg, rgba(45, 45, 80, 0.4) 0%, rgba(26, 26, 46, 0.6) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    margin-top: 1.5rem;
+}
+
+/* ── Tab Bar Stylings ── */
 .stTabs [data-baseweb="tab-list"] {
     gap: 6px;
-    background: #f4f4f6;
+    background: rgba(240, 240, 245, 0.1);
     padding: 6px;
     border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.05);
 }
 .stTabs [data-baseweb="tab"] {
     border-radius: 10px;
     padding: 8px 18px;
     font-size: 0.85rem;
     font-weight: 500;
-    color: #666;
+    color: #888;
     background: transparent;
     border: none;
 }
 .stTabs [aria-selected="true"] {
     background: #ffffff !important;
     color: #1a1a2e !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 .stTabs [data-baseweb="tab-highlight"], .stTabs [data-baseweb="tab-border"] { display: none; }
 
@@ -94,59 +114,73 @@ html, body, [class*="css"] {
 .flashcard-front {
     background: linear-gradient(135deg, #1a1a2e 0%, #2d2d50 100%);
     color: white;
-    box-shadow: 0 10px 30px rgba(26,26,46,0.2);
+    box-shadow: 0 10px 30px rgba(26,26,46,0.3);
     align-items: center;
     justify-content: center;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 .flashcard-back {
     background: #ffffff;
     border: 1.5px solid #e8e8f0;
     transform: rotateY(180deg);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     align-items: flex-start;
     justify-content: flex-start;
     gap: 8px;
 }
-.card-word { font-family: 'DM Serif Display', serif; font-size: 2.4rem; color: #ffcb6b; }
-.card-pron { font-size: 1.1rem; opacity: 0.7; }
-.back-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #aaa; }
+.card-word { font-family: 'DM Serif Display', serif; font-size: 2.5rem; color: #ffcb6b; text-align: center; }
+.card-pron { font-size: 1.1rem; opacity: 0.8; color: #fff; }
+.back-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #888; }
 .back-value { font-size: 1rem; color: #1a1a2e; line-height: 1.5; }
 
-/* ── Quiz Box CSS ── */
+/* ── Quiz Box & Reading CSS ── */
 .flashcard-quiz-box {
     background: linear-gradient(135deg, #1a1a2e 0%, #2d2d50 100%);
     color: white;
     border-radius: 18px;
     padding: 2.5rem 2rem;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(26,26,46,0.15);
+    box-shadow: 0 10px 30px rgba(26,26,46,0.2);
     margin-bottom: 1.5rem;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 div[data-testid="stHorizontalBlock"] .stButton > button {
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.95);
     color: #1a1a2e;
     border: 1.5px solid #ececf0;
     border-radius: 12px;
     padding: 14px 20px;
     text-align: left;
+    font-weight: 500;
 }
 div[data-testid="stHorizontalBlock"] .stButton > button:hover {
     background: #f4f4fb;
-    border-color: #1a1a2e;
+    border-color: #ffcb6b;
+    transform: translateY(-1px);
 }
 .stButton > button {
-    background: #1a1a2e;
-    color: #fff;
+    background: #ffcb6b;
+    color: #1a1a2e;
     border-radius: 10px;
     padding: 10px 22px;
+    font-weight: 600;
+}
+.passage-card {
+    background: rgba(255,255,255,0.05);
+    border-left: 4px solid #ffcb6b;
+    border-radius: 4px 14px 14px 4px;
+    padding: 1.5rem 1.75rem;
+    font-size: 1rem;
+    line-height: 1.9;
+    color: inherit;
+    margin-bottom: 1.25rem;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# ─── 3. SIDEBAR CONFIG (เชื่อมเข้ากับ SESSION STATE) ──────────────────────
+# ─── 3. SIDEBAR CONFIG (แถบข้างจะกางออกอัตโนมัติ) ───────────────────────────
 st.sidebar.markdown("### ⚙️ ตั้งค่าคอร์สเรียน")
 
-# ใช้ตระกูลสตรีมลิตอินพุตผูกตรงเข้าสเตทหลักเพื่อกันหน้าจอดับรีเซ็ต
 api_key = st.sidebar.text_input("Gemini API Key", type="password", placeholder="AIza...", value=st.session_state.get("saved_key", ""))
 if api_key:
     st.session_state["saved_key"] = api_key
@@ -182,20 +216,8 @@ def call_gemini(prompt: str) -> str | None:
         return None
 
 def parse_json(text: str):
-    clean = re.sub(r"```(?:json)?|```", "", text or "").strip()
-    return json.loads(clean)
-
-# ─── 5. TITLE ────────────────────────────────────────────────────────────────
-st.markdown('<p class="app-title">Academic English Trainer</p>', unsafe_allow_html=True)
-st.markdown('<p class="app-sub">AI-Powered · Gemini · ฝึกภาษาอังกฤษเชิงวิชาการ</p>', unsafe_allow_html=True)
-
-if not api_key:
-    st.markdown("#### 🔑 ใส่ Gemini API Key ในแถบด้านข้าง (Sidebar) เพื่อเริ่มใช้งาน")
-    st.stop()
-
-# ─── 6. TABS ──────────────────────────────────────────────────────────────────
-tab1, tab2, tab3, tab4 = st.tabs(["📇 Flashcards", "📄 Reading", "🧩 Vocab Quiz", "💬 Chat"])
-
+    clean = re.sub(r"
+http://googleusercontent.com/immersive_entry_chip/0
 # ==============================================================================
 # TAB 1 — FLASHCARDS (มีทั้งโหมดเรียนรู้ 3D Flip และโหมดเกมโชว์ 4 ช้อยส์)
 # ==============================================================================
