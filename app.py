@@ -220,7 +220,7 @@ if api_input != st.session_state["saved_key"]:
     st.session_state["saved_key"] = api_input
     st.rerun()
     
-user_level = st.selectbox(
+with user_level = st.selectbox(
     "ระดับภาษาอังกฤษ",
     ["Level 1: Beginner", "Level 2: Intermediate", "Level 3: Advanced"],
     index=["Level 1: Beginner", "Level 2: Intermediate", "Level 3: Advanced"].index(st.session_state["user_level"])
@@ -229,7 +229,7 @@ if user_level != st.session_state["user_level"]:
     st.session_state["user_level"] = user_level
     st.rerun()
 
-topic = st.selectbox(
+with topic = st.selectbox(
     "หัวข้อที่สนใจ",
     ["General Academic", "Science & Technology", "Social Sciences", "Business & Economics", "Medicine & Health", "Law & Ethics", "Literature & Arts"],
     index=["General Academic", "Science & Technology", "Social Sciences", "Business & Economics", "Medicine & Health", "Law & Ethics", "Literature & Arts"].index(st.session_state["topic"])
