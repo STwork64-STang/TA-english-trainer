@@ -7,7 +7,7 @@ import random
 from gtts import gTTS
 import io
 
-# ─── 1. INITIALIZE SESSION STATE ─────────────────────────────────────────────
+# ─── 1. INITIALIZE SESSION STATE (ความจำระบบสำหรับปุ่มกดและฟังก์ชันต่าง ๆ) ───
 if "user_level" not in st.session_state:
     st.session_state["user_level"] = "Level 1: Beginner"
 if "topic" not in st.session_state:
@@ -15,7 +15,7 @@ if "topic" not in st.session_state:
 if "flash_mode" not in st.session_state:
     st.session_state["flash_mode"] = "study"
 
-# บังคับให้ Sidebar กางออกตั้งแต่แรกด้วย initial_sidebar_state="expanded"
+# ตั้งค่าหน้าเว็บและบังคับเปิดแถบตั้งค่าใน Sidebar ทันที
 st.set_page_config(
     page_title="Academic English AI Trainer", 
     page_icon="📖", 
@@ -23,7 +23,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ─── 2. NEW RESPONSIVE CSS (แก้ปัญหาตัวหนังสือจม + กราฟิกหรูหราขึ้น) ───────────
+# ─── 2. STUNNING RESPONSIVE CSS (ป้องกันปัญหาตัวหนังสือจมทุกสภาวะแสง) ───────────
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;700&display=swap');
@@ -35,13 +35,14 @@ st.markdown("""
 #MainMenu, footer, header { visibility: hidden; }
 .block-container { padding-top: 2rem; padding-bottom: 4rem; max-width: 720px; }
 
-/* แก้ปัญหาตัวหนังสือพาดหัวจมในโหมดมืด (รองรับทุกสภาวะแสง) */
+/* แก้ปัญหาตัวหนังสือพาดหัวจมในโหมดมืด (เด่นชัดทั้งจอขาวและจอดำ) */
 .app-title {
     font-family: 'DM Serif Display', serif;
     font-size: 2.4rem;
-    color: #ffcb6b; /* ปรับเป็นสีทองสว่าง ให้เด่นทั้งจอขาวและจอดำ */
-    text-shadow: 0px 2px 4px rgba(0,0,0,0.15);
+    color: #ffcb6b; /* สีทองสว่างหรูหรา */
+    text-shadow: 0px 2px 4px rgba(0,0,0,0.3);
     margin-bottom: 0.15rem;
+    font-weight: 700;
 }
 .app-sub {
     font-size: 0.9rem;
@@ -51,7 +52,7 @@ st.markdown("""
     margin-bottom: 1.5rem;
 }
 
-/* ตกแต่งสไตล์กล่องต้อนรับกรณีไม่มี API Key */
+/* การ์ดหน้าต่างกล่องต้อนรับ */
 .welcome-card {
     background: linear-gradient(135deg, rgba(45, 45, 80, 0.4) 0%, rgba(26, 26, 46, 0.6) 100%);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -61,7 +62,7 @@ st.markdown("""
     margin-top: 1.5rem;
 }
 
-/* ── Tab Bar Stylings ── */
+/* ── Tab Bar ดีไซน์มินิมอล ── */
 .stTabs [data-baseweb="tab-list"] {
     gap: 6px;
     background: rgba(240, 240, 245, 0.1);
@@ -175,10 +176,30 @@ div[data-testid="stHorizontalBlock"] .stButton > button:hover {
     color: inherit;
     margin-bottom: 1.25rem;
 }
+.quiz-card {
+    background: rgba(255,255,255,0.03);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1rem;
+}
+.quiz-q { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: inherit; }
+
+/* ── Chat CSS ── */
+.chat-bubble-user {
+    background: #ffcb6b; color: #1a1a2e; border-radius: 18px 18px 4px 18px;
+    padding: 0.8rem 1.2rem; font-size: 0.95rem; max-width: 80%; margin-left: auto; margin-bottom: 10px;
+    font-weight: 500;
+}
+.chat-bubble-ai {
+    background: rgba(255,255,255,0.08); color: inherit; border-radius: 18px 18px 18px 4px;
+    padding: 0.8rem 1.2rem; font-size: 0.95rem; max-width: 80%; margin-right: auto; margin-bottom: 10px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
 </style>
 """, unsafe_allow_html=True)
 
-# ─── 3. SIDEBAR CONFIG (แถบข้างจะกางออกอัตโนมัติ) ───────────────────────────
+# ─── 3. SIDEBAR CONFIG (แก้ไขการเชื่อมโยง Session State ให้ปลอดภัย 100%) ───
 st.sidebar.markdown("### ⚙️ ตั้งค่าคอร์สเรียน")
 
 api_key = st.sidebar.text_input("Gemini API Key", type="password", placeholder="AIza...", value=st.session_state.get("saved_key", ""))
@@ -202,7 +223,7 @@ st.session_state["topic"] = topic
 st.sidebar.markdown("---")
 st.sidebar.caption("💡 รับ API Key ฟรีที่ [Google AI Studio](https://aistudio.google.com/app/apikey)")
 
-# ─── 4. GEMINI HELPER ────────────────────────────────────────────────────────
+# ─── 4. GEMINI HELPER (ซ่อมแซมระบบดึงข้อความไม่ให้ติดบั๊ก Syntax string) ───
 def call_gemini(prompt: str) -> str | None:
     try:
         client = genai.Client(api_key=api_key)
@@ -215,11 +236,37 @@ def call_gemini(prompt: str) -> str | None:
         st.error(f"❌ {e}")
         return None
 
+# ฟังก์ชัน parse_json แบบใหม่: เสถียรสูง ไม่ใช้ Regex ป้องกัน Syntax String Literal Error
 def parse_json(text: str):
-    clean = re.sub(r"
-http://googleusercontent.com/immersive_entry_chip/0
+    if not text:
+        return {}
+    clean = text.strip()
+    if clean.startswith("```"):
+        lines = clean.split("\n")
+        if lines[0].startswith("```"):
+            lines = lines[1:]
+        if lines and lines[-1].startswith("```"):
+            lines = lines[:-1]
+        clean = "\n".join(lines).strip()
+    return json.loads(clean)
 
-อัปเดตโค้ดนี้ขึ้น GitHub ได้เลยครับ เมื่อหน้าเว็บรีโหลด แถบข้างจะเด้งกางออกมาทันที และตัวหนังสือพาดหัวด้านบนจะเปลี่ยนเป็นสีทองอร่ามสวยงามแม้อยู่ใน Dark Mode ครับ!
+# ─── 5. APP HEADER ───────────────────────────────────────────────────────────
+st.markdown('<p class="app-title">Academic English Trainer</p>', unsafe_allow_html=True)
+st.markdown('<p class="app-sub">AI-Powered · Gemini · ฝึกภาษาอังกฤษเชิงวิชาการ</p>', unsafe_allow_html=True)
+
+if not api_key:
+    st.markdown("""
+    <div class="welcome-card">
+        <h3 style="margin-top:0; color:#ffcb6b;">🔑 ยินดีต้อนรับสู่ห้องเรียนอัจฉริยะ</h3>
+        <p style="color:#a0a0b0; font-size:0.95rem; line-height:1.6; margin-bottom:0;">
+            กรุณากรอก <b>Gemini API Key</b> ในแถบเมนูด้านข้าง (Sidebar) สีขาวเพื่อเชื่อมต่อสมองกล AI และเริ่มต้นบทเรียนครับ
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+    st.stop()
+
+# ─── 6. TABS CONTROL ──────────────────────────────────────────────────────────
+tab1, tab2, tab3, tab4 = st.tabs(["📇 Flashcards", "📄 Reading", "🧩 Vocab Quiz", "💬 Chat"])
 
 # ==============================================================================
 # TAB 1 — FLASHCARDS (มีทั้งโหมดเรียนรู้ 3D Flip และโหมดเกมโชว์ 4 ช้อยส์)
