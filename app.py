@@ -453,26 +453,22 @@ READING_TOPICS = [
 with tab2:
     st.markdown("#### อ่านบทความและตอบคำถาม")
     
-    # 1. ตรวจสอบและประกาศค่าเริ่มต้นให้กับหัวข้อในระบบเซสชันก่อน (ถ้ายังไม่มี)
-    if "reading_topic_sel" not in st.session_state:
+    # 1. กำหนดฟังก์ชันสำหรับปุ่มสุ่ม (Callback) เพื่อเปลี่ยนค่าใน session_state อย่างปลอดภัย
+    def randomize_topic_callback():
         import random
-        st.session_state["reading_topic_sel"] = READING_TOPICS[0]
-    
+        st.session_state["reading_topic_sel"] = random.choice(READING_TOPICS)
+        st.session_state["article"] = None
+        st.session_state["reading_result"] = None
+
     col_sel, col_rand = st.columns([3, 1])
         
     with col_sel:
-        # ดึงค่าจาก selectbox โดยผูกเข้ากับ key อย่างปลอดภัย
         reading_topic = st.selectbox("เลือกหัวข้อบทความ:", READING_TOPICS, key="reading_topic_sel")
             
     with col_rand:
         st.markdown("<div style='margin-top:1.6rem'>", unsafe_allow_html=True)
-        if st.button("🎲 สุ่ม", key="random_topic"):
-            import random
-            # วิธีแก้: สุ่มค่าใหม่ แล้วอัปเดตลงไปในระบบตรงๆ ก่อนสั่ง rerun
-            st.session_state["reading_topic_sel"] = random.choice(READING_TOPICS)
-            st.session_state["article"] = None
-            st.session_state["reading_result"] = None
-            st.rerun()
+        # เรียกใช้ on_click เพื่อรันฟังก์ชัน callback ด้านบน
+        st.button("🎲 สุ่ม", key="random_topic", on_click=randomize_topic_callback)
         st.markdown("</div>", unsafe_allow_html=True)
 
     if st.button("📖 โหลดบทความใหม่", key="gen_article"):
@@ -523,16 +519,17 @@ Return ONLY valid JSON, no markdown:
         if st.session_state.get("tts_audio"):
             st.audio(st.session_state["tts_audio"], format="audio/mp3")
 
-
+        # ปรับแก้สีกล่องศัพท์ตรงนี้เพื่อรองรับ Dark Mode ให้ตัวหนังสือคมชัด
         if art.get("vocab"):
             vocab_items = "".join(
-                f'<span style="margin-right:1.2rem;display:inline-block"><b>{v["word"]}</b> — <span style="color:#555">{v["meaning"]}</span></span>'
+                f'<span style="margin-right:1.2rem; display:inline-block; color:#1e1e2f">'
+                f'<b>{v["word"]}</b> — <span style="color:#4a4a5a">{v["meaning"]}</span></span>'
                 for v in art["vocab"]
             )
             st.markdown(
                 '<div style="background:#f4f4fb; color:#1e1e2f; border-radius:10px; padding:0.75rem 1rem;' +
                 'font-size:0.85rem; margin-bottom:1rem; line-height:2">' +
-                '<span style="font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:#888888; display:block; margin-bottom:4px">คำศัพท์ในบทความ</span>' +
+                '<span style="font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:#666677; display:block; margin-bottom:4px">คำศัพท์ในบทความ</span>' +
                 f'{vocab_items}</div>',
                 unsafe_allow_html=True
             )
