@@ -1,7 +1,6 @@
 import streamlit as st
 from google import genai
 from google.genai import types
-from google.genai.errors import APIError  # เพิ่มตัวดักจับ Error
 
 # ตั้งค่าหน้าตาของแอปพลิเคชัน
 st.set_page_config(page_title="BME English AI Trainer", page_icon="🧬", layout="centered")
@@ -20,150 +19,22 @@ user_level = st.sidebar.selectbox(
      "Level 3: Advanced (เน้นเตรียมตัวอ่าน Text Book และนำเสนองาน)"]
 )
 
-# ฟังก์ชันส่วนกลางสำหรับเรียกใช้ Gemini แบบปลอดภัยและโชว์ Error จริง
-def call_gemini_safely(prompt_text):
-    try:
-        client = genai.Client(api_key=api_key)
-        response = client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=prompt_text
-        )
-        return response.text
-    except APIError as e:
-        # บังคับให้แสดงข้อความที่ Google ตอบกลับมาจริงๆ บนหน้าจอแอป
-        st.error("🚨 พบข้อผิดพลาดจาก Google Gemini API:")
-        st.code(f"Status Code: {e.code}\nMessage: {e.message}", language="text")
-        st.info("💡 ส่วนใหญ่เกิดจาก: 1) ใส่คีย์ขาด/เกิน 2) ลืมเปลี่ยนโปรเจกต์เป็นโหมดใช้งานภายนอก หรือ 3) คีย์เพิ่งสร้างต้องรอ 1-2 นาที")
-        return None
-    except Exception as e:
-        st.error(f"❌ เกิดข้อผิดพลาดอื่นๆ: {str(e)}")
-        return None
-
 # ตรวจสอบว่าใส่ API Key หรือยัง
 if not api_key:
     st.warning("⚠️ กรุณาใส่ Gemini API Key ที่แถบด้านซ้ายมือ เพื่อเปิดใช้งานสมองของ AI ครับ")
     st.info("💡 วิธีเอาคีย์ฟรี: ไปที่เว็บ Google AI Studio -> กด Create API Key -> ก๊อปปี้มาวางได้เลย ไม่เสียเงินครับ")
 else:
+    # เชื่อมต่อกับ Gemini Client
+    client = genai.Client(api_key=api_key)
+
     # สร้างเมนูแท็บ 4 โมดูลหลัก
     tab1, tab2, tab3, tab4 = st.tabs([
         "📚 คำศัพท์ประจำวัน", 
         "📄 อ่านบทความวิชาการ", 
-        "✍️ ฝึกเขียนและตรวจแกรมม่า", 
+        "✍️ ฝึกเขียนและตรวจแรมม่า", 
         "💬 แชทจำลองสถานการณ์"
     ])
 
-    # ----------------------------------------------------
-    # TAB 1: คำศัพท์ประจำวัน
-    # ----------------------------------------------------
-    with tab1:
-        st.header("📚 Biomedical Vocabulary Generator")
-        st.write("กดปุ่มด้านล่างเพื่อให้ AI สุ่มคำศัพท์ BME ที่เหมาะกับระดับของคุณ")
-        
-        if st.button("🔄 สุ่มคำศัพท์ใหม่สำหรับวันนี้"):
-            with st.spinner("AI กำลังเลือกคำศัพท์ที่เหมาะกับคุณ..."):
-                prompt = f"""
-                You are a Biomedical Engineering English Professor. 
-                Generate 3 vocabulary words suitable for a student at level: '{user_level}'.
-                For each word, provide:
-                1. The word
-                2. Thai pronunciation (คำอ่านภาษาไทย)
-                3. Meaning in Thai (ความหมายภาษาไทย)
-                4. A simple example sentence related to Biomedical Engineering.
-                Respond in friendly Thai explanation.
-                """
-                result = call_gemini_safely(prompt)
-                if result:
-                    st.markdown(result)
-
-    # ----------------------------------------------------
-    # TAB 2: อ่านบทความวิชาการ
-    # ----------------------------------------------------
-    with tab3: # สลับเพื่อให้ใช้ session_state ได้ง่ายขึ้น
-        pass 
-    with tab2:
-        st.header("📄 Adaptive Academic Reading")
-        st.write("AI จะเจนบทความสั้นๆ เกี่ยวกับ BME พร้อมคำถามจับใจความตามระดับของคุณ")
-        
-        if st.button("📖 เจนบทความใหม่"):
-            with st.spinner("AI กำลังแต่งบทความ..."):
-                prompt = f"""
-                Write a short paragraph about Biomedical Engineering suitable for a student at level: '{user_level}'.
-                After the paragraph, ask 1 multiple-choice question (with A, B, C options) to check understanding.
-                Provide the correct answer and a brief explanation in Thai at the very end hidden under a note.
-                """
-                result = call_gemini_safely(prompt)
-                if result:
-                    st.session_state['current_reading'] = result
-        
-        if 'current_reading' in st.session_state:
-            st.markdown(st.session_state['current_reading'])
-
-    # ----------------------------------------------------
-    # TAB 3: ฝึกเขียนและตรวจแกรมม่า
-    # ----------------------------------------------------
-    with tab3:
-        st.header("✍️ AI Grammar Tutor")
-        st.write("พิมพ์ประโยคภาษาอังกฤษของคุณด้านล่าง AI จะช่วยตรวจและแก้ไขให้ถูกต้องทันที")
-        
-        user_text = st.text_area("พิมพ์ข้อความภาษาอังกฤษของคุณที่นี่:", placeholder="My name is Tang. I want to study BME...")
-        
-        if st.button("✨ ส่งให้ AI ตรวจทาน"):
-            if user_text:
-                with st.spinner("อาจารย์ AI กำลังตรวจงานเขียน..."):
-                    prompt = f"""
-                    You are a helpful English teacher for a Biomedical Engineering student. 
-                    The student's level is '{user_level}'.
-                    Review this sentence written by the student: "{user_text}"
-                    1. Correct any grammar mistakes.
-                    2. Provide a better/more professional version of the sentence.
-                    3. Explain the mistakes gently in Thai so they can learn.
-                    """
-                    result = call_gemini_safely(prompt)
-                    if result:
-                        st.success("🤖 ผลการตรวจจาก AI:")
-                        st.markdown(result)
-            else:
-                st.error("กรุณาพิมพ์ข้อความก่อนกดส่งครับ")
-
-    # ----------------------------------------------------
-    # TAB 4: แชทจำลองสถานการณ์
-    # ----------------------------------------------------
-    with tab4:
-        st.header("💬 BME Classroom Roleplay")
-        st.write("จำลองสถานการณ์คุยกับอาจารย์ฝรั่งในห้องเรียน BME")
-        
-        if "chat_history" not in st.session_state:
-            st.session_state.chat_history = []
-
-        for message in st.session_state.chat_history:
-            with st.chat_message(message["role"]):
-                st.markdown(message["text"])
-
-        if user_chat := st.chat_input("พิมพ์ตอบอาจารย์เป็นภาษาอังกฤษตรงนี้..."):
-            with st.chat_message("user"):
-                st.markdown(user_chat)
-            st.session_state.chat_history.append({"role": "user", "text": user_chat})
-            
-            with st.chat_message("assistant"):
-                with st.spinner("อาจารย์กำลังพิมพ์ตอบ..."):
-                    prompt = f"""
-                    You are a friendly Biomedical Engineering professor talking to a student whose English level is '{user_level}'.
-                    Keep your responses relatively short, easy to understand, and encourage the student.
-                    If the student made a noticeable grammar mistake in their last message, gently correct it briefly before continuing the conversation.
-                    
-                    Conversation history so far:
-                    {st.session_state.chat_history}
-                    
-                    Respond to the student's latest message naturally.
-                    """
-                    result = call_gemini_safely(prompt)
-                    if result:
-                        st.markdown(result)
-                        st.session_state.chat_history.append({"role": "assistant", "text": result})
-
-        if st.button("🧹 ล้างประวัติการสนทนา (เริ่มคุยใหม่)"):
-            st.session_state.chat_history = []
-            st.rerun()
     # ----------------------------------------------------
     # TAB 1: คำศัพท์ประจำวัน (Dynamic Vocab)
     # ----------------------------------------------------
@@ -184,7 +55,7 @@ else:
                 Respond in friendly Thai explanation.
                 """
                 response = client.models.generate_content(
-                    model='gemini-2.5-flash',
+                    model='gemini-1.5-flash',
                     contents=prompt
                 )
                 st.markdown(response.text)
@@ -204,7 +75,7 @@ else:
                 Provide the correct answer and a brief explanation in Thai at the very end hidden under a note.
                 """
                 response = client.models.generate_content(
-                    model='gemini-2.5-flash',
+                    model='gemini-1.5-flash',
                     contents=prompt
                 )
                 st.session_state['current_reading'] = response.text
@@ -233,7 +104,7 @@ else:
                     3. Explain the mistakes gently in Thai so they can learn.
                     """
                     response = client.models.generate_content(
-                        model='gemini-2.5-flash',
+                        model='gemini-1.5-flash',
                         contents=prompt
                     )
                     st.success("🤖 ผลการตรวจจาก AI:")
@@ -278,7 +149,7 @@ else:
                     Respond to the student's latest message naturally.
                     """
                     response = client.models.generate_content(
-                        model='gemini-2.5-flash',
+                        model='gemini-1.5-flash',
                         contents=prompt
                     )
                     st.markdown(response.text)
