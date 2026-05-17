@@ -740,3 +740,7 @@ with tab4:
             reply = call_gemini(f"You are an English teacher. Reply to user: '{user_chat}' based on history:\n{history_str}\nKeep it short and ask a new question.")
             if reply: st.session_state.chat_history.append({"role": "assistant", "text": reply})
         st.rerun()
+
+    if st.button("🧹 ล้างประวัติการสนทนา (เริ่มคุยใหม่)"): 
+        st.session_state.chat_history = [] 
+        st.rerun()
