@@ -55,7 +55,7 @@ else:
                 Respond in friendly Thai explanation.
                 """
                 response = client.models.generate_content(
-                    model='gemini-1.5-flash',
+                    model='gemini-2.5-flash',
                     contents=prompt
                 )
                 st.markdown(response.text)
@@ -75,7 +75,7 @@ else:
                 Provide the correct answer and a brief explanation in Thai at the very end hidden under a note.
                 """
                 response = client.models.generate_content(
-                    model='gemini-1.5-flash',
+                    model='gemini-2.5-flash',
                     contents=prompt
                 )
                 st.session_state['current_reading'] = response.text
@@ -104,7 +104,7 @@ else:
                     3. Explain the mistakes gently in Thai so they can learn.
                     """
                     response = client.models.generate_content(
-                        model='gemini-1.5-flash',
+                        model='gemini-2.5-flash',
                         contents=prompt
                     )
                     st.success("🤖 ผลการตรวจจาก AI:")
@@ -149,7 +149,7 @@ else:
                     Respond to the student's latest message naturally.
                     """
                     response = client.models.generate_content(
-                        model='gemini-1.5-flash',
+                        model='gemini-2.5-flash',
                         contents=prompt
                     )
                     st.markdown(response.text)
