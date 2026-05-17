@@ -371,9 +371,9 @@ Each object must have exactly these keys:
     # ── render flashcard ──
     if "cards" in st.session_state and st.session_state["cards"]:
         cards = st.session_state["cards"]
-        idx   = st.session_state.get("card_idx", 0)
+        idx     = st.session_state.get("card_idx", 0)
         flipped = st.session_state.get("card_flipped", False)
-        card  = cards[idx]
+        card    = cards[idx]
 
         # dot nav
         dots_html = '<div class="dot-nav">' + "".join(
@@ -382,20 +382,23 @@ Each object must have exactly these keys:
         ) + "</div>"
         st.markdown(dots_html, unsafe_allow_html=True)
 
-        # card HTML
-        flip_class = "flipped" if flipped else ""
-        card_html = f"""
-<div class="flashcard-scene" onclick="
-    var el = this.querySelector('.flashcard');
-    el.classList.toggle('flipped');
-">
-  <div class="flashcard {flip_class}">
+        # card HTML — แสดงด้านหน้าหรือด้านหลังตาม state
+        if not flipped:
+            card_html = f"""
+<div class="flashcard-scene">
+  <div class="flashcard">
     <div class="flashcard-face flashcard-front">
       <div class="card-word">{card['word']}</div>
       <div class="card-pron">{card.get('pronunciation','')}</div>
-      <div class="card-hint">แตะเพื่อดูความหมาย</div>
+      <div class="card-hint">กด "พลิกการ์ด" เพื่อดูความหมาย</div>
     </div>
-    <div class="flashcard-face flashcard-back">
+  </div>
+</div>"""
+        else:
+            card_html = f"""
+<div class="flashcard-scene">
+  <div class="flashcard">
+    <div class="flashcard-face flashcard-back" style="position:relative;transform:none;">
       <div>
         <div class="back-label">Definition</div>
         <div class="back-value">{card['definition']}</div>
@@ -407,28 +410,31 @@ Each object must have exactly these keys:
       <div class="back-example">"{card.get('example','')}"</div>
     </div>
   </div>
-</div>
-"""
+</div>"""
         st.markdown(card_html, unsafe_allow_html=True)
 
-        # nav buttons
-        col_prev, col_info, col_next = st.columns([1, 2, 1])
+        # flip + nav buttons
+        col_prev, col_flip, col_next = st.columns([1, 2, 1])
         with col_prev:
             if st.button("← ก่อนหน้า", key="prev_card", disabled=(idx == 0)):
                 st.session_state["card_idx"] = idx - 1
                 st.session_state["card_flipped"] = False
                 st.rerun()
-        with col_info:
-            st.markdown(
-                f'<p style="text-align:center;color:#888;font-size:0.85rem;margin-top:0.6rem">'
-                f'{idx+1} / {len(cards)}</p>',
-                unsafe_allow_html=True
-            )
+        with col_flip:
+            flip_label = "🔄 ดูคำแปล" if not flipped else "🔄 ดูคำศัพท์"
+            if st.button(flip_label, key="flip_card", use_container_width=True):
+                st.session_state["card_flipped"] = not flipped
+                st.rerun()
         with col_next:
             if st.button("ถัดไป →", key="next_card", disabled=(idx == len(cards) - 1)):
                 st.session_state["card_idx"] = idx + 1
                 st.session_state["card_flipped"] = False
                 st.rerun()
+        
+        st.markdown(
+            f'<p style="text-align:center;color:#888;font-size:0.85rem;margin-top:0.4rem">{idx+1} / {len(cards)}</p>',
+            unsafe_allow_html=True
+        )
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 2 — READING (interactive)
