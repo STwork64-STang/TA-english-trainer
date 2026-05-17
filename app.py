@@ -7,23 +7,23 @@ import random
 from gtts import gTTS
 import io
 
-# ─── 1. INITIALIZE SESSION STATE (ความจำระบบสำหรับปุ่มกดและฟังก์ชันต่าง ๆ) ───
+# ─── 1. INITIALIZE SESSION STATE ─────────────────────────────────────────────
 if "user_level" not in st.session_state:
     st.session_state["user_level"] = "Level 1: Beginner"
 if "topic" not in st.session_state:
     st.session_state["topic"] = "General Academic"
 if "flash_mode" not in st.session_state:
     st.session_state["flash_mode"] = "study"
+if "saved_key" not in st.session_state:
+    st.session_state["saved_key"] = ""
 
-# ตั้งค่าหน้าเว็บและบังคับเปิดแถบตั้งค่าใน Sidebar ทันที
 st.set_page_config(
     page_title="Academic English AI Trainer", 
     page_icon="📖", 
-    layout="centered",
-    initial_sidebar_state="expanded"
+    layout="centered"
 )
 
-# ─── 2. STUNNING RESPONSIVE CSS (ป้องกันปัญหาตัวหนังสือจมทุกสภาวะแสง) ───────────
+# ─── 2. STUNNING RESPONSIVE CSS (รองรับ Dark Mode & สวยสไตล์แอป Duolingo) ──────
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;700&display=swap');
@@ -33,13 +33,13 @@ st.markdown("""
 }
 
 #MainMenu, footer, header { visibility: hidden; }
-.block-container { padding-top: 2rem; padding-bottom: 4rem; max-width: 720px; }
+.block-container { padding-top: 1.5rem; padding-bottom: 4rem; max-width: 720px; }
 
-/* แก้ปัญหาตัวหนังสือพาดหัวจมในโหมดมืด (เด่นชัดทั้งจอขาวและจอดำ) */
+/* หัวข้อใหญ่ของแอป */
 .app-title {
     font-family: 'DM Serif Display', serif;
-    font-size: 2.4rem;
-    color: #ffcb6b; /* สีทองสว่างหรูหรา */
+    font-size: 2.3rem;
+    color: #ffcb6b; /* สีทองอร่าม สว่างคมชัดในจอ Dark Mode */
     text-shadow: 0px 2px 4px rgba(0,0,0,0.3);
     margin-bottom: 0.15rem;
     font-weight: 700;
@@ -52,17 +52,23 @@ st.markdown("""
     margin-bottom: 1.5rem;
 }
 
-/* การ์ดหน้าต่างกล่องต้อนรับ */
-.welcome-card {
+/* แผงควบคุมการตั้งค่าด้านบน (ใช้แทน Sidebar) */
+.settings-dashboard {
     background: linear-gradient(135deg, rgba(45, 45, 80, 0.4) 0%, rgba(26, 26, 46, 0.6) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: 2rem;
-    backdrop-filter: blur(10px);
-    margin-top: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 18px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.settings-title {
+    color: #ffcb6b;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
 }
 
-/* ── Tab Bar ดีไซน์มินิมอล ── */
+/* ── Tab Bar ดีไซน์โมเดิร์น ── */
 .stTabs [data-baseweb="tab-list"] {
     gap: 6px;
     background: rgba(240, 240, 245, 0.1);
@@ -75,7 +81,7 @@ st.markdown("""
     padding: 8px 18px;
     font-size: 0.85rem;
     font-weight: 500;
-    color: #888;
+    color: #a0a0b0;
     background: transparent;
     border: none;
 }
@@ -199,31 +205,59 @@ div[data-testid="stHorizontalBlock"] .stButton > button:hover {
 </style>
 """, unsafe_allow_html=True)
 
-# ─── 3. SIDEBAR CONFIG (แก้ไขการเชื่อมโยง Session State ให้ปลอดภัย 100%) ───
-st.sidebar.markdown("### ⚙️ ตั้งค่าคอร์สเรียน")
+# ─── 3. APP HEADER ───────────────────────────────────────────────────────────
+st.markdown('<p class="app-title">Academic English Trainer</p>', unsafe_allow_html=True)
+st.markdown('<p class="app-sub">AI-Powered · Gemini · ฝึกภาษาอังกฤษเชิงวิชาการ</p>', unsafe_allow_html=True)
 
-api_key = st.sidebar.text_input("Gemini API Key", type="password", placeholder="AIza...", value=st.session_state.get("saved_key", ""))
-if api_key:
-    st.session_state["saved_key"] = api_key
+# ─── 4. SETTINGS DASHBOARD (กล่องตั้งค่าที่ย้ายมาไว้หน้าหลัก) ────────────────────
+with st.container():
+    st.markdown("""
+    <div class="settings-dashboard">
+        <div class="settings-title">⚙️ แผงควบคุมและตั้งค่าบทเรียน (ไม่ต้องใช้ Sidebar)</div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    col_k1, col_k2 = st.columns([2, 3])
+    with col_k1:
+        api_input = st.text_input(
+            "Gemini API Key", 
+            type="password", 
+            placeholder="AIza...", 
+            value=st.session_state["saved_key"],
+            help="รับคีย์ฟรีที่ https://aistudio.google.com/app/apikey"
+        )
+        if api_input != st.session_state["saved_key"]:
+            st.session_state["saved_key"] = api_input
+            st.rerun()
+            
+    with col_k2:
+        col_lvl, col_tpc = st.columns(2)
+        with col_lvl:
+            user_level = st.selectbox(
+                "ระดับภาษาอังกฤษ",
+                ["Level 1: Beginner", "Level 2: Intermediate", "Level 3: Advanced"],
+                index=["Level 1: Beginner", "Level 2: Intermediate", "Level 3: Advanced"].index(st.session_state["user_level"])
+            )
+            if user_level != st.session_state["user_level"]:
+                st.session_state["user_level"] = user_level
+                st.rerun()
+        with col_tpc:
+            topic = st.selectbox(
+                "หัวข้อที่สนใจ",
+                ["General Academic", "Science & Technology", "Social Sciences", "Business & Economics", "Medicine & Health", "Law & Ethics", "Literature & Arts"],
+                index=["General Academic", "Science & Technology", "Social Sciences", "Business & Economics", "Medicine & Health", "Law & Ethics", "Literature & Arts"].index(st.session_state["topic"])
+            )
+            if topic != st.session_state["topic"]:
+                st.session_state["topic"] = topic
+                st.rerun()
 
-user_level = st.sidebar.selectbox(
-    "ระดับภาษาอังกฤษ",
-    ["Level 1: Beginner", "Level 2: Intermediate", "Level 3: Advanced"],
-    index=["Level 1: Beginner", "Level 2: Intermediate", "Level 3: Advanced"].index(st.session_state["user_level"])
-)
-st.session_state["user_level"] = user_level
+# บล็อกหยุดถ้ายังไม่ใส่คีย์
+api_key = st.session_state["saved_key"]
+if not api_key:
+    st.warning("⚠️ โปรดระบุ Gemini API Key ในช่องตั้งค่าด้านบนเพื่อเชื่อมต่อระบบบอทและเข้าสู่บทเรียนครับ!")
+    st.stop()
 
-topic = st.sidebar.selectbox(
-    "หัวข้อที่สนใจ",
-    ["General Academic", "Science & Technology", "Social Sciences", "Business & Economics", "Medicine & Health", "Law & Ethics", "Literature & Arts"],
-    index=["General Academic", "Science & Technology", "Social Sciences", "Business & Economics", "Medicine & Health", "Law & Ethics", "Literature & Arts"].index(st.session_state["topic"])
-)
-st.session_state["topic"] = topic
-
-st.sidebar.markdown("---")
-st.sidebar.caption("💡 รับ API Key ฟรีที่ [Google AI Studio](https://aistudio.google.com/app/apikey)")
-
-# ─── 4. GEMINI HELPER (ซ่อมแซมระบบดึงข้อความไม่ให้ติดบั๊ก Syntax string) ───
+# ─── 5. GEMINI HELPER ────────────────────────────────────────────────────────
 def call_gemini(prompt: str) -> str | None:
     try:
         client = genai.Client(api_key=api_key)
@@ -236,7 +270,6 @@ def call_gemini(prompt: str) -> str | None:
         st.error(f"❌ {e}")
         return None
 
-# ฟังก์ชัน parse_json แบบใหม่: เสถียรสูง ไม่ใช้ Regex ป้องกัน Syntax String Literal Error
 def parse_json(text: str):
     if not text:
         return {}
@@ -249,21 +282,6 @@ def parse_json(text: str):
             lines = lines[:-1]
         clean = "\n".join(lines).strip()
     return json.loads(clean)
-
-# ─── 5. APP HEADER ───────────────────────────────────────────────────────────
-st.markdown('<p class="app-title">Academic English Trainer</p>', unsafe_allow_html=True)
-st.markdown('<p class="app-sub">AI-Powered · Gemini · ฝึกภาษาอังกฤษเชิงวิชาการ</p>', unsafe_allow_html=True)
-
-if not api_key:
-    st.markdown("""
-    <div class="welcome-card">
-        <h3 style="margin-top:0; color:#ffcb6b;">🔑 ยินดีต้อนรับสู่ห้องเรียนอัจฉริยะ</h3>
-        <p style="color:#a0a0b0; font-size:0.95rem; line-height:1.6; margin-bottom:0;">
-            กรุณากรอก <b>Gemini API Key</b> ในแถบเมนูด้านข้าง (Sidebar) สีขาวเพื่อเชื่อมต่อสมองกล AI และเริ่มต้นบทเรียนครับ
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-    st.stop()
 
 # ─── 6. TABS CONTROL ──────────────────────────────────────────────────────────
 tab1, tab2, tab3, tab4 = st.tabs(["📇 Flashcards", "📄 Reading", "🧩 Vocab Quiz", "💬 Chat"])
