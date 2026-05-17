@@ -709,32 +709,34 @@ Do not include markdown format wrappers.
 # TAB 4 — CHAT
 # ==============================================================================
 with tab4:
-        st.header("💬 BME Classroom Roleplay")
-        for message in st.session_state.chat_history:
-            with st.chat_message(message["role"]):
-                st.markdown(message["text"])
-                if message["role"] == "assistant":
-                    clean_msg = message["text"].replace('"', '')
-                    text_to_speech_button(clean_msg, "🔊 ฟังเสียงอาจารย์ประโยคนี้")
+    st.markdown("#### 💬 สนทนากับ AI Tutor")
+    
+    ICE_BREAKERS = [
+        "What did you do today? Tell me a little bit about your day.",
+        "What is your favorite food, and why do you like it?",
+        "If you could travel anywhere in the world right now, where would you go?"
+    ]
 
-        if user_chat := st.chat_input("พิมพ์ตอบอาจารย์เป็นภาษาอังกฤษตรงนี้..."):
-            with st.chat_message("user"):
-                st.markdown(user_chat)
-            st.session_state.chat_history.append({"role": "user", "text": user_chat})
-            
-            with st.chat_message("assistant"):
-                with st.spinner("อาจารย์กำลังพิมพ์ตอบ..."):
-                    prompt = f"""
-                    You are a friendly Biomedical Engineering professor talking to a student whose English level is '{user_level}'.
-                    Keep responses short (1-2 sentences), easy to understand. Respond naturally in English. No markdown formatting.
-                    History: {st.session_state.chat_history}
-                    """
-                    result = call_gemini_safely(prompt)
-                    if result:
-                        st.markdown(result)
-                        st.session_state.chat_history.append({"role": "assistant", "text": result})
-                        st.rerun()
+    if "chat_history" not in st.session_state:
+        st.session_state.chat_history = []
 
-        if st.button("🧹 ล้างประวัติการสนทนา (เริ่มคุยใหม่)"):
-            st.session_state.chat_history = []
-            st.rerun()
+    if not st.session_state.chat_history:
+        starting_question = random.choice(ICE_BREAKERS)
+        first_greeting = f"Hello! 👋 Let's practice English together! Here is my first question:\n\n**{starting_question}**"
+        st.session_state.chat_history.append({"role": "assistant", "text": first_greeting})
+
+    for msg in st.session_state.chat_history:
+        if msg["role"] == "user":
+            st.markdown(f'<div class="chat-bubble-user">{msg["text"]}</div>', unsafe_allow_html=True)
+        else:
+            st.markdown(f'<div class="chat-bubble-ai">{msg["text"]}</div>', unsafe_allow_html=True)
+
+    user_chat = st.chat_input("พิมพ์ตอบตรงนี้เพื่อคุยภาษาอังกฤษ...")
+    if user_chat:
+        st.session_state.chat_history.append({"role": "user", "text": user_chat})
+        history_str = "\n".join(f'{"Student" if m["role"]=="user" else "Tutor"}: {m["text"]}' for m in st.session_state.chat_history)
+        
+        with st.spinner("AI กำลังคิดพิมพ์ตอบ..."):
+            reply = call_gemini(f"You are an English teacher. Reply to user: '{user_chat}' based on history:\n{history_str}\nKeep it short and ask a new question.")
+            if reply: st.session_state.chat_history.append({"role": "assistant", "text": reply})
+        st.rerun()
