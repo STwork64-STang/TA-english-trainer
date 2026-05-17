@@ -452,26 +452,35 @@ READING_TOPICS = [
 
 with tab2:
     st.markdown("#### อ่านบทความและตอบคำถาม")
-
-    col_sel, col_rand = st.columns([3, 1])
-    with col_sel:
-        reading_topic = st.selectbox("เลือกหัวข้อบทความ:", READING_TOPICS, key="reading_topic_sel")
-    with col_rand:
-        st.markdown("<div style='margin-top:1.6rem'>", unsafe_allow_html=True)
-        if st.button("🎲 สุ่ม", key="random_topic"):
+    
+        # 1. ตรวจสอบและประกาศค่าเริ่มต้นให้กับหัวข้อในระบบเซสชันก่อน (ถ้ายังไม่มี)
+        if "reading_topic_sel" not in st.session_state:
             import random
-            st.session_state["reading_topic_sel"] = random.choice(READING_TOPICS)
-            st.session_state["article"] = None
-            st.session_state["reading_result"] = None
-            st.rerun()
-        st.markdown("</div>", unsafe_allow_html=True)
+            st.session_state["reading_topic_sel"] = READING_TOPICS[0]
+    
+        col_sel, col_rand = st.columns([3, 1])
+        
+        with col_sel:
+            # ดึงค่าจาก selectbox โดยผูกเข้ากับ key อย่างปลอดภัย
+            reading_topic = st.selectbox("เลือกหัวข้อบทความ:", READING_TOPICS, key="reading_topic_sel")
+            
+        with col_rand:
+            st.markdown("<div style='margin-top:1.6rem'>", unsafe_allow_html=True)
+            if st.button("🎲 สุ่ม", key="random_topic"):
+                import random
+                # วิธีแก้: สุ่มค่าใหม่ แล้วอัปเดตลงไปในระบบตรงๆ ก่อนสั่ง rerun
+                st.session_state["reading_topic_sel"] = random.choice(READING_TOPICS)
+                st.session_state["article"] = None
+                st.session_state["reading_result"] = None
+                st.rerun()
+            st.markdown("</div>", unsafe_allow_html=True)
 
     if st.button("📖 โหลดบทความใหม่", key="gen_article"):
         with st.spinner(f"กำลังสร้างบทความเรื่อง {reading_topic}..."):
             raw = call_gemini(f"""
 You are an academic English reading teacher.
-Write a short academic passage (4-6 sentences) about "{reading_topic}" for level "{user_level}".
-Include 2-3 advanced vocabulary words naturally in the passage.
+Write a short academic passage (8-15 sentences) about "{reading_topic}" for level "{user_level}".
+Include 3-5 advanced vocabulary words naturally in the passage.
 Then create 1 comprehension question with a short open-ended answer (not multiple choice).
 Also list the key vocabulary words used with brief English definitions.
 Return ONLY valid JSON, no markdown:
