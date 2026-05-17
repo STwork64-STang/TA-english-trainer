@@ -499,7 +499,9 @@ Return ONLY valid JSON, no markdown:
             unsafe_allow_html=True
         )
 
-        st.markdown(f'<div class="passage-card">{art["passage"]}</div>', unsafe_allow_html=True)
+        display_passage = art["passage"]
+        display_passage = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', display_passage)
+        st.markdown(f'<div class="passage-card">{display_passage}</div>', unsafe_allow_html=True)
 
         # ── TTS: ฟังบทความ ──
         col_tts, col_speed = st.columns([2, 1])
@@ -533,12 +535,6 @@ Return ONLY valid JSON, no markdown:
                 f'{vocab_items}</div>',
                 unsafe_allow_html=True
             )
-
-        # ── แปลงรูปแบบจาก **word** (Markdown) ให้เป็น <b>word</b> (HTML) ──
-        display_passage = art["passage"]
-        
-        # ค้นหาคำที่ถูกครอบด้วย **...** แล้วเปลี่ยนเป็น <b>...</b>
-        display_passage = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', display_passage)
 
         st.markdown(f'**คำถาม:** {art["question"]}')
 
