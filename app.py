@@ -213,7 +213,7 @@ st.markdown('<p class="app-sub">AI-Powered · Gemini · ฝึกภาษาอ
 with st.container():
     st.markdown("""
     <div class="settings-dashboard">
-        <div class="settings-title">⚙️ แผงควบคุมและตั้งค่าบทเรียน (ไม่ต้องใช้ Sidebar)</div>
+        <div class="settings-title">⚙️ แผงควบคุมและตั้งค่าบทเรียน</div>
     </div>
     """, unsafe_allow_html=True)
     
