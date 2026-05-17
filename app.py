@@ -540,9 +540,6 @@ Return ONLY valid JSON, no markdown:
         # ค้นหาคำที่ถูกครอบด้วย **...** แล้วเปลี่ยนเป็น <b>...</b>
         display_passage = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', display_passage)
 
-        # แสดงผลบทความในกล่อง card
-        st.markdown(f'<div class="passage-card">{display_passage}</div>', unsafe_allow_html=True)
-
         st.markdown(f'**คำถาม:** {art["question"]}')
 
         user_ans = st.text_input(
