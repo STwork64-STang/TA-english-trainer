@@ -11,7 +11,7 @@ st.write("---")
 
 # 1. ส่วนตั้งค่า API Key และระดับภาษา
 st.sidebar.header("⚙️ การตั้งค่าระบบ AI")
-api_key = st.sidebar.text_input("ใส่ Gemini API Key ของคุณที่นี่:AIzaSyA75F4FRb3fn8YEEYmS2bSSnid-07C4B0g", type="password")
+api_key = st.sidebar.text_input("AIzaSyA75F4FRb3fn8YEEYmS2bSSnid-07C4B0g", type="password")
 user_level = st.sidebar.selectbox(
     "เลือกระดับภาษาอังกฤษของคุณปัจจุบัน:",
     ["Level 1: Beginner (ศัพท์น้อย, เน้นประโยคสั้นมาก)", 
