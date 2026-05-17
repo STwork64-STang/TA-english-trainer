@@ -3,6 +3,8 @@ from google import genai
 from google.genai.errors import APIError
 import json
 import re
+from gtts import gTTS
+import io
 
 st.set_page_config(page_title="Academic English AI Trainer", page_icon="📖", layout="centered")
 
@@ -310,7 +312,7 @@ st.sidebar.caption("💡 รับ API Key ฟรีที่ [Google AI Studio]
 def call_gemini(prompt: str) -> str | None:
     try:
         client = genai.Client(api_key=api_key)
-        response = client.models.generate_content(model="gemini-2.5-flash-lite", contents=prompt)
+        response = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
         return response.text
     except APIError as e:
         st.error(f"🚨 Gemini API Error {e.code}: {e.message}")
@@ -493,6 +495,25 @@ Return ONLY valid JSON, no markdown:
         )
 
         st.markdown(f'<div class="passage-card">{art["passage"]}</div>', unsafe_allow_html=True)
+
+        # ── TTS: ฟังบทความ ──
+        col_tts, col_speed = st.columns([2, 1])
+        with col_speed:
+            slow_mode = st.checkbox("🐢 ช้าลง", key="tts_slow")
+        with col_tts:
+            if st.button("🔊 ฟังบทความ", key="tts_play"):
+                with st.spinner("กำลังสร้างเสียง..."):
+                    try:
+                        tts = gTTS(text=art["passage"], lang="en", slow=slow_mode)
+                        audio_buf = io.BytesIO()
+                        tts.write_to_fp(audio_buf)
+                        audio_buf.seek(0)
+                        st.session_state["tts_audio"] = audio_buf.read()
+                    except Exception as e:
+                        st.error(f"สร้างเสียงไม่ได้: {e}")
+        if st.session_state.get("tts_audio"):
+            st.audio(st.session_state["tts_audio"], format="audio/mp3")
+
 
         if art.get("vocab"):
             vocab_items = "".join(
