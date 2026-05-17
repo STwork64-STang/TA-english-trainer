@@ -453,8 +453,8 @@ READING_TOPICS = [
 with tab2:
     st.markdown("#### อ่านบทความและตอบคำถาม")
     
-        # 1. ตรวจสอบและประกาศค่าเริ่มต้นให้กับหัวข้อในระบบเซสชันก่อน (ถ้ายังไม่มี)
-        if "reading_topic_sel" not in st.session_state:
+    # 1. ตรวจสอบและประกาศค่าเริ่มต้นให้กับหัวข้อในระบบเซสชันก่อน (ถ้ายังไม่มี)
+    if "reading_topic_sel" not in st.session_state:
             import random
             st.session_state["reading_topic_sel"] = READING_TOPICS[0]
     
