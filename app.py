@@ -664,8 +664,26 @@ with tab4:
     st.markdown("#### สนทนากับ AI Tutor")
     st.caption("พูดคุยเป็นภาษาอังกฤษ — AI จะช่วยแก้ไขและโต้ตอบ")
 
+    # ลิสต์คำถามชวนคุยสารพัดประโยชน์ (เพิ่มหรือเปลี่ยนคำถามตรงนี้ได้ตามใจชอบ)
+    ICE_BREAKERS = [
+        "What did you do today? Tell me a little bit about your day.",
+        "What is your favorite food, and why do you like it?",
+        "If you could travel anywhere in the world right now, where would you go?",
+        "What are your hobbies? What do you like to do in your free time?",
+        "Tell me about a movie or a book that you really like.",
+        "What kind of job do you do, or what are you studying right now?",
+        "How is the weather today in your city?"
+    ]
+
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
+
+    # 🌟 จุดแก้ไขที่ 1: ถ้าห้องแชตว่างเปล่า ให้สุ่มคำถามเปิดประโยคทันที
+    if not st.session_state.chat_history:
+        import random
+        starting_question = random.choice(ICE_BREAKERS)
+        first_greeting = f"Hello! 👋 I'm your English practice partner. Let's practice together! Here is my first question for you:\n\n**{starting_question}**"
+        st.session_state.chat_history.append({"role": "assistant", "text": first_greeting})
 
     # render history
     for msg in st.session_state.chat_history:
@@ -677,27 +695,34 @@ with tab4:
     user_chat = st.chat_input("พิมพ์ตอบเป็นภาษาอังกฤษ...")
     if user_chat:
         st.session_state.chat_history.append({"role": "user", "text": user_chat})
+        
+        # จัดโครงสร้างประวัติแชตเพื่อส่งต่อให้ Gemini
         history_str = "\n".join(
             f'{"Student" if m["role"]=="user" else "Tutor"}: {m["text"]}'
             for m in st.session_state.chat_history
         )
+        
         with st.spinner("กำลังพิมพ์ตอบ..."):
+            # 🌟 จุดแก้ไขที่ 2: ปรับ Prompt บังคับให้ตรวจแกรมม่าละเอียดยิ่งขึ้น และต้องถามคำถามใหม่กลับมาเสมอ
             reply = call_gemini(f"""
-You are a friendly academic English tutor.
-Student level: "{user_level}", topic: "{topic}".
-Gently correct any noticeable grammar errors in the student's last message before replying.
-Keep responses concise and encouraging. Mix Thai when helpful for Beginner level.
+You are a friendly and encouraging English conversation partner and teacher.
+The user is at level "{user_level}", topic: "{topic}".
 
-Conversation:
+Please respond to the student's last message by following these steps:
+1. Grammar Correction: Check the student's last message. If there are any grammatical errors, point them out gently, explain the mistake in simple Thai, and provide the corrected version. (If it's already correct, praise them briefly).
+2. Reply & Keep the conversation going: Respond to the content of their answer naturally like a friend, and then ask ONE new follow-up question related to the topic to keep them talking.
+
+Keep your response friendly, clear, and well-structured. Mix Thai when helpful for Beginner level.
+
+Conversation History:
 {history_str}
-
-Reply to the student's last message naturally.
 """)
             if reply:
                 st.session_state.chat_history.append({"role": "assistant", "text": reply})
         st.rerun()
 
     if st.session_state.chat_history:
-        if st.button("🧹 ล้างประวัติการสนทนา", key="clear_chat"):
+        # 🌟 จุดแก้ไขที่ 3: ปุ่มล้างประวัติการแชต เมื่อกดแล้วแชตจะว่างเปล่า และลูปด้านบนจะสุ่มคำถามใหม่ให้ทันที
+        if st.button("🧹 ล้างประวัติการสนทนา / สุ่มคำถามใหม่", key="clear_chat"):
             st.session_state.chat_history = []
             st.rerun()
