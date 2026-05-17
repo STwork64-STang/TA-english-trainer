@@ -23,7 +23,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# ─── 2. HYBRID RESPONSIVE CSS (ฉลาดขึ้น: รองรับและสวยงามทั้งใน Light & Dark Mode) ───
+# ─── 2. HYBRID RESPONSIVE CSS ────────────────────────────────────────────────
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;700&display=swap');
@@ -35,11 +35,10 @@ st.markdown("""
 #MainMenu, footer, header { visibility: hidden; }
 .block-container { padding-top: 1.5rem; padding-bottom: 4rem; max-width: 720px; }
 
-/* หัวข้อใหญ่ของแอป - เปลี่ยนมาใช้สีมาตรฐานของสตรีมลิตเพื่อให้คมชัดทุกโหมด */
 .app-title {
     font-family: 'DM Serif Display', serif;
     font-size: 2.3rem;
-    color: var(--text-color); /* ปรับตามโหมดมืด/สว่างอัตโนมัติ */
+    color: var(--text-color); 
     margin-bottom: 0.15rem;
     font-weight: 700;
 }
@@ -51,7 +50,6 @@ st.markdown("""
     margin-bottom: 1.5rem;
 }
 
-/* แผงควบคุมการตั้งค่าด้านบน (ใช้สีกึ่งโปร่งใสที่กลืนเข้ากับทุกธีมพื้นหลัง) */
 .settings-dashboard {
     background: var(--background-color);
     background-image: linear-gradient(135deg, rgba(120, 120, 150, 0.08) 0%, rgba(120, 120, 150, 0.03) 100%);
@@ -61,14 +59,7 @@ st.markdown("""
     margin-bottom: 2rem;
     box-shadow: 0 8px 24px rgba(0,0,0,0.05);
 }
-.settings-title {
-    color: var(--text-color);
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
 
-/* ── Tab Bar ดีไซน์โมเดิร์น ── */
 .stTabs [data-baseweb="tab-list"] {
     gap: 6px;
     background: rgba(120, 120, 150, 0.08);
@@ -92,7 +83,6 @@ st.markdown("""
 }
 .stTabs [data-baseweb="tab-highlight"], .stTabs [data-baseweb="tab-border"] { display: none; }
 
-/* ── 3D Flashcard CSS ── */
 .flashcard-scene {
     width: 100%;
     height: 250px;
@@ -140,7 +130,6 @@ st.markdown("""
 .back-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #888; }
 .back-value { font-size: 1rem; color: var(--text-color); line-height: 1.5; }
 
-/* ── Quiz Box & Reading CSS ── */
 .flashcard-quiz-box {
     background: linear-gradient(135deg, #2b3a60 0%, #1a233d 100%);
     color: white;
@@ -189,7 +178,6 @@ div[data-testid="stHorizontalBlock"] .stButton > button:hover {
 }
 .quiz-q { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: var(--text-color); }
 
-/* ── Chat CSS ── */
 .chat-bubble-user {
     background: #ffcb6b; color: #1a1a2e; border-radius: 18px 18px 4px 18px;
     padding: 0.8rem 1.2rem; font-size: 0.95rem; max-width: 80%; margin-left: auto; margin-bottom: 10px;
@@ -208,7 +196,7 @@ div[data-testid="stHorizontalBlock"] .stButton > button:hover {
 st.markdown('<p class="app-title">Academic English Trainer</p>', unsafe_allow_html=True)
 st.markdown('<p class="app-sub">AI-Powered · Gemini · ฝึกภาษาอังกฤษเชิงวิชาการ</p>', unsafe_allow_html=True)
 
-# ─── 4. SETTINGS DASHBOARD (กล่องตั้งค่าหน้าแรกแสดงผลตรงกลางสวยงาม แทน Sidebar) ───
+# ─── 4. SETTINGS DASHBOARD ───────────────────────────────────────────────────
 col_key, col_lvl, col_tpc = st.columns([2, 2, 2])
 
 with col_key:
@@ -243,17 +231,25 @@ with col_tpc:
         st.session_state["topic"] = topic
         st.rerun()
         
-# บล็อกหยุดถ้ายังไม่ใส่คีย์
 api_key = st.session_state["saved_key"]
 if not api_key:
     st.warning("⚠️ โปรดระบุ Gemini API Key ในช่องตั้งค่าด้านบนเพื่อเชื่อมต่อระบบบอทและเข้าสู่บทเรียนครับ!")
     st.stop()
 
-# ─── 5. GEMINI HELPER ────────────────────────────────────────────────────────
+# ─── 5. GEMINI HELPER (ปรับแต่ง Configuration เพื่อเซฟโควต้าคำตอบ) ───────────────
 def call_gemini(prompt: str) -> str | None:
     try:
         client = genai.Client(api_key=api_key)
-        response = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
+        # ใช้ GenerationConfig เพื่อจำกัดความยาวของคำตอบ ป้องกัน AI บ่นยาวเกินจำเป็น
+        config = genai.types.GenerationConfig(
+            max_output_tokens=500,  
+            temperature=0.3        
+        )
+        response = client.models.generate_content(
+            model="gemini-2.5-flash", 
+            contents=prompt,
+            config=config
+        )
         return response.text
     except APIError as e:
         st.error(f"🚨 Gemini API Error {e.code}: {e.message}")
@@ -268,7 +264,8 @@ def parse_json(text: str):
     clean = text.strip()
     if clean.startswith("```"):
         lines = clean.split("\n")
-        if lines[0].startswith("```"):
+        if lines[0].startswith("
+```"):
             lines = lines[1:]
         if lines and lines[-1].startswith("```"):
             lines = lines[:-1]
@@ -279,15 +276,14 @@ def parse_json(text: str):
 tab1, tab2, tab3, tab4 = st.tabs(["📇 Flashcards", "📄 Reading", "🧩 Vocab Quiz", "💬 Chat"])
 
 # ==============================================================================
-# TAB 1 — FLASHCARDS (มีทั้งโหมดเรียนรู้ 3D Flip และโหมดเกมโชว์ 4 ช้อยส์)
+# TAB 1 — FLASHCARDS
 # ==============================================================================
 with tab1:
     st.markdown("#### 📇 คลังคำศัพท์อัจฉริยะ (Vocab Study & Quiz)")
     st.caption(f"หัวข้อคอร์สในปัจจุบัน: **{topic}** · ระดับผู้เรียน: **{user_level}**")
 
-    # ปุ่มสลับโหมดการเรียนรู้
     if "flash_mode" not in st.session_state:
-        st.session_state["flash_mode"] = "study"  # เริ่มต้นที่โหมดเรียนรู้ก่อนเสมอ
+        st.session_state["flash_mode"] = "study"
 
     col_m1, col_m2 = st.columns(2)
     with col_m1:
@@ -301,7 +297,6 @@ with tab1:
 
     st.markdown("---")
 
-    # ปุ่มดึงคำศัพท์ใหม่จาก Gemini
     if st.button("🔄 เจนคำศัพท์ชุดใหม่ (5 ใบ)", key="gen_cards"):
         with st.spinner("AI กำลังคัดเลือกคำศัพท์วิชาการยอดเยี่ยม..."):
             raw = call_gemini(f"""
@@ -322,43 +317,34 @@ Each object must have exactly these keys:
                 except Exception as e:
                     st.error(f"แปลงข้อมูล JSON ล้มเหลว: {e}\n\n{raw}")
 
-    # ตรวจสอบว่ามีข้อมูลคำศัพท์ในระบบหรือยัง
     if "cards" in st.session_state and st.session_state["cards"]:
         cards = st.session_state["cards"]
         idx = st.session_state.get("card_idx", 0)
 
-        # ----------------------------------------------------------------------
-        # โหมดที่ 1: โหมดเรียนรู้ (STUDY MODE - พลิกดูการ์ด 3D)
-        # ----------------------------------------------------------------------
+        # ── โหมดเรียนรู้ ──
         if st.session_state["flash_mode"] == "study":
             st.subheader("👀 ฝึกจำคำศัพท์ (คลิกที่การ์ดเพื่อพลิกดูความหมาย)")
             
-            # ควบคุมอินเด็กซ์ของโหมดเรียนรู้แยกอิสระ
             if "study_idx" not in st.session_state: st.session_state["study_idx"] = 0
             s_idx = st.session_state["study_idx"]
-            
             if s_idx >= len(cards): st.session_state["study_idx"] = 0; s_idx = 0
             
             card = cards[s_idx]
             
-            # ตัวแปรเช็คสถานะการพลิกการ์ด (เปิด/ปิด)
             if f"flipped_{s_idx}" not in st.session_state:
                 st.session_state[f"flipped_{s_idx}"] = False
                 
             is_flipped = st.session_state[f"flipped_{s_idx}"]
             flip_class = "flipped" if is_flipped else ""
 
-            # HTML/CSS ทำเอฟเฟกต์การพลิกการ์ดแบบคลาสสิก ไม่ตีกับปุ่มด้านล่าง
             st.markdown(f"""
             <div class="flashcard-scene">
                 <div class="flashcard {flip_class}">
-                    <!-- หน้าแรก: คำศัพท์ -->
                     <div class="flashcard-face flashcard-front">
                         <div class="card-word">{card['word']}</div>
                         <div class="card-pron">{card.get('pronunciation','')}</div>
                         <div class="card-hint">💡 คลิกปุ่มด้านล่างเพื่อพลิกดูความหมาย</div>
                     </div>
-                    <!-- หน้าหลัง: คำแปลและตัวอย่าง -->
                     <div class="flashcard-face flashcard-back" style="overflow-y: auto;">
                         <div style="width:100%;">
                             <div class="back-label">ความหมายภาษาไทย</div>
@@ -376,12 +362,10 @@ Each object must have exactly these keys:
             </div>
             """, unsafe_allow_html=True)
 
-            # ปุ่มกดเพื่อคลิกพลิกการ์ด (แก้ปัญหา UI บนเบราว์เซอร์บางตัวที่คลิกบน Div ตรงๆ ไม่ติด)
             if st.button("🔄 พลิกการ์ด (Flip)", key=f"flip_btn_{s_idx}", use_container_width=True):
                 st.session_state[f"flipped_{s_idx}"] = not st.session_state[f"flipped_{s_idx}"]
                 st.rerun()
 
-            # แถบควบคุมเลื่อนการ์ด ซ้าย-ขวา
             st.markdown("<br>", unsafe_allow_html=True)
             col_b1, col_b2, col_b3 = st.columns([1, 2, 1])
             with col_b1:
@@ -396,11 +380,9 @@ Each object must have exactly these keys:
                     st.rerun()
                     
             st.markdown("---")
-            st.info("💡 ทลอยจำให้ครบทั้ง 5 คำก่อน แล้วกดคลิกที่แท็บ **[🎮 โหมดเกมควิซ]** ด้านบน เพื่อทำแบบทดสอบเก็บคะแนนกันครับ!")
+            st.info("💡 ทยอยจำให้ครบทั้ง 5 คำก่อน แล้วกดคลิกที่แท็บ **[🎮 โหมดเกมควิซ]** ด้านบน เพื่อทำแบบทดสอบเก็บคะแนนกันครับ!")
 
-        # ----------------------------------------------------------------------
-        # โหมดที่ 2: โหมดทำควิซเกมโชว์ (QUIZ MODE - 4 ตัวเลือกเดิม)
-        # ----------------------------------------------------------------------
+        # ── โหมดทำควิซ ──
         elif st.session_state["flash_mode"] == "quiz":
             if "flash_score" not in st.session_state: st.session_state["flash_score"] = 0
             if "flash_status" not in st.session_state: st.session_state["flash_status"] = None
@@ -496,11 +478,10 @@ Each object must have exactly these keys:
                         st.session_state["flash_status"] = None
                         if "current_options" in st.session_state: del st.session_state["current_options"]
                         st.rerun()
-                        
-# ══════════════════════════════════════════════════════════════════════════════
-# TAB 2 — READING (interactive)
-# ══════════════════════════════════════════════════════════════════════════════
 
+# ==============================================================================
+# TAB 2 — READING
+# ==============================================================================
 READING_TOPICS = [
     "Artificial Intelligence", "Climate Change", "Public Health",
     "Space Exploration", "Economics & Trade", "Psychology",
@@ -512,9 +493,7 @@ READING_TOPICS = [
 with tab2:
     st.markdown("#### อ่านบทความและตอบคำถาม")
     
-    # 1. กำหนดฟังก์ชันสำหรับปุ่มสุ่ม (Callback) เพื่อเปลี่ยนค่าใน session_state อย่างปลอดภัย
     def randomize_topic_callback():
-        import random
         st.session_state["reading_topic_sel"] = random.choice(READING_TOPICS)
         st.session_state["article"] = None
         st.session_state["reading_result"] = None
@@ -526,7 +505,6 @@ with tab2:
             
     with col_rand:
         st.markdown("<div style='margin-top:1.6rem'>", unsafe_allow_html=True)
-        # เรียกใช้ on_click เพื่อรันฟังก์ชัน callback ด้านบน
         st.button("🎲 สุ่ม", key="random_topic", on_click=randomize_topic_callback)
         st.markdown("</div>", unsafe_allow_html=True)
 
@@ -562,7 +540,6 @@ Return ONLY valid JSON, no markdown:
         display_passage = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', display_passage)
         st.markdown(f'<div class="passage-card">{display_passage}</div>', unsafe_allow_html=True)
 
-        # ── TTS: ฟังบทความ ──
         col_tts, col_speed = st.columns([2, 1])
         with col_speed:
             slow_mode = st.checkbox("🐢 ช้าลง", key="tts_slow")
@@ -580,7 +557,6 @@ Return ONLY valid JSON, no markdown:
         if st.session_state.get("tts_audio"):
             st.audio(st.session_state["tts_audio"], format="audio/mp3")
 
-        # ปรับแก้สีกล่องศัพท์ตรงนี้เพื่อรองรับ Dark Mode ให้ตัวหนังสือคมชัด
         if art.get("vocab"):
             vocab_items = "".join(
                 f'<span style="margin-right:1.2rem; display:inline-block; color:#1e1e2f">'
@@ -634,9 +610,9 @@ Keep it encouraging and concise.
                 unsafe_allow_html=True
             )
 
-# ══════════════════════════════════════════════════════════════════════════════
-# TAB 3 — VOCAB QUIZ
-# ══════════════════════════════════════════════════════════════════════════════
+# ==============================================================================
+# TAB 3 — VOCAB QUIZ (ปรับปรุงระบบ Batch ยิง API รอบเดียวเพื่อประหยัดโควต้า)
+# ==============================================================================
 with tab3:
     st.markdown("#### ทบทวนคำศัพท์")
     st.caption("AI จะถามให้เดาคำศัพท์จากนิยามหรือตัวอย่างประโยค")
@@ -695,35 +671,48 @@ Return ONLY valid JSON array, no markdown:
                         unsafe_allow_html=True
                     )
 
+        # ปุ่มส่งคำตอบที่ยุบรวมการยิง API เป็นครั้งเดียว (Batching)
         if st.button("📝 ส่งคำตอบทั้งหมด", key="submit_quiz"):
+            quiz_data_to_send = []
             for i, q in enumerate(quiz):
                 u_ans = st.session_state["quiz_answers"].get(i, "").strip()
-                correct_ans = q["answer"]
-                is_ok = u_ans.lower().strip() == correct_ans.lower().strip()
-                if not is_ok and u_ans:
-                    fb = call_gemini(f"""
-The vocabulary question: "{q['question']}"
-Correct answer: "{correct_ans}"
-Student answered: "{u_ans}"
-In 1 sentence Thai: explain gently why the correct answer is "{correct_ans}".
+                quiz_data_to_send.append({
+                    "index": i,
+                    "question": q['question'],
+                    "correct_answer": q['answer'],
+                    "student_answer": u_ans
+                })
+            
+            with st.spinner("AI กำลังตรวจคำตอบทั้งหมดพร้อมกันในครั้งเดียว..."):
+                raw_feedback = call_gemini(f"""
+You are an expert English teacher. Evaluate these student answers.
+Data: {json.dumps(quiz_data_to_send)}
+
+Return ONLY a JSON array of objects matching the structure, with 'index' (int), 'ok' (boolean status), and 'fb' (if correct: return 'ถูกต้อง! 🎉', if wrong: write 1 short gentle explanation sentence in Thai explaining why the correct answer is right).
+Do not include markdown format wrappers.
 """)
-                else:
-                    fb = "ถูกต้อง! 🎉" if is_ok else "ยังไม่ได้ตอบ"
-                st.session_state["quiz_results"][i] = {
-                    "ok": is_ok,
-                    "ans": correct_ans,
-                    "fb": fb or "",
-                }
+                if raw_feedback:
+                    try:
+                        parsed_feedback_list = parse_json(raw_feedback)
+                        for item in parsed_feedback_list:
+                            idx = item["index"]
+                            correct_ans = quiz[idx]["answer"]
+                            st.session_state["quiz_results"][idx] = {
+                                "ok": item["ok"],
+                                "ans": correct_ans,
+                                "fb": item["fb"]
+                            }
+                    except Exception as e:
+                        st.error(f"ประมวลผลผลลัพธ์ล้มเหลว กรุณาลองใหม่อีกครั้ง: {e}")
             st.rerun()
 
-# ══════════════════════════════════════════════════════════════════════════════
+# ==============================================================================
 # TAB 4 — CHAT
-# ══════════════════════════════════════════════════════════════════════════════
+# ==============================================================================
 with tab4:
     st.markdown("#### สนทนากับ AI Tutor")
     st.caption("พูดคุยเป็นภาษาอังกฤษ — AI จะช่วยแก้ไขและโต้ตอบ")
 
-    # ลิสต์คำถามชวนคุยสารพัดประโยชน์ (เพิ่มหรือเปลี่ยนคำถามตรงนี้ได้ตามใจชอบ)
     ICE_BREAKERS = [
         "What did you do today? Tell me a little bit about your day.",
         "What is your favorite food, and why do you like it?",
@@ -736,52 +725,3 @@ with tab4:
 
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
-
-    # 🌟 จุดแก้ไขที่ 1: ถ้าห้องแชตว่างเปล่า ให้สุ่มคำถามเปิดประโยคทันที
-    if not st.session_state.chat_history:
-        import random
-        starting_question = random.choice(ICE_BREAKERS)
-        first_greeting = f"Hello! 👋 I'm your English practice partner. Let's practice together! Here is my first question for you:\n\n**{starting_question}**"
-        st.session_state.chat_history.append({"role": "assistant", "text": first_greeting})
-
-    # render history
-    for msg in st.session_state.chat_history:
-        if msg["role"] == "user":
-            st.markdown(f'<div class="chat-wrap"><div class="chat-bubble-user">{msg["text"]}</div></div>', unsafe_allow_html=True)
-        else:
-            st.markdown(f'<div class="chat-wrap"><div class="chat-bubble-ai">{msg["text"]}</div></div>', unsafe_allow_html=True)
-
-    user_chat = st.chat_input("พิมพ์ตอบเป็นภาษาอังกฤษ...")
-    if user_chat:
-        st.session_state.chat_history.append({"role": "user", "text": user_chat})
-        
-        # จัดโครงสร้างประวัติแชตเพื่อส่งต่อให้ Gemini
-        history_str = "\n".join(
-            f'{"Student" if m["role"]=="user" else "Tutor"}: {m["text"]}'
-            for m in st.session_state.chat_history
-        )
-        
-        with st.spinner("กำลังพิมพ์ตอบ..."):
-            # 🌟 จุดแก้ไขที่ 2: ปรับ Prompt บังคับให้ตรวจแกรมม่าละเอียดยิ่งขึ้น และต้องถามคำถามใหม่กลับมาเสมอ
-            reply = call_gemini(f"""
-You are a friendly and encouraging English conversation partner and teacher.
-The user is at level "{user_level}", topic: "{topic}".
-
-Please respond to the student's last message by following these steps:
-1. Grammar Correction: Check the student's last message. If there are any grammatical errors, point them out gently, explain the mistake in simple Thai, and provide the corrected version. (If it's already correct, praise them briefly).
-2. Reply & Keep the conversation going: Respond to the content of their answer naturally like a friend, and then ask ONE new follow-up question related to the topic to keep them talking.
-
-Keep your response friendly, clear, and well-structured. Mix Thai when helpful for Beginner level.
-
-Conversation History:
-{history_str}
-""")
-            if reply:
-                st.session_state.chat_history.append({"role": "assistant", "text": reply})
-        st.rerun()
-
-    if st.session_state.chat_history:
-        # 🌟 จุดแก้ไขที่ 3: ปุ่มล้างประวัติการแชต เมื่อกดแล้วแชตจะว่างเปล่า และลูปด้านบนจะสุ่มคำถามใหม่ให้ทันที
-        if st.button("🧹 ล้างประวัติการสนทนา / สุ่มคำถามใหม่", key="clear_chat"):
-            st.session_state.chat_history = []
-            st.rerun()
