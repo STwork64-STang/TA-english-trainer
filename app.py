@@ -246,7 +246,7 @@ def call_gemini(prompt: str) -> str | None:
             temperature=0.3        
         )
         response = client.models.generate_content(
-            model="gemini-2.5-flash", 
+            model="gemini-2.5-flash lite", 
             contents=prompt,
             config=config
         )
