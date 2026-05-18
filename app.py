@@ -248,7 +248,7 @@ def call_gemini(prompt: str) -> str | None:
         )
         
         response = client.models.generate_content(
-            model="gemini-2.5-flash", # แนะนำให้ใช้ชื่อตัวเต็ม "gemini-2.5-flash" เพื่อความเสถียรครับ
+            model="gemini-2.5-flash-lite",
             contents=prompt,
             config=config
         )
