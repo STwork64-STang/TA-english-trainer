@@ -240,13 +240,15 @@ if not api_key:
 def call_gemini(prompt: str) -> str | None:
     try:
         client = genai.Client(api_key=api_key)
-        # ใช้ GenerationConfig เพื่อจำกัดความยาวของคำตอบ ป้องกัน AI บ่นยาวเกินจำเป็น
-        config = genai.types.GenerationConfig(
+        
+        # ✨ แก้ไขจุดนี้: เปลี่ยนจาก GenerationConfig เป็น GenerateContentConfig ของแท้
+        config = genai.types.GenerateContentConfig(
             max_output_tokens=500,  
             temperature=0.3        
         )
+        
         response = client.models.generate_content(
-            model="gemini-2.5-flash lite", 
+            model="gemini-2.5-flash", # แนะนำให้ใช้ชื่อตัวเต็ม "gemini-2.5-flash" เพื่อความเสถียรครับ
             contents=prompt,
             config=config
         )
