@@ -36,9 +36,24 @@ st.markdown("""
     background-color: #F7F5F0;
 }
 
-[data-theme="dark"] .stApp {
-    background-color: #111110;
+/* Dark mode base — Streamlit sets data-theme on <html> */
+html[data-theme="dark"] .stApp { background-color: #141412; }
+
+/* Global dark text override — Streamlit's own text elements */
+html[data-theme="dark"] p,
+html[data-theme="dark"] span,
+html[data-theme="dark"] div,
+html[data-theme="dark"] label,
+html[data-theme="dark"] li,
+html[data-theme="dark"] .stMarkdown,
+html[data-theme="dark"] .stText,
+html[data-theme="dark"] [data-testid="stMarkdownContainer"] p,
+html[data-theme="dark"] [data-testid="stMarkdownContainer"] li {
+    color: #D8D4CC;
 }
+
+/* Keep gold accent elements their color in dark */
+html[data-theme="dark"] strong { color: #E8E4DC; }
 
 #MainMenu, footer, header { visibility: hidden; }
 .block-container {
@@ -57,7 +72,7 @@ st.markdown("""
     letter-spacing: -0.03em;
     line-height: 1.15;
 }
-[data-theme="dark"] .app-title { color: #F0EDE6; }
+html[data-theme="dark"] .app-title { color: #F0EDE6; }
 
 .app-sub {
     font-size: 0.8rem;
@@ -77,20 +92,6 @@ st.markdown("""
     margin-bottom: 1.2rem;
 }
 
-/* ── Settings Area ── */
-.settings-wrapper {
-    background: #FFFFFF;
-    border: 1px solid #E8E4DC;
-    border-radius: 16px;
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.03);
-}
-[data-theme="dark"] .settings-wrapper {
-    background: #1C1B18;
-    border-color: #2E2D29;
-}
-
 /* ── Inputs ── */
 .stTextInput > div > div > input,
 .stSelectbox > div > div {
@@ -99,12 +100,39 @@ st.markdown("""
     font-family: 'Plus Jakarta Sans', sans-serif !important;
     font-size: 0.875rem !important;
     background: #FAFAF8 !important;
+    color: #1C1B18 !important;
 }
-[data-theme="dark"] .stTextInput > div > div > input,
-[data-theme="dark"] .stSelectbox > div > div {
-    background: #222220 !important;
-    border-color: #333330 !important;
+html[data-theme="dark"] .stTextInput > div > div > input {
+    background: #1E1D1A !important;
+    border-color: #38362F !important;
     color: #E8E4DC !important;
+}
+html[data-theme="dark"] .stTextInput label,
+html[data-theme="dark"] .stSelectbox label,
+html[data-theme="dark"] .stCheckbox label,
+html[data-theme="dark"] .stTextInput > label,
+html[data-theme="dark"] .stSelectbox > label {
+    color: #A8A49C !important;
+}
+/* Selectbox in dark — the div wrapper */
+html[data-theme="dark"] .stSelectbox [data-baseweb="select"] > div:first-child {
+    background: #1E1D1A !important;
+    border-color: #38362F !important;
+}
+html[data-theme="dark"] .stSelectbox [data-baseweb="select"] span,
+html[data-theme="dark"] .stSelectbox [data-baseweb="select"] div {
+    color: #E8E4DC !important;
+}
+/* Selectbox dropdown list */
+html[data-theme="dark"] [data-baseweb="popover"] li,
+html[data-theme="dark"] [data-baseweb="menu"] li,
+html[data-theme="dark"] [role="option"] {
+    background: #1E1D1A !important;
+    color: #D8D4CC !important;
+}
+html[data-theme="dark"] [data-baseweb="popover"] li:hover,
+html[data-theme="dark"] [role="option"]:hover {
+    background: #2A2924 !important;
 }
 
 /* ── Tabs ── */
@@ -116,8 +144,8 @@ st.markdown("""
     border: none;
     margin-bottom: 1.75rem;
 }
-[data-theme="dark"] .stTabs [data-baseweb="tab-list"] {
-    background: #1C1B18;
+html[data-theme="dark"] .stTabs [data-baseweb="tab-list"] {
+    background: #1E1D1A;
 }
 .stTabs [data-baseweb="tab"] {
     border-radius: 8px;
@@ -130,12 +158,13 @@ st.markdown("""
     font-family: 'Plus Jakarta Sans', sans-serif;
     letter-spacing: 0.01em;
 }
+html[data-theme="dark"] .stTabs [data-baseweb="tab"] { color: #5C5850; }
 .stTabs [aria-selected="true"] {
     background: #FFFFFF !important;
     color: #1C1B18 !important;
     box-shadow: 0 1px 4px rgba(0,0,0,0.08), 0 0 0 0.5px rgba(0,0,0,0.06) !important;
 }
-[data-theme="dark"] .stTabs [aria-selected="true"] {
+html[data-theme="dark"] .stTabs [aria-selected="true"] {
     background: #2E2D29 !important;
     color: #F0EDE6 !important;
 }
@@ -161,22 +190,20 @@ st.markdown("""
     transform: translateY(-1px) !important;
     box-shadow: 0 3px 10px rgba(212,168,83,0.15) !important;
 }
-[data-theme="dark"] .stButton > button {
+html[data-theme="dark"] .stButton > button {
     background: #222220 !important;
     border-color: #3A3935 !important;
-    color: #E8E4DC !important;
+    color: #D8D4CC !important;
 }
-
-/* Primary action button (generate / submit) */
-button[kind="primary"],
-.stButton > button[data-testid*="gen"],
-.stButton > button[data-testid*="submit"] {
-    background: #1C1B18 !important;
+html[data-theme="dark"] .stButton > button:hover {
+    background: #2A2924 !important;
+    border-color: #D4A853 !important;
     color: #F0EDE6 !important;
-    border-color: #1C1B18 !important;
 }
-button[kind="primary"]:hover {
-    background: #2E2D29 !important;
+/* Disabled buttons in dark */
+html[data-theme="dark"] .stButton > button:disabled {
+    color: #4A4845 !important;
+    border-color: #2A2924 !important;
 }
 
 /* ── Flashcard Scene ── */
@@ -206,17 +233,17 @@ button[kind="primary"]:hover {
     padding: 2rem 2.25rem;
 }
 
-/* Front face — dark ink */
+/* Front face — same in both modes */
 .flashcard-front {
     background: #1C1B18;
     color: white;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.14), 0 1px 3px rgba(0,0,0,0.08);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2), 0 1px 3px rgba(0,0,0,0.1);
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
 }
 
-/* Back face — cream */
+/* Back face */
 .flashcard-back {
     background: #FDFCF9;
     border: 1.5px solid #E8E4DC;
@@ -227,9 +254,9 @@ button[kind="primary"]:hover {
     gap: 10px;
     overflow-y: auto;
 }
-[data-theme="dark"] .flashcard-back {
-    background: #1C1B18;
-    border-color: #2E2D29;
+html[data-theme="dark"] .flashcard-back {
+    background: #252420;
+    border-color: #38362F;
 }
 
 .card-word {
@@ -267,7 +294,7 @@ button[kind="primary"]:hover {
     line-height: 1.6;
     margin-top: 1px;
 }
-[data-theme="dark"] .back-value { color: #E8E4DC; }
+html[data-theme="dark"] .back-value { color: #D8D4CC !important; }
 
 /* ── Quiz Box ── */
 .flashcard-quiz-box {
@@ -276,8 +303,12 @@ button[kind="primary"]:hover {
     border-radius: 16px;
     padding: 2.25rem 2rem;
     text-align: center;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
     margin-bottom: 1.25rem;
+}
+html[data-theme="dark"] .flashcard-quiz-box {
+    background: #252420;
+    border: 1px solid #38362F;
 }
 .quiz-word-title {
     font-family: 'Fraunces', serif;
@@ -310,10 +341,15 @@ div[data-testid="stHorizontalBlock"] .stButton > button:hover {
     border-color: #D4A853 !important;
     background: #FDF9F2 !important;
 }
-[data-theme="dark"] div[data-testid="stHorizontalBlock"] .stButton > button {
-    background: #1C1B18 !important;
-    color: #E8E4DC !important;
-    border-color: #2E2D29 !important;
+html[data-theme="dark"] div[data-testid="stHorizontalBlock"] .stButton > button {
+    background: #252420 !important;
+    color: #D8D4CC !important;
+    border-color: #38362F !important;
+}
+html[data-theme="dark"] div[data-testid="stHorizontalBlock"] .stButton > button:hover {
+    background: #2E2D29 !important;
+    border-color: #D4A853 !important;
+    color: #F0EDE6 !important;
 }
 
 /* ── Passage Card ── */
@@ -328,10 +364,12 @@ div[data-testid="stHorizontalBlock"] .stButton > button:hover {
     margin-bottom: 1.25rem;
     box-shadow: 0 1px 4px rgba(0,0,0,0.04);
 }
-[data-theme="dark"] .passage-card {
-    background: #1C1B18;
-    color: #D8D4CC;
+html[data-theme="dark"] .passage-card {
+    background: #1E1D1A;
+    color: #C8C4BC !important;
     border-left-color: #D4A853;
+    border: 1px solid #38362F;
+    border-left: 3px solid #D4A853;
 }
 
 /* ── Quiz Cards ── */
@@ -343,9 +381,9 @@ div[data-testid="stHorizontalBlock"] .stButton > button:hover {
     margin-bottom: 0.75rem;
     box-shadow: 0 1px 3px rgba(0,0,0,0.03);
 }
-[data-theme="dark"] .quiz-card {
-    background: #1C1B18;
-    border-color: #2E2D29;
+html[data-theme="dark"] .quiz-card {
+    background: #1E1D1A;
+    border-color: #38362F;
 }
 .quiz-q {
     font-family: 'Fraunces', serif;
@@ -354,7 +392,7 @@ div[data-testid="stHorizontalBlock"] .stButton > button:hover {
     line-height: 1.5;
     margin-top: 6px;
 }
-[data-theme="dark"] .quiz-q { color: #F0EDE6; }
+html[data-theme="dark"] .quiz-q { color: #E8E4DC !important; }
 .quiz-type-badge {
     font-size: 0.68rem;
     font-weight: 600;
@@ -365,7 +403,7 @@ div[data-testid="stHorizontalBlock"] .stButton > button:hover {
     padding: 2px 9px;
     border-radius: 5px;
 }
-[data-theme="dark"] .quiz-type-badge {
+html[data-theme="dark"] .quiz-type-badge {
     background: #2A2924;
     color: #7A7569;
 }
@@ -373,7 +411,7 @@ div[data-testid="stHorizontalBlock"] .stButton > button:hover {
 /* ── Chat Bubbles ── */
 .chat-bubble-user {
     background: #1C1B18;
-    color: #F0EDE6;
+    color: #F0EDE6 !important;
     border-radius: 18px 18px 4px 18px;
     padding: 0.75rem 1.1rem;
     font-size: 0.9rem;
@@ -384,9 +422,13 @@ div[data-testid="stHorizontalBlock"] .stButton > button:hover {
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     line-height: 1.55;
 }
+html[data-theme="dark"] .chat-bubble-user {
+    background: #D4A853;
+    color: #1C1B18 !important;
+}
 .chat-bubble-ai {
     background: #FFFFFF;
-    color: #1C1B18;
+    color: #1C1B18 !important;
     border-radius: 18px 18px 18px 4px;
     padding: 0.75rem 1.1rem;
     font-size: 0.9rem;
@@ -396,10 +438,10 @@ div[data-testid="stHorizontalBlock"] .stButton > button:hover {
     border: 1.5px solid #EDEAE3;
     line-height: 1.55;
 }
-[data-theme="dark"] .chat-bubble-ai {
-    background: #1C1B18;
-    border-color: #2E2D29;
-    color: #D8D4CC;
+html[data-theme="dark"] .chat-bubble-ai {
+    background: #252420;
+    border-color: #38362F;
+    color: #C8C4BC !important;
 }
 
 /* ── Result Boxes ── */
@@ -413,6 +455,12 @@ div[data-testid="stHorizontalBlock"] .stButton > button:hover {
     line-height: 1.6;
     margin-top: 0.5rem;
 }
+html[data-theme="dark"] .result-correct {
+    background: #172318;
+    border-color: #2D5E36;
+    color: #7EC896 !important;
+}
+html[data-theme="dark"] .result-correct strong { color: #A8DFBA !important; }
 .result-wrong {
     background: #FEF5F5;
     border: 1px solid #F5B8B8;
@@ -423,10 +471,16 @@ div[data-testid="stHorizontalBlock"] .stButton > button:hover {
     line-height: 1.6;
     margin-top: 0.5rem;
 }
+html[data-theme="dark"] .result-wrong {
+    background: #231515;
+    border-color: #5E2D2D;
+    color: #D48888 !important;
+}
+html[data-theme="dark"] .result-wrong strong { color: #E8AAAA !important; }
 
 /* ── Dividers & misc ── */
 hr { border-color: #EDEAE3 !important; margin: 1.5rem 0 !important; }
-[data-theme="dark"] hr { border-color: #2E2D29 !important; }
+html[data-theme="dark"] hr { border-color: #2E2D29 !important; }
 
 .stProgress > div > div > div {
     background-color: #D4A853 !important;
@@ -436,12 +490,13 @@ hr { border-color: #EDEAE3 !important; margin: 1.5rem 0 !important; }
     background-color: #EDEAE3 !important;
     border-radius: 4px;
 }
-[data-theme="dark"] .stProgress > div > div {
+html[data-theme="dark"] .stProgress > div > div {
     background-color: #2E2D29 !important;
 }
 
 /* Caption & small text */
 .stCaption { color: #9B968A !important; font-size: 0.8rem !important; }
+html[data-theme="dark"] .stCaption { color: #6B6760 !important; }
 
 /* ── Section headers inside tabs ── */
 h4 {
@@ -451,14 +506,34 @@ h4 {
     color: #1C1B18 !important;
     font-size: 1.35rem !important;
 }
-[data-theme="dark"] h4 { color: #F0EDE6 !important; }
+html[data-theme="dark"] h4 { color: #F0EDE6 !important; }
 
-/* ── Warning / info boxes ── */
+/* Subheader / h3 */
+html[data-theme="dark"] h3 { color: #E8E4DC !important; }
+
+/* ── Warning / info / success / error boxes ── */
 .stAlert {
     border-radius: 12px !important;
     border: none !important;
     font-size: 0.875rem !important;
 }
+html[data-theme="dark"] .stAlert [data-testid="stMarkdownContainer"] p {
+    color: inherit !important;
+}
+
+/* ── Chat input box ── */
+html[data-theme="dark"] .stChatInput textarea {
+    background: #1E1D1A !important;
+    border-color: #38362F !important;
+    color: #E8E4DC !important;
+}
+html[data-theme="dark"] .stChatInput textarea::placeholder { color: #5C5850 !important; }
+
+/* ── Text input placeholder ── */
+html[data-theme="dark"] .stTextInput input::placeholder { color: #5C5850 !important; }
+
+/* Score / progress text in quizzes */
+html[data-theme="dark"] .stMarkdown p { color: #C8C4BC; }
 </style>
 """, unsafe_allow_html=True)
 
