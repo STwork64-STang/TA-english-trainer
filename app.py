@@ -680,6 +680,9 @@ with tab1:
     st.markdown("#### 📇 คลังคำศัพท์อัจฉริยะ")
     st.caption(f"หัวข้อ: **{topic}** · ระดับ: **{user_level}**")
 
+    # จัดระเบียบชื่อระดับ (Clean user_level ให้เหลือแค่ "A1", "B2" เพื่อคุยกับ JSON รู้เรื่อง)
+    clean_level = user_level.split()[0] if user_level else ""
+
     # Oxford 5000 toggle
     oxford_on = st.toggle(
         "🎓 Oxford 5000 Mode — เลือกคำจาก Oxford 5000 เท่านั้น",
@@ -711,22 +714,22 @@ with tab1:
 
     st.markdown("---")
 
-    # แสดงสถานะ DB
+    # แสดงสถานะ DB (ปรับปรุงตัวนับคำศัพท์ด้วย clean_level)
     if OXFORD_DB_AVAILABLE and st.session_state["oxford_mode"]:
         total_cards = sum(len(v) for v in OXFORD_DB.values())
-        level_cards = len(OXFORD_DB.get(user_level, []))
-        st.caption(f"📦 Oxford DB: **{total_cards:,}** คำทั้งหมด · ระดับนี้มี **{level_cards:,}** คำ · ไม่ใช้ AI เลย ⚡")
+        level_cards = len(OXFORD_DB.get(clean_level, []))  # แก้ไขตรงนี้ให้หาเจอแน่นอน
+        st.caption(f"📦 Oxford DB: **{total_cards:,}** คำทั้งหมด · ระดับนี้มี **{level_cards:,}** คำ · ใช้ระบบสุ่มผสม AI แปลสด ⚡")
     elif st.session_state["oxford_mode"] and not OXFORD_DB_AVAILABLE:
         st.warning("⚠️ ยังไม่มี oxford_db.json — จะใช้ AI สร้างแทน (รัน generate_oxford_db.py ก่อนเพื่อประหยัด token)")
 
-    # ปุ่มสุ่มการ์ด — ถ้า Oxford mode + มี DB จะไม่เรียก AI เลย
-    btn_label = "🎲 สุ่มคำศัพท์ใหม่ (5 ใบ)" if (OXFORD_DB_AVAILABLE and st.session_state["oxford_mode"]) else "🔄 เจนคำศัพท์ใหม่ (5 ใบ)"
+    # ปุ่มสุ่มการ์ด
+    btn_label = "🎲 สุ่มคำศัพท์ใหม่จากคลัง (5 ใบ)" if (OXFORD_DB_AVAILABLE and st.session_state["oxford_mode"]) else "🔄 เจนคำศัพท์ใหม่ด้วย AI (5 ใบ)"
     if st.button(btn_label, key="gen_cards"):
         picked_cards = None
         
         if st.session_state["oxford_mode"] and OXFORD_DB_AVAILABLE:
-            # 1. สุ่มศัพท์ดิบจากไฟล์ JSON มา 5 คำก่อน
-            picked_raw = get_oxford_cards_local(user_level, 5)
+            # 1. สุ่มศัพท์ดิบจากไฟล์ JSON มา 5 คำโดยใช้ clean_level
+            picked_raw = get_oxford_cards_local(clean_level, 5)
             
             if picked_raw:
                 # 2. ส่งคำศัพท์ดิบไปให้ AI ช่วยเติม คำแปล, คำอ่าน และประโยคตัวอย่าง ให้สมบูรณ์
@@ -749,26 +752,14 @@ with tab1:
                     """, max_tokens=800)
                     
                     try:
-                        # 3. นำข้อมูลที่ AI เติมให้เต็มแล้วไปใช้งานในควิซ
-                        complete_cards = parse_json(raw_ai_response)
-                        
-                        # ตั้งสเตตัสเริ่มต้นสำหรับระบบจำศัพท์อัจฉริยะ
-                        for card in complete_cards:
-                            card["streak"] = 0
-                            card["mastered"] = False
-                            
-                        st.session_state["cards"] = complete_cards
-                        st.session_state["card_idx"] = 0
-                        st.session_state["flash_score"] = 0
-                        st.session_state["flash_status"] = None
-                        if "current_options" in st.session_state:
-                            del st.session_state["current_options"]
-                        st.rerun()
-                        
+                        # 3. นำข้อมูลที่ AI เติมให้เต็มแล้วบันทึกเข้าตัวแปร
+                        picked_cards = parse_json(raw_ai_response)
                     except Exception as e:
                         st.error(f"AI คืนค่ารูปแบบไม่ถูกต้อง กรุณากดสุ่มใหม่อีกครั้ง: {e}")
+            
             if not picked_cards:
-                st.error("ไม่พบคำในระดับนี้ใน oxford_db.json กรุณารัน generate_oxford_db.py ใหม่")
+                st.error(f"ไม่พบคำในระดับ '{clean_level}' ใน oxford_db.json หรือ AI แปลผลพลาด กรุณากดลองอีกครั้ง")
+        
         else:
             # ── โหมด AI ปกติ (หรือ Oxford แต่ยังไม่มี DB) ──
             with st.spinner("AI กำลังคัดเลือกคำศัพท์วิชาการยอดเยี่ยม..."):
@@ -802,6 +793,7 @@ Each object must have exactly these keys:
                 card["mastered"] = False   # สถานะจำได้แม่นยำแล้ว
             
             st.session_state["cards"] = picked_cards
+            st.session_state["study_idx"] = 0 # รีเซ็ตหน้าเรียนรู้ให้กลับไปใบที่ 1
             st.session_state["card_idx"] = 0
             st.session_state["flash_score"] = 0
             st.session_state["flash_status"] = None
