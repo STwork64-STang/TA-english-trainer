@@ -1,0 +1,3606 @@
+{
+  "Level 1: Beginner": [
+    {
+      "word": "a",
+      "pronunciation": "/ə/",
+      "definition": "Used before a singular noun when it is not specific. It means one.",
+      "thai": "หนึ่ง, อันหนึ่ง",
+      "example": "I have a book.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "able",
+      "pronunciation": "/ˈeɪbəl/",
+      "definition": "Having the power or skill to do something.",
+      "thai": "สามารถ",
+      "example": "I am able to swim.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "about",
+      "pronunciation": "/əˈbaʊt/",
+      "definition": "On the subject of; concerning. Or, approximately.",
+      "thai": "เกี่ยวกับ, ประมาณ",
+      "example": "This is a book about animals. It's about 3 o'clock.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "above",
+      "pronunciation": "/əˈbʌv/",
+      "definition": "In or to a higher position than something else.",
+      "thai": "เหนือ",
+      "example": "The plane is flying above the clouds.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "across",
+      "pronunciation": "/əˈkrɒs/",
+      "definition": "From one side to the other of something.",
+      "thai": "ข้าม, ทั่ว",
+      "example": "He walked across the street.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "act",
+      "pronunciation": "/ækt/",
+      "definition": "To do something; to behave in a particular way.",
+      "thai": "กระทำ, แสดง",
+      "example": "She will act in a play.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "active",
+      "pronunciation": "/ˈæktɪv/",
+      "definition": "Doing things, moving around a lot, and not just sitting or lying down.",
+      "thai": "กระตือรือร้น, คล่องแคล่ว",
+      "example": "He is an active child who likes to play outside.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "activity",
+      "pronunciation": "/ækˈtɪvəti/",
+      "definition": "Something that people do for enjoyment or as a job.",
+      "thai": "กิจกรรม",
+      "example": "Playing games is a fun activity.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "add",
+      "pronunciation": "/æd/",
+      "definition": "To join something to something else; to put two numbers together to find the total.",
+      "thai": "เพิ่ม, บวก",
+      "example": "Please add sugar to your tea. 2 plus 2 add up to 4.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "address",
+      "pronunciation": "/əˈdres/",
+      "definition": "The number of the house, name of the street, etc. where a person lives or works.",
+      "thai": "ที่อยู่",
+      "example": "What is your home address?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "adult",
+      "pronunciation": "/ˈædʌlt/",
+      "definition": "A person who is fully grown or developed.",
+      "thai": "ผู้ใหญ่",
+      "example": "Children grow up to be adults.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "afraid",
+      "pronunciation": "/əˈfreɪd/",
+      "definition": "Feeling fear or worry.",
+      "thai": "กลัว",
+      "example": "I am afraid of the dark.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "after",
+      "pronunciation": "/ˈɑːftər/",
+      "definition": "At a time later than a particular event or time.",
+      "thai": "หลังจาก",
+      "example": "We will eat after the movie.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "again",
+      "pronunciation": "/əˈɡen/",
+      "definition": "One more time.",
+      "thai": "อีกครั้ง",
+      "example": "Can you say that again, please?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "age",
+      "pronunciation": "/eɪdʒ/",
+      "definition": "The length of time that someone has lived or that something has existed.",
+      "thai": "อายุ",
+      "example": "What is your age?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "ago",
+      "pronunciation": "/əˈɡəʊ/",
+      "definition": "In the past.",
+      "thai": "ที่แล้ว",
+      "example": "I saw him two days ago.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "agree",
+      "pronunciation": "/əˈɡriː/",
+      "definition": "To have the same opinion as someone else.",
+      "thai": "เห็นด้วย",
+      "example": "I agree with you.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "air",
+      "pronunciation": "/ɛər/",
+      "definition": "The gas that we breathe.",
+      "thai": "อากาศ",
+      "example": "We need clean air to live.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "all",
+      "pronunciation": "/ɔːl/",
+      "definition": "The whole amount or quantity of something; every one.",
+      "thai": "ทั้งหมด",
+      "example": "All the students are here.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "allow",
+      "pronunciation": "/əˈlaʊ/",
+      "definition": "To let someone do something; to permit.",
+      "thai": "อนุญาต",
+      "example": "My parents allow me to go out with friends.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "also",
+      "pronunciation": "/ˈɔːlsoʊ/",
+      "definition": "In addition; too. It is used to add another piece of information.",
+      "thai": "ด้วย, เช่นกัน",
+      "example": "I like apples, and I also like bananas.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "always",
+      "pronunciation": "/ˈɔːlweɪz/",
+      "definition": "At all times; on all occasions. Something that happens very often.",
+      "thai": "เสมอ, ตลอดเวลา",
+      "example": "She always wakes up early.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "and",
+      "pronunciation": "/ænd/",
+      "definition": "Used to connect words, clauses, or sentences that are to be taken together.",
+      "thai": "และ",
+      "example": "I have a cat and a dog.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "angry",
+      "pronunciation": "/ˈæŋɡri/",
+      "definition": "Feeling or showing strong annoyance, displeasure, or hostility.",
+      "thai": "โกรธ",
+      "example": "He was angry because he lost his toy.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "animal",
+      "pronunciation": "/ˈænɪməl/",
+      "definition": "A living thing that is not a plant, such as a dog, cat, or bird.",
+      "thai": "สัตว์",
+      "example": "A dog is a friendly animal.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "another",
+      "pronunciation": "/əˈnʌðər/",
+      "definition": "One more; an additional one.",
+      "thai": "อีกอันหนึ่ง, อีกคนหนึ่ง",
+      "example": "Would you like another cup of tea?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "answer",
+      "pronunciation": "/ˈænsər/",
+      "definition": "A spoken or written response to a question.",
+      "thai": "คำตอบ",
+      "example": "Please answer the question.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "any",
+      "pronunciation": "/ˈɛni/",
+      "definition": "Used to refer to one or some of a thing or number of things, no matter how much or how many.",
+      "thai": "ใดๆ, บ้าง",
+      "example": "Do you have any questions?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "area",
+      "pronunciation": "/ˈɛəriə/",
+      "definition": "A particular part of a place, city, or country.",
+      "thai": "พื้นที่, บริเวณ",
+      "example": "This is a safe area.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "arm",
+      "pronunciation": "/ɑːrm/",
+      "definition": "The part of the human body between the shoulder and the wrist.",
+      "thai": "แขน",
+      "example": "He broke his arm when he fell.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "around",
+      "pronunciation": "/əˈraʊnd/",
+      "definition": "In a circle or other circular shape.",
+      "thai": "รอบๆ",
+      "example": "The children played around the tree.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "arrive",
+      "pronunciation": "/əˈraɪv/",
+      "definition": "Reach a place at the end of a journey or a stage in a journey.",
+      "thai": "มาถึง",
+      "example": "The train will arrive soon.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "ask",
+      "pronunciation": "/æsk/",
+      "definition": "Say something in order to obtain an answer or information.",
+      "thai": "ถาม",
+      "example": "Can I ask you a question?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "at",
+      "pronunciation": "/æt/",
+      "definition": "Used to indicate location or a specific point in time.",
+      "thai": "ที่",
+      "example": "She is at home.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "away",
+      "pronunciation": "/əˈweɪ/",
+      "definition": "To or at a distance from a particular place, person, or thing.",
+      "thai": "ไป, ออกไป",
+      "example": "Please go away.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "baby",
+      "pronunciation": "/ˈbeɪbi/",
+      "definition": "A very young child, especially one newly born.",
+      "thai": "ทารก, เด็กอ่อน",
+      "example": "The baby is sleeping.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "back",
+      "pronunciation": "/bæk/",
+      "definition": "The part of the human body opposite the front, extending from the neck to the hips.",
+      "thai": "หลัง",
+      "example": "My back hurts.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "bad",
+      "pronunciation": "/bæd/",
+      "definition": "Of poor quality or a low standard.",
+      "thai": "ไม่ดี, แย่",
+      "example": "This is a bad idea.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "ball",
+      "pronunciation": "/bɔːl/",
+      "definition": "A round object used in games or sports.",
+      "thai": "ลูกบอล",
+      "example": "He kicked the ball.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "be",
+      "pronunciation": "/biː/",
+      "definition": "Used to indicate existence, identity, or a state of being.",
+      "thai": "เป็น, อยู่, คือ",
+      "example": "I am happy.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "because",
+      "pronunciation": "/bɪˈkɒz/",
+      "definition": "Used to explain why something happens or is true.",
+      "thai": "เพราะว่า",
+      "example": "I am happy because it is sunny.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "become",
+      "pronunciation": "/bɪˈkʌm/",
+      "definition": "To start to be something.",
+      "thai": "กลายเป็น",
+      "example": "The caterpillar will become a butterfly.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "before",
+      "pronunciation": "/bɪˈfɔːr/",
+      "definition": "Earlier than a particular time or event.",
+      "thai": "ก่อน",
+      "example": "Wash your hands before you eat.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "begin",
+      "pronunciation": "/bɪˈɡɪn/",
+      "definition": "To start doing something or to start happening.",
+      "thai": "เริ่ม",
+      "example": "The movie will begin in five minutes.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "behind",
+      "pronunciation": "/bɪˈhaɪnd/",
+      "definition": "At the back of someone or something.",
+      "thai": "ข้างหลัง",
+      "example": "The cat is hiding behind the sofa.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "believe",
+      "pronunciation": "/bɪˈliːv/",
+      "definition": "To think that something is true or real.",
+      "thai": "เชื่อ",
+      "example": "I believe you can do it.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "best",
+      "pronunciation": "/best/",
+      "definition": "The most good or excellent.",
+      "thai": "ดีที่สุด",
+      "example": "This is the best cake I have ever eaten.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "better",
+      "pronunciation": "/ˈbetər/",
+      "definition": "More good than someone or something else.",
+      "thai": "ดีกว่า",
+      "example": "This book is better than the last one.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "between",
+      "pronunciation": "/bɪˈtwiːn/",
+      "definition": "In the space separating two things or people.",
+      "thai": "ระหว่าง",
+      "example": "The park is between the school and the library.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "big",
+      "pronunciation": "/bɪɡ/",
+      "definition": "Large in size.",
+      "thai": "ใหญ่",
+      "example": "That is a big dog.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "black",
+      "pronunciation": "/blæk/",
+      "definition": "The color of coal or the night sky.",
+      "thai": "สีดำ",
+      "example": "My car is black.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "blue",
+      "pronunciation": "/bluː/",
+      "definition": "The color of the sky on a clear day.",
+      "thai": "สีฟ้า",
+      "example": "The sky is blue today.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "book",
+      "pronunciation": "/bʊk/",
+      "definition": "A set of written or printed pages bound together.",
+      "thai": "หนังสือ",
+      "example": "I am reading a good book.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "born",
+      "pronunciation": "/bɔːrn/",
+      "definition": "Brought into life by birth.",
+      "thai": "เกิด",
+      "example": "I was born in 2005.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "both",
+      "pronunciation": "/bəʊθ/",
+      "definition": "The two people or things already mentioned.",
+      "thai": "ทั้งสอง",
+      "example": "Both my parents are teachers.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "box",
+      "pronunciation": "/bɒks/",
+      "definition": "A container with flat sides and a lid.",
+      "thai": "กล่อง",
+      "example": "Put the toys in the box.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "boy",
+      "pronunciation": "/bɔɪ/",
+      "definition": "A male child or young man.",
+      "thai": "เด็กผู้ชาย",
+      "example": "The boy is playing with a ball.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "break",
+      "pronunciation": "/breɪk/",
+      "definition": "To separate into pieces or to make something separate into pieces.",
+      "thai": "แตก, หยุดพัก",
+      "example": "Be careful not to break the glass.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "bring",
+      "pronunciation": "/brɪŋ/",
+      "definition": "To take or carry someone or something to a place.",
+      "thai": "นำมา",
+      "example": "Can you bring me a glass of water?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "brother",
+      "pronunciation": "/ˈbrʌðər/",
+      "definition": "A boy or man who has the same parents as you.",
+      "thai": "พี่ชาย, น้องชาย",
+      "example": "My brother is older than me.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "build",
+      "pronunciation": "/bɪld/",
+      "definition": "To make something by putting parts together. You can build a house or a toy.",
+      "thai": "สร้าง",
+      "example": "They will build a new school.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "bus",
+      "pronunciation": "/bʌs/",
+      "definition": "A large vehicle that carries many people. You can take a bus to go to another place.",
+      "thai": "รถประจำทาง",
+      "example": "I take the bus to school every day.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "but",
+      "pronunciation": "/bʌt/",
+      "definition": "Used to introduce a word or phrase that contrasts with what has just been said. It shows a difference.",
+      "thai": "แต่",
+      "example": "I want to go, but I am tired.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "buy",
+      "pronunciation": "/baɪ/",
+      "definition": "To get something by paying money for it. You buy food at the shop.",
+      "thai": "ซื้อ",
+      "example": "I need to buy some milk.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "by",
+      "pronunciation": "/baɪ/",
+      "definition": "Near or next to something. It can also mean how something is done.",
+      "thai": "โดย, ข้างๆ",
+      "example": "The book is by the window.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "call",
+      "pronunciation": "/kɔːl/",
+      "definition": "To speak to someone on the phone. You can also call someone's name.",
+      "thai": "โทร, เรียก",
+      "example": "I will call you later.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "can",
+      "pronunciation": "/kæn/",
+      "definition": "To be able to do something. It shows ability.",
+      "thai": "สามารถ",
+      "example": "I can speak English.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "car",
+      "pronunciation": "/kɑːr/",
+      "definition": "A vehicle with four wheels that is used for travelling. You drive a car.",
+      "thai": "รถยนต์",
+      "example": "My father has a new car.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "care",
+      "pronunciation": "/keər/",
+      "definition": "To feel and show that you are interested in someone or something. To look after someone.",
+      "thai": "ดูแล, ใส่ใจ",
+      "example": "Please care for your pet.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "carry",
+      "pronunciation": "/ˈkæri/",
+      "definition": "To hold something and take it from one place to another. To move something.",
+      "thai": "แบก, ถือ",
+      "example": "Can you carry this bag for me?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "cat",
+      "pronunciation": "/kæt/",
+      "definition": "A small animal with soft fur, a tail, and sharp claws. Many people have cats as pets.",
+      "thai": "แมว",
+      "example": "The cat is sleeping on the sofa.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "change",
+      "pronunciation": "/tʃeɪndʒ/",
+      "definition": "To make or become different. To give one thing and get another.",
+      "thai": "เปลี่ยน",
+      "example": "The weather can change quickly.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "child",
+      "pronunciation": "/tʃaɪld/",
+      "definition": "A young boy or girl. A person who is not yet an adult.",
+      "thai": "เด็ก",
+      "example": "The child is playing in the park.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "city",
+      "pronunciation": "/ˈsɪti/",
+      "definition": "A large town. A place with many buildings and people.",
+      "thai": "เมือง",
+      "example": "London is a very big city.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "class",
+      "pronunciation": "/klæs/",
+      "definition": "A group of students who are taught together. A lesson.",
+      "thai": "ชั้นเรียน",
+      "example": "I have an English class today.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "clean",
+      "pronunciation": "/kliːn/",
+      "definition": "To make something free from dirt or marks. Not dirty.",
+      "thai": "สะอาด, ทำความสะอาด",
+      "example": "Please clean your room.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "clear",
+      "pronunciation": "/klɪər/",
+      "definition": "Easy to see or understand. Not cloudy or dirty.",
+      "thai": "ชัดเจน, ใส",
+      "example": "The sky is clear today.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "close",
+      "pronunciation": "/kləʊz/",
+      "definition": "To shut something. To be near to something.",
+      "thai": "ปิด, ใกล้",
+      "example": "Please close the door.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "clothes",
+      "pronunciation": "/kləʊðz/",
+      "definition": "Things that people wear, such as shirts, trousers, and dresses. What you wear.",
+      "thai": "เสื้อผ้า",
+      "example": "I need to buy new clothes.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "come",
+      "pronunciation": "/kʌm/",
+      "definition": "To move towards the place where someone is. To arrive.",
+      "thai": "มา",
+      "example": "Can you come here, please?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "cost",
+      "pronunciation": "/kɒst/",
+      "definition": "The amount of money you have to pay for something. It is the price of an item.",
+      "thai": "ราคา",
+      "example": "How much does this book cost?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "country",
+      "pronunciation": "/ˈkʌntri/",
+      "definition": "A nation with its own government, occupying a particular territory. It is a place like France or Japan.",
+      "thai": "ประเทศ",
+      "example": "I want to visit another country.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "cut",
+      "pronunciation": "/kʌt/",
+      "definition": "To make something shorter or smaller with a sharp tool. You can cut paper or hair.",
+      "thai": "ตัด",
+      "example": "Please cut the bread into slices.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "dark",
+      "pronunciation": "/dɑːrk/",
+      "definition": "Without light. It is the opposite of bright.",
+      "thai": "มืด",
+      "example": "It is too dark to see outside.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "day",
+      "pronunciation": "/deɪ/",
+      "definition": "The period of time from sunrise to sunset. It is the opposite of night.",
+      "thai": "วัน",
+      "example": "Today is a beautiful day.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "dead",
+      "pronunciation": "/ded/",
+      "definition": "No longer alive. A plant or animal that is dead does not move or breathe.",
+      "thai": "ตาย",
+      "example": "The flowers in the vase are dead.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "door",
+      "pronunciation": "/dɔːr/",
+      "definition": "A flat, movable barrier used to close an opening in a wall or building. You open and close it to go in or out.",
+      "thai": "ประตู",
+      "example": "Please close the door when you leave.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "down",
+      "pronunciation": "/daʊn/",
+      "definition": "Towards a lower place or position. It is the opposite of up.",
+      "thai": "ลง",
+      "example": "The ball rolled down the hill.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "draw",
+      "pronunciation": "/drɔː/",
+      "definition": "To make a picture or design using a pen or pencil. You can draw a house or a person.",
+      "thai": "วาด",
+      "example": "Can you draw a cat?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "dream",
+      "pronunciation": "/driːm/",
+      "definition": "A series of thoughts, images, and sensations occurring in a person's mind during sleep. You can also dream about something you want to happen.",
+      "thai": "ฝัน",
+      "example": "I had a strange dream last night.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "drink",
+      "pronunciation": "/drɪŋk/",
+      "definition": "To take liquid into your mouth and swallow it. You drink water or juice.",
+      "thai": "ดื่ม",
+      "example": "I want to drink some water.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "drive",
+      "pronunciation": "/draɪv/",
+      "definition": "To operate and control the direction and speed of a motor vehicle. You drive a car or a bus.",
+      "thai": "ขับรถ",
+      "example": "He can drive a car.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "drop",
+      "pronunciation": "/drɒp/",
+      "definition": "To let something fall. You might drop your keys.",
+      "thai": "ตก",
+      "example": "Be careful not to drop the glass.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "during",
+      "pronunciation": "/ˈdʊərɪŋ/",
+      "definition": "Throughout the course or duration of a period of time. It means 'in the time of'.",
+      "thai": "ระหว่าง",
+      "example": "We talked during dinner.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "each",
+      "pronunciation": "/iːtʃ/",
+      "definition": "Every one of two or more people or things, regarded separately. It refers to every single item.",
+      "thai": "แต่ละ",
+      "example": "Each student has a book.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "early",
+      "pronunciation": "/ˈɜːrli/",
+      "definition": "Happening or done before the usual or expected time. It is the opposite of late.",
+      "thai": "เช้า",
+      "example": "I woke up early this morning.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "eat",
+      "pronunciation": "/iːt/",
+      "definition": "To put food into your mouth and chew and swallow it. You eat breakfast, lunch, or dinner.",
+      "thai": "กิน",
+      "example": "Let's eat lunch together.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "end",
+      "pronunciation": "/end/",
+      "definition": "The final part of something. It is the opposite of the beginning.",
+      "thai": "จบ",
+      "example": "The movie will end soon.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "enjoy",
+      "pronunciation": "/ɪnˈdʒɔɪ/",
+      "definition": "To take pleasure in something. You enjoy a party or a good book.",
+      "thai": "สนุก",
+      "example": "I enjoy listening to music.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "enter",
+      "pronunciation": "/ˈentər/",
+      "definition": "To come or go into a place. You enter a building or a room.",
+      "thai": "เข้า",
+      "example": "Please enter the classroom quietly.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "every",
+      "pronunciation": "/ˈɛvri/",
+      "definition": "Used to refer to all the separate members of a group or all the times of a series.",
+      "thai": "ทุกๆ",
+      "example": "Every student has a book.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "example",
+      "pronunciation": "/ɪɡˈzæmpəl/",
+      "definition": "A thing that is representative of a group of things. A person or thing that is typical of a kind.",
+      "thai": "ตัวอย่าง",
+      "example": "This is an example of a good sentence.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "eye",
+      "pronunciation": "/aɪ/",
+      "definition": "The organ of sight. It is used for seeing.",
+      "thai": "ตา",
+      "example": "She has blue eyes.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "face",
+      "pronunciation": "/feɪs/",
+      "definition": "The front part of a person's head from the forehead to the chin. It has eyes, a nose, and a mouth.",
+      "thai": "ใบหน้า",
+      "example": "He has a happy face.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "fall",
+      "pronunciation": "/fɔːl/",
+      "definition": "To move downwards to the ground or a lower level. To drop.",
+      "thai": "ตก, ล้ม",
+      "example": "The leaves fall from the trees in autumn.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "family",
+      "pronunciation": "/ˈfæməli/",
+      "definition": "A group of people who are related to each other, such as parents and children.",
+      "thai": "ครอบครัว",
+      "example": "I love my family very much.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "far",
+      "pronunciation": "/fɑːr/",
+      "definition": "At, to, or by a great distance.",
+      "thai": "ไกล",
+      "example": "The shop is far from here.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "feel",
+      "pronunciation": "/fiːl/",
+      "definition": "To experience an emotion or sensation. To touch something to find out what it is like.",
+      "thai": "รู้สึก",
+      "example": "I feel happy today.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "find",
+      "pronunciation": "/faɪnd/",
+      "definition": "To discover something or someone by searching. To get something after a search.",
+      "thai": "พบ, หา",
+      "example": "I can't find my keys.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "finish",
+      "pronunciation": "/ˈfɪnɪʃ/",
+      "definition": "To complete something. To come to the end of an activity.",
+      "thai": "เสร็จ, จบ",
+      "example": "Let's finish our homework now.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "fire",
+      "pronunciation": "/ˈfaɪər/",
+      "definition": "The burning of something, producing heat and light. Flames.",
+      "thai": "ไฟ",
+      "example": "Be careful not to touch the fire.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "first",
+      "pronunciation": "/fɜːrst/",
+      "definition": "Coming before all others in order, time, or importance.",
+      "thai": "แรก, ที่หนึ่ง",
+      "example": "This is my first time here.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "food",
+      "pronunciation": "/fuːd/",
+      "definition": "Something that people or animals eat. It gives energy.",
+      "thai": "อาหาร",
+      "example": "What is your favorite food?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "for",
+      "pronunciation": "/fɔːr/",
+      "definition": "Used to indicate the purpose or recipient of an action or thing. Used to indicate a duration of time.",
+      "thai": "สำหรับ, เพื่อ",
+      "example": "This gift is for you.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "forget",
+      "pronunciation": "/fərˈɡɛt/",
+      "definition": "To fail to remember something. To not think about something.",
+      "thai": "ลืม",
+      "example": "I often forget his name.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "free",
+      "pronunciation": "/friː/",
+      "definition": "Not costing money. Able to do what you want.",
+      "thai": "ฟรี, อิสระ",
+      "example": "This book is free.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "friend",
+      "pronunciation": "/frɛnd/",
+      "definition": "A person whom one knows and with whom one has a bond of mutual affection.",
+      "thai": "เพื่อน",
+      "example": "She is my best friend.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "from",
+      "pronunciation": "/frɒm/",
+      "definition": "Used to indicate the starting point of a journey or movement. Used to indicate the source of something.",
+      "thai": "จาก",
+      "example": "I am from Thailand.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "front",
+      "pronunciation": "/frʌnt/",
+      "definition": "The part of an object that is furthest forward or facing forward. The side that is seen first.",
+      "thai": "ด้านหน้า",
+      "example": "The car is in the front yard.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "full",
+      "pronunciation": "/fʊl/",
+      "definition": "Containing or holding as much or as many as possible. Having eaten enough food.",
+      "thai": "เต็ม",
+      "example": "The glass is full of water.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "game",
+      "pronunciation": "/ɡeɪm/",
+      "definition": "An activity that you do for fun or to win. It often has rules.",
+      "thai": "เกม",
+      "example": "Let's play a game.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "get",
+      "pronunciation": "/ɡɛt/",
+      "definition": "To receive something or to become something. It can also mean to arrive somewhere.",
+      "thai": "ได้รับ, ไปถึง",
+      "example": "I will get a new book.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "girl",
+      "pronunciation": "/ɡɜːrl/",
+      "definition": "A young female person.",
+      "thai": "เด็กผู้หญิง",
+      "example": "The girl is reading a book.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "give",
+      "pronunciation": "/ɡɪv/",
+      "definition": "To hand something to someone. To let someone have something.",
+      "thai": "ให้",
+      "example": "Can you give me that pen?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "go",
+      "pronunciation": "/ɡoʊ/",
+      "definition": "To move from one place to another. To travel.",
+      "thai": "ไป",
+      "example": "I want to go to the park.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "good",
+      "pronunciation": "/ɡʊd/",
+      "definition": "Of a high standard or quality. Pleasant or enjoyable.",
+      "thai": "ดี",
+      "example": "This is a good idea.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "great",
+      "pronunciation": "/ɡreɪt/",
+      "definition": "Very good or enjoyable. Very large in size or amount.",
+      "thai": "ยอดเยี่ยม, ใหญ่",
+      "example": "We had a great time.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "green",
+      "pronunciation": "/ɡriːn/",
+      "definition": "The color of grass and leaves. A color between blue and yellow.",
+      "thai": "สีเขียว",
+      "example": "The tree has green leaves.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "group",
+      "pronunciation": "/ɡruːp/",
+      "definition": "A number of people or things that are together or that are similar.",
+      "thai": "กลุ่ม",
+      "example": "A group of friends went to the cinema.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "grow",
+      "pronunciation": "/ɡroʊ/",
+      "definition": "To get bigger or taller. To develop.",
+      "thai": "เติบโต",
+      "example": "Children grow very fast.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "hand",
+      "pronunciation": "/hænd/",
+      "definition": "The part of the body at the end of the arm. It has fingers and a thumb.",
+      "thai": "มือ",
+      "example": "Please lend me a hand.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "happen",
+      "pronunciation": "/ˈhæpən/",
+      "definition": "To take place. To occur.",
+      "thai": "เกิดขึ้น",
+      "example": "What did happen last night?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "happy",
+      "pronunciation": "/ˈhæpi/",
+      "definition": "Feeling or showing pleasure or contentment. Glad.",
+      "thai": "มีความสุข",
+      "example": "She is happy to see you.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "hard",
+      "pronunciation": "/hɑːrd/",
+      "definition": "Solid and firm. Difficult to do or understand.",
+      "thai": "แข็ง, ยาก",
+      "example": "This is a hard question.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "have",
+      "pronunciation": "/hæv/",
+      "definition": "To own or possess something. To experience something.",
+      "thai": "มี",
+      "example": "I have a dog.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "he",
+      "pronunciation": "/hiː/",
+      "definition": "Used to refer to a man or boy that has already been mentioned.",
+      "thai": "เขา (ผู้ชาย)",
+      "example": "He is my brother.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "head",
+      "pronunciation": "/hɛd/",
+      "definition": "The top part of the body that contains the brain, eyes, and mouth.",
+      "thai": "ศีรษะ, หัว",
+      "example": "My head hurts.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "hear",
+      "pronunciation": "/hɪər/",
+      "definition": "To sense sound with your ears.",
+      "thai": "ได้ยิน",
+      "example": "Can you hear the music?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "help",
+      "pronunciation": "/hɛlp/",
+      "definition": "To make it easier for someone to do something. To assist.",
+      "thai": "ช่วย",
+      "example": "Can you help me with this bag?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "here",
+      "pronunciation": "/hɪər/",
+      "definition": "In, at, or to this place or position.",
+      "thai": "ที่นี่",
+      "example": "Please come here.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "high",
+      "pronunciation": "/haɪ/",
+      "definition": "Something that is high is a long way up from the ground. It can also mean a large amount.",
+      "thai": "สูง",
+      "example": "The mountain is very high.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "his",
+      "pronunciation": "/hɪz/",
+      "definition": "This word shows that something belongs to a boy or a man.",
+      "thai": "ของเขา",
+      "example": "This is his book.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "home",
+      "pronunciation": "/hoʊm/",
+      "definition": "Home is the place where you live, like a house or an apartment.",
+      "thai": "บ้าน",
+      "example": "I am going home now.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "hope",
+      "pronunciation": "/hoʊp/",
+      "definition": "To hope means to want something to happen and think that it might.",
+      "thai": "หวัง",
+      "example": "I hope to see you soon.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "hot",
+      "pronunciation": "/hɑːt/",
+      "definition": "Hot means having a high temperature. It can also mean spicy.",
+      "thai": "ร้อน",
+      "example": "The soup is very hot.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "house",
+      "pronunciation": "/haʊs/",
+      "definition": "A house is a building where people live.",
+      "thai": "บ้าน",
+      "example": "They live in a big house.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "how",
+      "pronunciation": "/haʊ/",
+      "definition": "How is used to ask about the way something is done or the condition of something.",
+      "thai": "อย่างไร",
+      "example": "How are you today?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "idea",
+      "pronunciation": "/aɪˈdiːə/",
+      "definition": "An idea is a thought or a suggestion about what to do.",
+      "thai": "ความคิด",
+      "example": "I have a good idea.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "if",
+      "pronunciation": "/ɪf/",
+      "definition": "If is used to talk about a possible situation or to introduce a condition.",
+      "thai": "ถ้า",
+      "example": "If it rains, we will stay inside.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "important",
+      "pronunciation": "/ɪmˈpɔːrtənt/",
+      "definition": "Something that is important is very valuable or significant.",
+      "thai": "สำคัญ",
+      "example": "This is an important message.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "in",
+      "pronunciation": "/ɪn/",
+      "definition": "In is used to show that something is inside something else or in a place.",
+      "thai": "ใน",
+      "example": "The cat is in the box.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "it",
+      "pronunciation": "/ɪt/",
+      "definition": "It is used to refer to a thing, an animal, or a situation that has already been mentioned.",
+      "thai": "มัน",
+      "example": "It is a beautiful day.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "keep",
+      "pronunciation": "/kiːp/",
+      "definition": "To keep means to continue to have something or to not let something change.",
+      "thai": "เก็บรักษา",
+      "example": "Please keep the door open.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "know",
+      "pronunciation": "/noʊ/",
+      "definition": "To know means to have information about something or someone.",
+      "thai": "รู้",
+      "example": "I know the answer.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "large",
+      "pronunciation": "/lɑːrdʒ/",
+      "definition": "Large means big in size or amount.",
+      "thai": "ใหญ่",
+      "example": "It is a large car.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "last",
+      "pronunciation": "/læst/",
+      "definition": "Last means happening or coming after all other things. It can also mean the most recent.",
+      "thai": "สุดท้าย",
+      "example": "This is the last page.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "late",
+      "pronunciation": "/leɪt/",
+      "definition": "Late means happening or arriving after the usual or expected time.",
+      "thai": "สาย",
+      "example": "He arrived late for the meeting.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "learn",
+      "pronunciation": "/lɜːrn/",
+      "definition": "To learn means to gain knowledge or skill by studying or practicing.",
+      "thai": "เรียนรู้",
+      "example": "I want to learn English.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "leave",
+      "pronunciation": "/liːv/",
+      "definition": "To leave means to go away from a place.",
+      "thai": "จากไป",
+      "example": "We will leave tomorrow.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "let",
+      "pronunciation": "/lɛt/",
+      "definition": "To let means to allow someone to do something or to allow something to happen.",
+      "thai": "อนุญาต",
+      "example": "Let me help you.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "life",
+      "pronunciation": "/laɪf/",
+      "definition": "The state of being alive. It is the time between birth and death.",
+      "thai": "ชีวิต",
+      "example": "He has a happy life.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "light",
+      "pronunciation": "/laɪt/",
+      "definition": "The brightness that comes from the sun or a lamp. It helps us to see.",
+      "thai": "แสง",
+      "example": "Turn on the light, please.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "like",
+      "pronunciation": "/laɪk/",
+      "definition": "To enjoy something or think that it is good. You can also use it to say something is similar.",
+      "thai": "ชอบ, เหมือน",
+      "example": "I like pizza.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "listen",
+      "pronunciation": "/ˈlɪsən/",
+      "definition": "To pay attention to sounds with your ears.",
+      "thai": "ฟัง",
+      "example": "Please listen to the music.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "live",
+      "pronunciation": "/lɪv/",
+      "definition": "To be alive. It can also mean to stay in a place.",
+      "thai": "อาศัยอยู่, มีชีวิต",
+      "example": "I live in a big city.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "long",
+      "pronunciation": "/lɔːŋ/",
+      "definition": "Measuring a great distance from end to end. It can also mean for a great amount of time.",
+      "thai": "ยาว",
+      "example": "The road is very long.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "look",
+      "pronunciation": "/lʊk/",
+      "definition": "To use your eyes to see something.",
+      "thai": "มอง",
+      "example": "Look at the beautiful sky.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "lose",
+      "pronunciation": "/luːz/",
+      "definition": "To not have something anymore. It can also mean to not win a game.",
+      "thai": "สูญเสีย, แพ้",
+      "example": "Don't lose your keys.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "love",
+      "pronunciation": "/lʌv/",
+      "definition": "To like someone or something very much. It is a strong feeling of liking.",
+      "thai": "รัก",
+      "example": "I love my family.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "low",
+      "pronunciation": "/ləʊ/",
+      "definition": "Not high. It can describe height, sound, or temperature.",
+      "thai": "ต่ำ",
+      "example": "The table is very low.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "make",
+      "pronunciation": "/meɪk/",
+      "definition": "To create or build something. It can also mean to cause something to happen.",
+      "thai": "ทำ, สร้าง",
+      "example": "She can make a cake.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "man",
+      "pronunciation": "/mæn/",
+      "definition": "An adult male human being.",
+      "thai": "ผู้ชาย",
+      "example": "That is a tall man.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "many",
+      "pronunciation": "/ˈmɛni/",
+      "definition": "A large number of people or things.",
+      "thai": "มากมาย",
+      "example": "There are many books on the shelf.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "maybe",
+      "pronunciation": "/ˈmeɪbi/",
+      "definition": "Used to show that something is possible but not certain.",
+      "thai": "บางที, อาจจะ",
+      "example": "Maybe it will rain tomorrow.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "mean",
+      "pronunciation": "/miːn/",
+      "definition": "To have a particular meaning. It can also mean to intend to do something.",
+      "thai": "หมายถึง",
+      "example": "What does this word mean?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "meet",
+      "pronunciation": "/miːt/",
+      "definition": "To come to a place where someone is. It can also mean to be introduced to someone for the first time.",
+      "thai": "พบ, เจอ",
+      "example": "I will meet you at the park.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "money",
+      "pronunciation": "/ˈmʌni/",
+      "definition": "Coins and paper that are used as a way of buying things.",
+      "thai": "เงิน",
+      "example": "I need some money to buy food.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "more",
+      "pronunciation": "/mɔːr/",
+      "definition": "A greater amount or number of something.",
+      "thai": "มากขึ้น",
+      "example": "I want more ice cream.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "most",
+      "pronunciation": "/məʊst/",
+      "definition": "The largest amount or number. It can also mean the majority of something.",
+      "thai": "ส่วนใหญ่, ที่สุด",
+      "example": "Most people like to sleep.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "move",
+      "pronunciation": "/muːv/",
+      "definition": "To change your position or place. It can also mean to make something change its position.",
+      "thai": "เคลื่อนไหว, ย้าย",
+      "example": "Can you move the chair?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "name",
+      "pronunciation": "/neɪm/",
+      "definition": "What you call a person, place, or thing. It is how you identify someone.",
+      "thai": "ชื่อ",
+      "example": "My name is John.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "need",
+      "pronunciation": "/niːd/",
+      "definition": "To want or require something very much. You must have it.",
+      "thai": "ต้องการ",
+      "example": "I need a glass of water.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "never",
+      "pronunciation": "/ˈnɛvər/",
+      "definition": "At no time in the past or future. It means not ever.",
+      "thai": "ไม่เคย",
+      "example": "I have never seen a lion.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "new",
+      "pronunciation": "/njuː/",
+      "definition": "Something that has not existed before, or has not been seen, heard, or experienced before. It is the opposite of old.",
+      "thai": "ใหม่",
+      "example": "I have a new car.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "next",
+      "pronunciation": "/nɛkst/",
+      "definition": "Coming immediately after the present time or in order. It is the one after this.",
+      "thai": "ต่อไป",
+      "example": "What is the next word?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "night",
+      "pronunciation": "/naɪt/",
+      "definition": "The period of darkness between sunset and sunrise. It is when you sleep.",
+      "thai": "กลางคืน",
+      "example": "Good night!",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "no",
+      "pronunciation": "/noʊ/",
+      "definition": "Used to give a negative response. It means the opposite of yes.",
+      "thai": "ไม่",
+      "example": "Do you want coffee? No, thank you.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "now",
+      "pronunciation": "/naʊ/",
+      "definition": "At the present time. It is happening at this moment.",
+      "thai": "ตอนนี้",
+      "example": "I am busy now.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "number",
+      "pronunciation": "/ˈnʌmbər/",
+      "definition": "A mathematical value that represents a count or quantity. It is a digit or a series of digits.",
+      "thai": "ตัวเลข",
+      "example": "What is your phone number?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "off",
+      "pronunciation": "/ɔːf/",
+      "definition": "Not on or working. It can also mean away from a place.",
+      "thai": "ปิด",
+      "example": "Please turn the light off.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "often",
+      "pronunciation": "/ˈɔːfən/",
+      "definition": "Many times. It happens frequently.",
+      "thai": "บ่อยๆ",
+      "example": "I often go to the park.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "old",
+      "pronunciation": "/oʊld/",
+      "definition": "Having lived for a long time. It is the opposite of new.",
+      "thai": "เก่า",
+      "example": "My grandfather is old.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "on",
+      "pronunciation": "/ɔːn/",
+      "definition": "In contact with and supported by a surface. It can also mean working or active.",
+      "thai": "บน",
+      "example": "The book is on the table.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "only",
+      "pronunciation": "/ˈoʊnli/",
+      "definition": "And no one or nothing else. Just one.",
+      "thai": "เท่านั้น",
+      "example": "I have only one apple.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "open",
+      "pronunciation": "/ˈoʊpən/",
+      "definition": "Not closed or blocked up. You can go through it.",
+      "thai": "เปิด",
+      "example": "The door is open.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "or",
+      "pronunciation": "/ɔːr/",
+      "definition": "Used to connect two or more alternatives. It gives a choice.",
+      "thai": "หรือ",
+      "example": "Do you want tea or coffee?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "other",
+      "pronunciation": "/ˈʌðər/",
+      "definition": "Different from one already mentioned or known. It is another one.",
+      "thai": "อื่น",
+      "example": "I have another pen; this one is red, and the other is blue.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "our",
+      "pronunciation": "/aʊər/",
+      "definition": "Belonging to us. It is something that we have.",
+      "thai": "ของเรา",
+      "example": "This is our house.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "out",
+      "pronunciation": "/aʊt/",
+      "definition": "Away from a place or in a direction away from a place. Not inside.",
+      "thai": "ออก",
+      "example": "Please go out.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "over",
+      "pronunciation": "/ˈoʊvər/",
+      "definition": "Above or higher than something else. It can also mean finished.",
+      "thai": "เหนือ",
+      "example": "The plane flew over the city.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "own",
+      "pronunciation": "/oʊn/",
+      "definition": "To have something that belongs to you. It is yours.",
+      "thai": "เป็นของตัวเอง",
+      "example": "I have my own car.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "part",
+      "pronunciation": "/pɑːrt/",
+      "definition": "A piece or section of something. It is not the whole thing.",
+      "thai": "ส่วน",
+      "example": "This is a part of the book.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "pay",
+      "pronunciation": "/peɪ/",
+      "definition": "To give money for something you buy or for a service.",
+      "thai": "จ่ายเงิน",
+      "example": "I need to pay for this coffee.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "people",
+      "pronunciation": "/ˈpiːpl/",
+      "definition": "More than one person. It means men, women, and children.",
+      "thai": "ผู้คน",
+      "example": "There are many people in the park.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "person",
+      "pronunciation": "/ˈpɜːrsn/",
+      "definition": "One human being. A man, woman, or child.",
+      "thai": "คน",
+      "example": "She is a kind person.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "plan",
+      "pronunciation": "/plæn/",
+      "definition": "An idea about what you are going to do. A way to do something.",
+      "thai": "แผน",
+      "example": "We have a plan for the weekend.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "play",
+      "pronunciation": "/pleɪ/",
+      "definition": "To do an activity for fun. To play a game or with toys.",
+      "thai": "เล่น",
+      "example": "Children like to play in the garden.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "please",
+      "pronunciation": "/pliːz/",
+      "definition": "Used to be polite when you ask for something.",
+      "thai": "กรุณา",
+      "example": "Can you help me, please?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "point",
+      "pronunciation": "/pɔɪnt/",
+      "definition": "A small dot. Or, to show something with your finger.",
+      "thai": "จุด",
+      "example": "He made a point on the map.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "possible",
+      "pronunciation": "/ˈpɑːsəbl/",
+      "definition": "Something that can happen or be done. It is not impossible.",
+      "thai": "เป็นไปได้",
+      "example": "It is possible to finish this today.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "put",
+      "pronunciation": "/pʊt/",
+      "definition": "To move something to a particular place. To place it there.",
+      "thai": "วาง",
+      "example": "Please put the book on the table.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "read",
+      "pronunciation": "/riːd/",
+      "definition": "To look at words and understand them. To read a book or a sign.",
+      "thai": "อ่าน",
+      "example": "I like to read stories.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "ready",
+      "pronunciation": "/ˈredi/",
+      "definition": "Prepared to do something. You are able to start.",
+      "thai": "พร้อม",
+      "example": "Are you ready to go?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "red",
+      "pronunciation": "/red/",
+      "definition": "A color. Like the color of blood or a stop sign.",
+      "thai": "สีแดง",
+      "example": "The apple is red.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "right",
+      "pronunciation": "/raɪt/",
+      "definition": "Correct or true. Or, the opposite of left.",
+      "thai": "ถูกต้อง",
+      "example": "That is the right answer.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "room",
+      "pronunciation": "/ruːm/",
+      "definition": "A part of a house or building that has walls and a door. Like a bedroom or living room.",
+      "thai": "ห้อง",
+      "example": "My bedroom is small.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "run",
+      "pronunciation": "/rʌn/",
+      "definition": "To move fast on your feet. Faster than walking.",
+      "thai": "วิ่ง",
+      "example": "The dog can run very fast.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "same",
+      "pronunciation": "/seɪm/",
+      "definition": "Not different. Exactly alike.",
+      "thai": "เหมือนกัน",
+      "example": "We have the same toy.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "say",
+      "pronunciation": "/seɪ/",
+      "definition": "To speak words. To tell someone something.",
+      "thai": "พูด",
+      "example": "What did you say?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "school",
+      "pronunciation": "/skuːl/",
+      "definition": "A place where children go to learn. Teachers teach students here.",
+      "thai": "โรงเรียน",
+      "example": "I go to school every day.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "see",
+      "pronunciation": "/siː/",
+      "definition": "To notice something with your eyes. You can see with your eyes.",
+      "thai": "เห็น",
+      "example": "I can see the cat.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "seem",
+      "pronunciation": "/siːm/",
+      "definition": "To appear to be something or to be a certain way. It looks like it.",
+      "thai": "ดูเหมือน",
+      "example": "She seems happy.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "she",
+      "pronunciation": "/ʃiː/",
+      "definition": "Used to refer to a woman or girl. It is a word for a girl or woman.",
+      "thai": "เธอ (ผู้หญิง)",
+      "example": "She is my sister.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "short",
+      "pronunciation": "/ʃɔːrt/",
+      "definition": "Not long in length or height. Not tall.",
+      "thai": "สั้น",
+      "example": "He is a short man.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "show",
+      "pronunciation": "/ʃəʊ/",
+      "definition": "To let someone see something. To make something visible.",
+      "thai": "แสดง, ให้ดู",
+      "example": "Can you show me your book?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "side",
+      "pronunciation": "/saɪd/",
+      "definition": "The part of something that is not the front, back, top, or bottom. The left or right part.",
+      "thai": "ด้านข้าง",
+      "example": "The house has a garden on the side.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "small",
+      "pronunciation": "/smɔːl/",
+      "definition": "Not big in size. Little.",
+      "thai": "เล็ก",
+      "example": "It is a small car.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "so",
+      "pronunciation": "/səʊ/",
+      "definition": "Used to say that something is true to a great degree. Very.",
+      "thai": "ดังนั้น, มาก",
+      "example": "It is so cold today.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "some",
+      "pronunciation": "/sʌm/",
+      "definition": "An amount or number of something that is not known or not stated. A little bit.",
+      "thai": "บางส่วน, จำนวนหนึ่ง",
+      "example": "I want some water.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "sometimes",
+      "pronunciation": "/ˈsʌmtaɪmz/",
+      "definition": "At some times, but not always. Now and then.",
+      "thai": "บางครั้ง",
+      "example": "Sometimes I eat ice cream.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "son",
+      "pronunciation": "/sʌn/",
+      "definition": "A boy or man in relation to his parents. A father's or mother's boy.",
+      "thai": "ลูกชาย",
+      "example": "He is my son.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "soon",
+      "pronunciation": "/suːn/",
+      "definition": "In a short time from now. Not in a long time.",
+      "thai": "เร็วๆ นี้",
+      "example": "I will see you soon.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "start",
+      "pronunciation": "/stɑːrt/",
+      "definition": "To begin doing something. To make something begin.",
+      "thai": "เริ่ม",
+      "example": "Let's start the game.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "stay",
+      "pronunciation": "/steɪ/",
+      "definition": "To remain in a particular place or position. To not leave.",
+      "thai": "อยู่",
+      "example": "I will stay at home.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "still",
+      "pronunciation": "/stɪl/",
+      "definition": "Continuing to happen or exist. Not stopped.",
+      "thai": "ยังคง",
+      "example": "He is still sleeping.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "stop",
+      "pronunciation": "/stɒp/",
+      "definition": "To finish doing something. To not continue.",
+      "thai": "หยุด",
+      "example": "Please stop talking.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "story",
+      "pronunciation": "/ˈstɔːri/",
+      "definition": "An account of events, real or imaginary. A tale.",
+      "thai": "เรื่องราว",
+      "example": "I like to read a story.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "study",
+      "pronunciation": "/ˈstʌdi/",
+      "definition": "To try to learn about a subject by reading, going to school, etc. To learn.",
+      "thai": "เรียน, ศึกษา",
+      "example": "I study English.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "such",
+      "pronunciation": "/sʌtʃ/",
+      "definition": "Of this kind. Like this.",
+      "thai": "เช่นนั้น, อย่างนั้น",
+      "example": "It was such a good movie.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "take",
+      "pronunciation": "/teɪk/",
+      "definition": "To get something from someone or something. To carry or bring.",
+      "thai": "เอา, รับ, พาไป",
+      "example": "Can I take your pen?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "talk",
+      "pronunciation": "/tɔːk/",
+      "definition": "To speak in order to give information or express ideas. To have a conversation with someone.",
+      "thai": "พูดคุย",
+      "example": "I want to talk to you about something.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "tell",
+      "pronunciation": "/tel/",
+      "definition": "To say something to someone, especially to give them information. To make something known.",
+      "thai": "บอก",
+      "example": "Can you tell me the time?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "than",
+      "pronunciation": "/ðæn/",
+      "definition": "Used to compare two people or things. It shows a difference between two things.",
+      "thai": "กว่า",
+      "example": "This book is better than that one.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "that",
+      "pronunciation": "/ðæt/",
+      "definition": "Used to identify a specific person or thing that is a little far away. Used to refer to something already mentioned.",
+      "thai": "นั้น",
+      "example": "Look at that bird!",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "the",
+      "pronunciation": "/ðə/",
+      "definition": "Used before a noun to refer to a specific person or thing that is known to the listener or reader.",
+      "thai": "ที่",
+      "example": "The dog is sleeping.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "their",
+      "pronunciation": "/ðɛər/",
+      "definition": "Belonging to or associated with the people or things previously mentioned. It shows possession for more than one person.",
+      "thai": "ของพวกเขา",
+      "example": "This is their house.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "them",
+      "pronunciation": "/ðem/",
+      "definition": "Used as the object of a verb or preposition to refer to two or more people or things previously mentioned.",
+      "thai": "พวกเขา",
+      "example": "I saw them at the park.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "then",
+      "pronunciation": "/ðɛn/",
+      "definition": "At that time. After that; next.",
+      "thai": "แล้ว",
+      "example": "First, we eat, then we go home.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "there",
+      "pronunciation": "/ðɛər/",
+      "definition": "In, at, or to that place or position. Used to introduce a sentence or clause.",
+      "thai": "ที่นั่น",
+      "example": "There is a cat on the roof.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "they",
+      "pronunciation": "/ðeɪ/",
+      "definition": "Used to refer to two or more people or things previously mentioned. The plural subject pronoun.",
+      "thai": "พวกเขา",
+      "example": "They are happy.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "thing",
+      "pronunciation": "/θɪŋ/",
+      "definition": "An object or entity that is not specified or named. Something that is done or happens.",
+      "thai": "สิ่งของ",
+      "example": "What is that thing?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "think",
+      "pronunciation": "/θɪŋk/",
+      "definition": "To have a particular opinion, belief, or idea about someone or something. To use your mind to consider something.",
+      "thai": "คิด",
+      "example": "I think it will rain today.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "this",
+      "pronunciation": "/ðɪs/",
+      "definition": "Used to identify a specific person or thing that is close by. Used to refer to something that is happening now.",
+      "thai": "นี้",
+      "example": "This is my book.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "time",
+      "pronunciation": "/taɪm/",
+      "definition": "The ongoing sequence of events taking place. The moment when something happens.",
+      "thai": "เวลา",
+      "example": "What time is it?",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "to",
+      "pronunciation": "/tuː/",
+      "definition": "Used to indicate movement towards a place or person. Used to indicate the person or thing that is affected by an action.",
+      "thai": "ไป",
+      "example": "I am going to the store.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "today",
+      "pronunciation": "/təˈdeɪ/",
+      "definition": "On this day; on the present day. The current day.",
+      "thai": "วันนี้",
+      "example": "Today is a sunny day.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "together",
+      "pronunciation": "/təˈɡɛðər/",
+      "definition": "With or near each other. In company or in conjunction.",
+      "thai": "ด้วยกัน",
+      "example": "Let's eat together.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "too",
+      "pronunciation": "/tuː/",
+      "definition": "More than enough; excessively. Also; in addition.",
+      "thai": "เกินไป",
+      "example": "It is too hot today.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "top",
+      "pronunciation": "/tɒp/",
+      "definition": "The highest part or point of something. The best or most important.",
+      "thai": "ยอด",
+      "example": "The cat is on top of the house.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "town",
+      "pronunciation": "/taʊn/",
+      "definition": "A place where people live and work, larger than a village but smaller than a city.",
+      "thai": "เมือง",
+      "example": "I live in a small town.",
+      "cefr": "A1",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "award",
+      "pronunciation": "/əˈwɔːrd/",
+      "definition": "To give someone something, like a prize, because they have done something good or won something. It can also be the prize itself.",
+      "thai": "รางวัล",
+      "example": "She won an award for her excellent work.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "base",
+      "pronunciation": "/beɪs/",
+      "definition": "The bottom part of something, or the main place where a group of people live or work. It can also be a starting point.",
+      "thai": "ฐาน, ที่ตั้ง",
+      "example": "The house has a strong base made of stone.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "basic",
+      "pronunciation": "/ˈbeɪsɪk/",
+      "definition": "Simple and easy to understand or do. It is the most important or fundamental part of something.",
+      "thai": "พื้นฐาน, ง่ายๆ",
+      "example": "He learned the basic rules of the game.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "belong",
+      "pronunciation": "/bɪˈlɔːŋ/",
+      "definition": "To be in the right place, or to be a part of a group. It means to feel comfortable and accepted.",
+      "thai": "เป็นของ, อยู่ในกลุ่ม",
+      "example": "This book belongs on the shelf.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "beside",
+      "pronunciation": "/bɪˈsaɪd/",
+      "definition": "Next to someone or something. It means close to them.",
+      "thai": "ข้างๆ",
+      "example": "The cat sat beside the dog.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "beyond",
+      "pronunciation": "/bɪˈjɑːnd/",
+      "definition": "Further away than something, or past a certain point. It can also mean more than what is expected.",
+      "thai": "ไกลกว่า, เกินกว่า",
+      "example": "The park is just beyond that hill.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "bit",
+      "pronunciation": "/bɪt/",
+      "definition": "A small piece of something, or a short period of time. It means a little bit.",
+      "thai": "เล็กน้อย, ชิ้นเล็กๆ",
+      "example": "Can I have a bit of your cake?",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "blow",
+      "pronunciation": "/bloʊ/",
+      "definition": "To move air, or to make a sound by forcing air out of your mouth. It can also mean to hit something hard.",
+      "thai": "เป่า, พัด",
+      "example": "The wind began to blow strongly.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "borrow",
+      "pronunciation": "/ˈbɑːroʊ/",
+      "definition": "To take something from someone and promise to give it back later. You use it for a period of time.",
+      "thai": "ยืม",
+      "example": "Can I borrow your pen for a moment?",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "branch",
+      "pronunciation": "/bræntʃ/",
+      "definition": "A part of a tree that grows out from the main trunk. It can also be a part of a larger organization.",
+      "thai": "กิ่งไม้, สาขา",
+      "example": "A bird was sitting on a high branch.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "burn",
+      "pronunciation": "/bɜːrn/",
+      "definition": "To be on fire, or to damage something with fire or heat. It can also mean to feel very hot.",
+      "thai": "เผา, ไหม้",
+      "example": "Be careful not to burn yourself on the stove.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "catch",
+      "pronunciation": "/kætʃ/",
+      "definition": "To stop and hold something that is moving. It can also mean to get an illness.",
+      "thai": "จับ, รับ",
+      "example": "He tried to catch the ball.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "cause",
+      "pronunciation": "/kɔːz/",
+      "definition": "To make something happen. It is the reason why something occurs.",
+      "thai": "สาเหตุ, ทำให้เกิด",
+      "example": "Loud noise can cause damage to your hearing.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "certain",
+      "pronunciation": "/ˈsɜːrtn/",
+      "definition": "Knowing something is true, or sure to happen. You are confident about it.",
+      "thai": "แน่นอน, บางอย่าง",
+      "example": "I am certain that he will come.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "chance",
+      "pronunciation": "/tʃæns/",
+      "definition": "An opportunity to do something, or the possibility of something happening. It is about luck or possibility.",
+      "thai": "โอกาส, ความเป็นไปได้",
+      "example": "This is your chance to win the prize.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "check",
+      "pronunciation": "/tʃek/",
+      "definition": "To look at something to see if it is correct or if it is okay. It can also be a written order for money.",
+      "thai": "ตรวจสอบ, เช็ค",
+      "example": "Please check your answers before you hand in the test.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "choose",
+      "pronunciation": "/tʃuːz/",
+      "definition": "To decide what you want from a selection of things. You make a choice.",
+      "thai": "เลือก",
+      "example": "You can choose any color you like.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "circle",
+      "pronunciation": "/ˈsɜːrkl/",
+      "definition": "A round shape with no corners. It is a line that is the same distance from the center everywhere.",
+      "thai": "วงกลม",
+      "example": "Draw a circle on the paper.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "collect",
+      "pronunciation": "/kəˈlekt/",
+      "definition": "To bring together things that are similar, or to get things from different people. It can also mean to pick something up.",
+      "thai": "สะสม, เก็บ",
+      "example": "She likes to collect stamps from different countries.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "college",
+      "pronunciation": "/ˈkɑːlɪdʒ/",
+      "definition": "A place where students go after high school to study for a degree. It is a higher education institution.",
+      "thai": "วิทยาลัย, มหาวิทยาลัย",
+      "example": "He is studying engineering at college.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "colour",
+      "pronunciation": "/ˈkʌlər/",
+      "definition": "The light that your eyes see from something. It can be red, blue, green, etc.",
+      "thai": "สี",
+      "example": "What is your favourite colour?",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "compare",
+      "pronunciation": "/kəmˈper/",
+      "definition": "To look at two or more things to see how they are the same or different.",
+      "thai": "เปรียบเทียบ",
+      "example": "Can you compare these two books?",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "complete",
+      "pronunciation": "/kəmˈpliːt/",
+      "definition": "To finish doing something. To make something whole.",
+      "thai": "ทำให้เสร็จ, สมบูรณ์",
+      "example": "Please complete the form before you leave.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "contain",
+      "pronunciation": "/kənˈteɪn/",
+      "definition": "To have something inside. To hold something.",
+      "thai": "บรรจุ, ประกอบด้วย",
+      "example": "This box can contain many books.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "continue",
+      "pronunciation": "/kənˈtɪnjuː/",
+      "definition": "To keep doing something without stopping. To go on.",
+      "thai": "ดำเนินต่อไป",
+      "example": "Please continue reading the story.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "control",
+      "pronunciation": "/kənˈtrəʊl/",
+      "definition": "To have the power to make someone or something do what you want. To manage.",
+      "thai": "ควบคุม",
+      "example": "The driver must control the car carefully.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "correct",
+      "pronunciation": "/kəˈrekt/",
+      "definition": "To make something right. To fix a mistake.",
+      "thai": "ถูกต้อง, แก้ไข",
+      "example": "Is this the correct answer?",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "create",
+      "pronunciation": "/kriˈeɪt/",
+      "definition": "To make something new. To invent.",
+      "thai": "สร้างสรรค์",
+      "example": "The artist will create a beautiful painting.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "dangerous",
+      "pronunciation": "/ˈdeɪndʒərəs/",
+      "definition": "Likely to cause harm or injury. Not safe.",
+      "thai": "อันตราย",
+      "example": "It is dangerous to play near the road.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "deal",
+      "pronunciation": "/diːl/",
+      "definition": "To give attention to something. To do business with someone.",
+      "thai": "จัดการ, ข้อตกลง",
+      "example": "We need to deal with this problem quickly.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "decide",
+      "pronunciation": "/dɪˈsaɪd/",
+      "definition": "To make a choice about something. To make up your mind.",
+      "thai": "ตัดสินใจ",
+      "example": "I need to decide what to wear.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "deep",
+      "pronunciation": "/diːp/",
+      "definition": "Going far down from the top or surface. Not shallow.",
+      "thai": "ลึก",
+      "example": "The ocean is very deep.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "describe",
+      "pronunciation": "/dɪˈskraɪb/",
+      "definition": "To say what something or someone is like. To tell about.",
+      "thai": "อธิบาย",
+      "example": "Can you describe the person you saw?",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "destroy",
+      "pronunciation": "/dɪˈstrɔɪ/",
+      "definition": "To break something so that it cannot be used or fixed. To ruin.",
+      "thai": "ทำลาย",
+      "example": "The storm can destroy houses.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "detail",
+      "pronunciation": "/ˈdiːteɪl/",
+      "definition": "A small part of something. A specific piece of information.",
+      "thai": "รายละเอียด",
+      "example": "Please give me more detail about the plan.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "develop",
+      "pronunciation": "/dɪˈveləp/",
+      "definition": "To grow or change and become more advanced. To make something grow.",
+      "thai": "พัฒนา",
+      "example": "The company will develop new products.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "die",
+      "pronunciation": "/daɪ/",
+      "definition": "To stop living. To pass away.",
+      "thai": "ตาย",
+      "example": "Plants can die if they don't get water.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "difference",
+      "pronunciation": "/ˈdɪfrəns/",
+      "definition": "The way in which two or more things are not the same.",
+      "thai": "ความแตกต่าง",
+      "example": "What is the difference between these two colours?",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "difficult",
+      "pronunciation": "/ˈdɪfɪkəlt/",
+      "definition": "Not easy to do or understand. Hard.",
+      "thai": "ยาก",
+      "example": "This math problem is very difficult.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "direction",
+      "pronunciation": "/dəˈrekʃn/",
+      "definition": "The way that someone or something moves or faces. A path.",
+      "thai": "ทิศทาง",
+      "example": "Which direction should we go?",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "laugh",
+      "pronunciation": "/lɑːf/",
+      "definition": "To make a sound with your voice when you are happy or amused. It is a way of showing you find something funny.",
+      "thai": "หัวเราะ",
+      "example": "She started to laugh when she heard the joke.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "lead",
+      "pronunciation": "/liːd/",
+      "definition": "To guide or show someone the way to a place. It can also mean to be in charge or in front.",
+      "thai": "นำ, เป็นผู้นำ",
+      "example": "The teacher will lead the students on a field trip.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "level",
+      "pronunciation": "/ˈlɛvəl/",
+      "definition": "A position or rank on a scale. It can also mean flat and straight.",
+      "thai": "ระดับ, แบนราบ",
+      "example": "The water in the pool is at a good level.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "limit",
+      "pronunciation": "/ˈlɪmɪt/",
+      "definition": "The greatest amount or number that is allowed. It is a point beyond which something cannot go.",
+      "thai": "ขีดจำกัด, จำกัด",
+      "example": "There is a speed limit of 50 kilometers per hour on this road.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "local",
+      "pronunciation": "/ˈloʊkəl/",
+      "definition": "Belonging to or happening in a particular area or neighborhood. It is not far away.",
+      "thai": "ท้องถิ่น, ในพื้นที่",
+      "example": "We bought some fresh fruit from a local market.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "main",
+      "pronunciation": "/meɪn/",
+      "definition": "The most important or largest part of something. It is the primary thing.",
+      "thai": "หลัก, สำคัญ",
+      "example": "The main reason for the delay was the bad weather.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "manage",
+      "pronunciation": "/ˈmænɪdʒ/",
+      "definition": "To be in charge of or to succeed in doing something, especially something difficult. It means to control or organize.",
+      "thai": "จัดการ, บริหาร",
+      "example": "She managed to finish the project on time.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "match",
+      "pronunciation": "/mætʃ/",
+      "definition": "A game or contest, especially in sports. It can also mean to be the same or similar.",
+      "thai": "การแข่งขัน, คู่ที่เข้ากัน",
+      "example": "Did you watch the football match last night?",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "matter",
+      "pronunciation": "/ˈmætər/",
+      "definition": "A subject or situation that is being discussed or considered. It can also mean to be important.",
+      "thai": "เรื่อง, สิ่งสำคัญ",
+      "example": "It doesn't matter if you are a little late.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "measure",
+      "pronunciation": "/ˈmɛʒər/",
+      "definition": "To find the size, amount, or degree of something. It is to calculate or estimate.",
+      "thai": "วัด, มาตรการ",
+      "example": "We need to measure the length of the room.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "memory",
+      "pronunciation": "/ˈmɛməri/",
+      "definition": "The ability to remember things. It is also the things that you remember.",
+      "thai": "ความจำ, ความทรงจำ",
+      "example": "She has a good memory for faces.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "minute",
+      "pronunciation": "/ˈmɪnɪt/",
+      "definition": "A period of time equal to sixty seconds. It is a short amount of time.",
+      "thai": "นาที",
+      "example": "I'll be there in a few minutes.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "miss",
+      "pronunciation": "/mɪs/",
+      "definition": "To fail to hit, catch, or reach something. It can also mean to feel sad because someone or something is not there.",
+      "thai": "พลาด, คิดถึง",
+      "example": "He will miss his train if he doesn't hurry.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "mix",
+      "pronunciation": "/mɪks/",
+      "definition": "To combine or put together different things. It is to blend.",
+      "thai": "ผสม, คลุกเคล้า",
+      "example": "Let's mix the flour and sugar together.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "modern",
+      "pronunciation": "/ˈmɒdərn/",
+      "definition": "Belonging to the present time or recent times. It is not old-fashioned.",
+      "thai": "ทันสมัย, สมัยใหม่",
+      "example": "They live in a modern apartment building.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "mountain",
+      "pronunciation": "/ˈmaʊntən/",
+      "definition": "A large natural rise in the surface of the earth. It is much higher than a hill.",
+      "thai": "ภูเขา",
+      "example": "We climbed the mountain to see the view.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "mouth",
+      "pronunciation": "/maʊθ/",
+      "definition": "The opening in the face of a person or animal used for eating, speaking, and breathing. It is also the opening of a river into the sea.",
+      "thai": "ปาก",
+      "example": "He opened his mouth to speak.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "natural",
+      "pronunciation": "/ˈnætʃərəl/",
+      "definition": "Existing in nature and not made or caused by people. It is normal or expected.",
+      "thai": "ธรรมชาติ, โดยธรรมชาติ",
+      "example": "The park has beautiful natural scenery.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "offer",
+      "pronunciation": "/ˈɔːfər/",
+      "definition": "To present something to someone for them to accept or refuse. It is to suggest something.",
+      "thai": "เสนอ, ข้อเสนอ",
+      "example": "They offered me a job in their company.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "order",
+      "pronunciation": "/ˈɔːrdər/",
+      "definition": "A request for something to be made, supplied, or served. It can also mean to tell someone to do something.",
+      "thai": "คำสั่ง, ลำดับ, สั่งซื้อ",
+      "example": "I would like to order a pizza, please.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "simple",
+      "pronunciation": "/ˈsɪmpəl/",
+      "definition": "Easy to understand or do. Not complicated.",
+      "thai": "ง่ายๆ",
+      "example": "This is a simple recipe that anyone can follow.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "skill",
+      "pronunciation": "/skɪl/",
+      "definition": "An ability to do something well. It is something you learn to do.",
+      "thai": "ทักษะ",
+      "example": "Learning to ride a bike is a useful skill.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "sleep",
+      "pronunciation": "/sliːp/",
+      "definition": "To rest your body and mind by closing your eyes and not moving. You do this at night.",
+      "thai": "นอนหลับ",
+      "example": "I need to get eight hours of sleep tonight.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "smile",
+      "pronunciation": "/smaɪl/",
+      "definition": "To make a happy expression on your face by turning up the corners of your mouth.",
+      "thai": "ยิ้ม",
+      "example": "She gave me a big smile when she saw me.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "soft",
+      "pronunciation": "/sɒft/",
+      "definition": "Easy to press or bend. Not hard.",
+      "thai": "นุ่ม",
+      "example": "The kitten's fur was very soft.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "solve",
+      "pronunciation": "/sɒlv/",
+      "definition": "To find the answer to a problem or question.",
+      "thai": "แก้ปัญหา",
+      "example": "Can you help me solve this math problem?",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "sort",
+      "pronunciation": "/sɔːrt/",
+      "definition": "To put things into different groups or piles based on what they are like.",
+      "thai": "จัดประเภท",
+      "example": "Please sort the clean clothes into piles.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "sound",
+      "pronunciation": "/saʊnd/",
+      "definition": "Something that you can hear. It is made by vibrations.",
+      "thai": "เสียง",
+      "example": "I heard a strange sound outside my window.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "speak",
+      "pronunciation": "/spiːk/",
+      "definition": "To say words. To talk to someone.",
+      "thai": "พูด",
+      "example": "She can speak three languages.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "speed",
+      "pronunciation": "/spiːd/",
+      "definition": "How fast something moves or happens.",
+      "thai": "ความเร็ว",
+      "example": "The car was going at a high speed.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "spend",
+      "pronunciation": "/spɛnd/",
+      "definition": "To use time or money to do something.",
+      "thai": "ใช้ (เวลา/เงิน)",
+      "example": "I like to spend my free time reading books.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "stand",
+      "pronunciation": "/stænd/",
+      "definition": "To be in an upright position on your feet. Not sitting or lying down.",
+      "thai": "ยืน",
+      "example": "Please stand up when the teacher enters the room.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "step",
+      "pronunciation": "/stɛp/",
+      "definition": "To move by lifting your foot and putting it down again. A single movement of your foot.",
+      "thai": "ก้าว",
+      "example": "Take one step forward and then stop.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "strange",
+      "pronunciation": "/streɪndʒ/",
+      "definition": "Unusual or surprising. Not normal.",
+      "thai": "แปลก",
+      "example": "That was a strange dream I had last night.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "street",
+      "pronunciation": "/striːt/",
+      "definition": "A public road in a city or town, with houses and buildings on one or both sides.",
+      "thai": "ถนน",
+      "example": "We live on a quiet street.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "strong",
+      "pronunciation": "/strɒŋ/",
+      "definition": "Having a lot of power or strength. Not weak.",
+      "thai": "แข็งแรง",
+      "example": "He is very strong and can lift heavy boxes.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "subject",
+      "pronunciation": "/ˈsʌbdʒɪkt/",
+      "definition": "A topic or idea that is discussed or written about. A school class.",
+      "thai": "หัวข้อ, วิชา",
+      "example": "My favorite subject at school is art.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "success",
+      "pronunciation": "/səkˈsɛs/",
+      "definition": "The achievement of something that you have tried to do. Doing well.",
+      "thai": "ความสำเร็จ",
+      "example": "Hard work often leads to success.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "suddenly",
+      "pronunciation": "/ˈsʌdənli/",
+      "definition": "Happening quickly and unexpectedly.",
+      "thai": "ทันใดนั้น",
+      "example": "Suddenly, the lights went out.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    },
+    {
+      "word": "summer",
+      "pronunciation": "/ˈsʌmər/",
+      "definition": "The warmest season of the year, between spring and autumn.",
+      "thai": "ฤดูร้อน",
+      "example": "We like to go to the beach in the summer.",
+      "cefr": "A2",
+      "oxford": true,
+      "level": "Level 1: Beginner"
+    }
+  ],
+  "Level 2: Intermediate": [
+    {
+      "word": "creative",
+      "pronunciation": "/kriˈeɪtɪv/",
+      "definition": "Having or showing imagination and the ability to make new things or think of new ideas. It's about being original and inventive.",
+      "thai": "สร้างสรรค์",
+      "example": "She has a very creative approach to solving problems.",
+      "cefr": "B1",
+      "oxford": true,
+      "level": "Level 2: Intermediate"
+    },
+    {
+      "word": "crime",
+      "pronunciation": "/kraɪm/",
+      "definition": "An illegal act that is punishable by law. It is something that people do that is against the rules of society.",
+      "thai": "อาชญากรรม",
+      "example": "The police are investigating a serious crime that happened last night.",
+      "cefr": "B1",
+      "oxford": true,
+      "level": "Level 2: Intermediate"
+    },
+    {
+      "word": "crisis",
+      "pronunciation": "/ˈkraɪsɪs/",
+      "definition": "A time of great danger or difficulty, when a difficult decision must be made. It's a very serious situation.",
+      "thai": "วิกฤตการณ์",
+      "example": "The country is facing an economic crisis.",
+      "cefr": "B1",
+      "oxford": true,
+      "level": "Level 2: Intermediate"
+    },
+    {
+      "word": "culture",
+      "pronunciation": "/ˈkʌltʃər/",
+      "definition": "The ideas, customs, and social behaviour of a particular people or society. It includes their art, music, and way of life.",
+      "thai": "วัฒนธรรม",
+      "example": "Learning about a new culture can be very interesting.",
+      "cefr": "B1",
+      "oxford": true,
+      "level": "Level 2: Intermediate"
+    },
+    {
+      "word": "current",
+      "pronunciation": "/ˈkʌrənt/",
+      "definition": "Happening or existing now. It refers to the present time or the most recent period.",
+      "thai": "ปัจจุบัน",
+      "example": "What is the current news about the election?",
+      "cefr": "B1",
+      "oxford": true,
+      "level": "Level 2: Intermediate"
+    },
+    {
+      "word": "customer",
+      "pronunciation": "/ˈkʌstəmər/",
+      "definition": "A person who buys goods or services from a shop or business. They are the people who purchase things.",
+      "thai": "ลูกค้า",
+      "example": "The shop assistant was very helpful to the customer.",
+      "cefr": "B1",
+      "oxford": true,
+      "level": "Level 2: Intermediate"
+    },
+    {
+      "word": "damage",
+      "pronunciation": "/ˈdæmɪdʒ/",
+      "definition": "Harm that is done to something or someone, making it weaker or less valuable. It can be physical or emotional.",
+      "thai": "ความเสียหาย",
+      "example": "The storm caused a lot of damage to the houses.",
+      "cefr": "B1",
+      "oxford": true,
+      "level": "Level 2: Intermediate"
+    },
+    {
+      "word": "debate",
+      "pronunciation": "/dɪˈbeɪt/",
+      "definition": "A formal discussion on a particular matter in a public meeting or legislative assembly, in which opposing arguments are put forward. It's a discussion with different opinions.",
+      "thai": "การโต้วาที",
+      "example": "There was a lively debate about the new law.",
+      "cefr": "B1",
+      "oxford": true,
+      "level": "Level 2: Intermediate"
+    },
+    {
+      "word": "define",
+      "pronunciation": "/dɪˈfaɪn/",
+      "definition": "To explain the meaning of a word or concept. It's about stating what something is or what it means.",
+      "thai": "นิยาม",
+      "example": "Can you define the word 'ambiguous' for me?",
+      "cefr": "B1",
+      "oxford": true,
+      "level": "Level 2: Intermediate"
+    },
+    {
+      "word": "degree",
+      "pronunciation": "/dɪˈɡriː/",
+      "definition": "A qualification awarded by a college or university to a student who has completed a course of study. It can also mean a level or amount.",
+      "thai": "ปริญญา",
+      "example": "She has a degree in history from a famous university.",
+      "cefr": "B1",
+      "oxford": true,
+      "level": "Level 2: Intermediate"
+    },
+    {
+      "word": "deliver",
+      "pronunciation": "/dɪˈlɪvər/",
+      "definition": "To take goods, letters, etc. to the place or person they have been sent to. It can also mean to give a speech.",
+      "thai": "ส่งมอบ",
+      "example": "The postman will deliver the package tomorrow.",
+      "cefr": "B1",
+      "oxford": true,
+      "level": "Level 2: Intermediate"
+    },
+    {
+      "word": "demand",
+      "pronunciation": "/dɪˈmænd/",
+      "definition": "An insistent request, made as if by right. It's when people strongly ask for something.",
+      "thai": "ความต้องการ",
+      "example": "There is a high demand for tickets to the concert.",
+      "cefr": "B1",
+      "oxford": true,
+      "level": "Level 2: Intermediate"
+    },
+    {
+      "word": "demonstrate",
+      "pronunciation": "/ˈdɛmənstreɪt/",
+      "definition": "To show clearly how something works or how to do something. It can also mean to show publicly that you are angry or unhappy.",
+      "thai": "สาธิต",
+      "example": "The teacher will demonstrate how to use the new software.",
+      "cefr": "B1",
+      "oxford": true,
+      "level": "Level 2: Intermediate"
+    },
+    {
+      "word": "depend",
+      "pronunciation": "/dɪˈpɛnd/",
+      "definition": "To be determined or decided by something. It means that something will happen if another thing happens.",
+      "thai": "ขึ้นอยู่กับ",
+      "example": "Our plans for the weekend depend on the weather.",
+      "cefr": "B1",
+      "oxford": true,
+      "level": "Level 2: Intermediate"
+    },
+    {
+      "word": "design",
+      "pronunciation": "/dɪˈzaɪn/",
+      "definition": "A plan or drawing produced to show the look and function or workings of a building, garment, or other object before it is made. It's about creating a plan or pattern.",
+      "thai": "ออกแบบ",
+      "example": "He has a talent for graphic design.",
+      "cefr": "B1",
+      "oxford": true,
+      "level": "Level 2: Intermediate"
+    },
+    {
+      "word": "desire",
+      "pronunciation": "/dɪˈzaɪər/",
+      "definition": "A strong feeling of wanting to have something or wishing for something to happen. It's a deep wish.",
+      "thai": "ความปรารถนา",
+      "example": "She has a strong desire to travel the world.",
+      "cefr": "B1",
+      "oxford": true,
+      "level": "Level 2: Intermediate"
+    },
+    {
+      "word": "despite",
+      "pronunciation": "/dɪˈspaɪt/",
+      "definition": "Without being affected by; in spite of. It means that something happens even though there is a problem or difficulty.",
+      "thai": "แม้ว่า",
+      "example": "Despite the rain, they went for a walk.",
+      "cefr": "B1",
+      "oxford": true,
+      "level": "Level 2: Intermediate"
+    },
+    {
+      "word": "detect",
+      "pronunciation": "/dɪˈtɛkt/",
+      "definition": "To discover or identify the presence or existence of something. It's about finding something that is hidden or difficult to see.",
+      "thai": "ตรวจจับ",
+      "example": "The alarm system can detect intruders.",
+      "cefr": "B1",
+      "oxford": true,
+      "level": "Level 2: Intermediate"
+    },
+    {
+      "word": "determine",
+      "pronunciation": "/dɪˈtɜːrmɪn/",
+      "definition": "To find out or establish exactly, typically as a result of research or calculation. It means to decide something firmly.",
+      "thai": "กำหนด",
+      "example": "Scientists are trying to determine the cause of the disease.",
+      "cefr": "B1",
+      "oxford": true,
+      "level": "Level 2: Intermediate"
+    },
+    {
+      "word": "differ",
+      "pronunciation": "/ˈdɪfər/",
+      "definition": "To be unlike or dissimilar. It means to be different from something else.",
+      "thai": "แตกต่าง",
+      "example": "Our opinions on this matter differ greatly.",
+      "cefr": "B1",
+      "oxford": true,
+      "level": "Level 2: Intermediate"
+    }
+  ]
+}
