@@ -727,14 +727,27 @@ with tab1:
 
     st.markdown("---")
 
-    # แสดงสถานะ DB (ปรับปรุงตัวนับคำศัพท์ด้วย clean_level)
+    # แสดงสถานะ DB (ปรับปรุงตัวนับคำศัพท์ด้วยการแมปคีย์ระดับภาษาให้ตรงกับ JSON)
     if OXFORD_DB_AVAILABLE and st.session_state["oxford_mode"]:
         total_cards = sum(len(v) for v in OXFORD_DB.values())
-        level_cards = len(OXFORD_DB.get(clean_level, []))  # แก้ไขตรงนี้ให้หาเจอแน่นอน
+        
+        # 1. ตรวจสอบระดับที่ผู้ใช้เลือกจากหน้าบ้าน (ยึดตามค่าในกล่อง selectbox ของคุณ)
+        current_user_level = st.session_state.get("user_level", "Level 1: Beginner")
+        
+        # 2. แปลงกลุ่มคีย์ให้ตรงกับโครงสร้างไฟล์ JSON
+        # (โค้ดนี้จะไปดึงจำนวนคำสะสมของแต่ละระดับย่อยมารวมกันให้สะท้อนตามจริง)
+        if "Beginner" in current_user_level:
+            level_cards = len(OXFORD_DB.get("A1", [])) + len(OXFORD_DB.get("A2", []))
+        elif "Intermediate" in current_user_level:
+            level_cards = len(OXFORD_DB.get("B1", [])) + len(OXFORD_DB.get("B2", []))
+        else:  # Advanced
+            level_cards = len(OXFORD_DB.get("C1", [])) + len(OXFORD_DB.get("C2", []))
+            
         st.caption(f"📦 Oxford DB: **{total_cards:,}** คำทั้งหมด · ระดับนี้มี **{level_cards:,}** คำ · ใช้ระบบสุ่มผสม AI แปลสด ⚡")
+    
     elif st.session_state["oxford_mode"] and not OXFORD_DB_AVAILABLE:
         st.warning("⚠️ ยังไม่มี oxford_db.json — จะใช้ AI สร้างแทน (รัน generate_oxford_db.py ก่อนเพื่อประหยัด token)")
-
+        
     # ปุ่มสุ่มการ์ด
     btn_label = "🎲 สุ่มคำศัพท์ใหม่จากคลัง (5 ใบ)" if (OXFORD_DB_AVAILABLE and st.session_state["oxford_mode"]) else "🔄 เจนคำศัพท์ใหม่ด้วย AI (5 ใบ)"
     if st.button(btn_label, key="gen_cards"):
