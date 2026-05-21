@@ -25,65 +25,43 @@ st.set_page_config(
     layout="centered"
 )
 
-# ─── OXFORD 5000 SEED WORDS (curated sample by level band) ───────────────────
-# A sample of Oxford 5000 words grouped by CEFR level for seeding AI prompts.
-# Full list: https://www.oxfordlearnersdictionaries.com/wordlist/oxford3000-5000/
-OXFORD_5000 = {
-    "A1-A2": [
-        "able","accept","add","admit","afford","agree","allow","answer","appear",
-        "arrange","arrive","ask","avoid","become","begin","believe","belong",
-        "break","bring","buy","call","carry","cause","change","check","choose",
-        "close","collect","come","complete","consider","contain","continue",
-        "control","correct","cost","count","cover","create","decide","describe",
-        "develop","discuss","do","draw","drop","eat","end","enjoy","enter",
-        "expect","experience","explain","fall","feel","find","finish","follow",
-        "forget","get","give","go","grow","happen","have","hear","help","hold",
-        "hope","include","increase","join","keep","know","learn","leave","let",
-        "like","listen","live","look","love","make","mean","meet","move","need",
-    ],
-    "B1-B2": [
-        "abandon","abstract","accumulate","achieve","acknowledge","acquire",
-        "adapt","adequate","advocate","allocate","analyse","anticipate","apply",
-        "appreciate","approach","approximate","assess","assume","attain",
-        "attribute","authorize","benefit","bias","challenge","circumstance",
-        "clarify","classify","collaborate","commitment","compensate","complex",
-        "concentrate","conclude","conduct","conflict","consequence","contrast",
-        "contribute","controversy","convince","coordinate","criteria","debate",
-        "deduce","define","demonstrate","derive","diverse","dominate","draft",
-        "dynamics","elaborate","emerge","emphasize","enable","enhance","ensure",
-        "establish","evaluate","evident","evolve","examine","exclude","exhibit",
-        "exploit","facilitate","factor","fluctuate","focus","formulate","generate",
-        "identify","illustrate","implement","imply","indicate","influence",
-        "integrate","interpret","investigate","involve","issue","justify",
-    ],
-    "C1-C2": [
-        "abolish","abstain","accentuate","accommodate","aggregate","allegation",
-        "alleviate","ambiguous","amend","analogous","antagonize","arbitrary",
-        "articulate","ascertain","aspire","assert","attrition","augment",
-        "autonomous","candid","coerce","coherent","commensurate","comply",
-        "conceive","concurrent","confer","conform","consensus","constitute",
-        "contingent","contradict","correlate","culminate","deduce","deter",
-        "deviate","differentiate","discourse","disparity","dispute","disseminate",
-        "distinguish","diverge","emancipate","empirical","enumerate","epitomize",
-        "equivocal","exacerbate","extrapolate","fundamental","hypothesize",
-        "ideology","illuminate","incorporate","infer","inherent","initiate",
-        "innovation","insight","instill","integrity","intervene","invariably",
-        "juxtapose","legitimize","manifest","marginalize","methodology","mitigate",
-        "nuance","objective","paradigm","perpetuate","phenomenon","plausible",
-        "pragmatic","preclude","predominantly","prioritize","proficiency",
-        "proliferate","rationalize","reconcile","redefine","regulate","reinforce",
-        "scrutinize","substantiate","transcend","unequivocal","validate",
-    ],
+# ─── OXFORD DB LOADER ────────────────────────────────────────────────────────
+import os
+
+@st.cache_data
+def load_oxford_db() -> dict:
+    """Load oxford_db.json if it exists. Returns {} if not found."""
+    path = os.path.join(os.path.dirname(__file__), "oxford_db.json")
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {}
+
+OXFORD_DB = load_oxford_db()
+OXFORD_DB_AVAILABLE = bool(OXFORD_DB)
+
+def get_oxford_cards_local(level: str, n: int = 5) -> list[dict]:
+    """Pick n random cards from local oxford_db.json."""
+    pool = OXFORD_DB.get(level, [])
+    return random.sample(pool, min(n, len(pool)))
+
+# Fallback seed words (used only when oxford_db.json not yet generated)
+OXFORD_SEED_FALLBACK = {
+    "A1-A2": ["able","accept","agree","allow","answer","arrive","ask","become",
+               "begin","believe","carry","change","choose","create","decide"],
+    "B1-B2": ["analyse","anticipate","assess","collaborate","consequence",
+               "demonstrate","evaluate","facilitate","identify","investigate"],
+    "C1-C2": ["articulate","autonomous","coerce","disseminate","empirical",
+               "exacerbate","extrapolate","paradigm","scrutinize","substantiate"],
 }
 
-def get_oxford_seed(level: str, n: int = 8) -> list[str]:
-    """Pick n random Oxford 5000 words matching CEFR level."""
+def get_oxford_seed_fallback(level: str, n: int = 8) -> list[str]:
     if "Beginner" in level:
-        pool = OXFORD_5000["A1-A2"]
+        pool = OXFORD_SEED_FALLBACK["A1-A2"]
     elif "Intermediate" in level:
-        pool = OXFORD_5000["B1-B2"]
+        pool = OXFORD_SEED_FALLBACK["B1-B2"]
     else:
-        pool = OXFORD_5000["C1-C2"]
+        pool = OXFORD_SEED_FALLBACK["C1-C2"]
     return random.sample(pool, min(n, len(pool)))
 
 # ─── 2. CSS — WARM READING NOOK (light mode locked) ──────────────────────────
@@ -733,19 +711,43 @@ with tab1:
 
     st.markdown("---")
 
-    if st.button("🔄 เจนคำศัพท์ชุดใหม่ (5 ใบ)", key="gen_cards"):
-        with st.spinner("AI กำลังคัดเลือกคำศัพท์วิชาการยอดเยี่ยม..."):
-            if st.session_state["oxford_mode"]:
-                seed_words = get_oxford_seed(user_level, 8)
-                oxford_instruction = (
-                    f'IMPORTANT: You MUST choose 5 words from this Oxford 5000 seed list: {seed_words}. '
-                    'Each card must include a field "oxford": true.'
-                )
-            else:
-                seed_words = []
-                oxford_instruction = 'Include "oxford": false in each card.'
+    # แสดงสถานะ DB
+    if OXFORD_DB_AVAILABLE and st.session_state["oxford_mode"]:
+        total_cards = sum(len(v) for v in OXFORD_DB.values())
+        level_cards = len(OXFORD_DB.get(user_level, []))
+        st.caption(f"📦 Oxford DB: **{total_cards:,}** คำทั้งหมด · ระดับนี้มี **{level_cards:,}** คำ · ไม่ใช้ AI เลย ⚡")
+    elif st.session_state["oxford_mode"] and not OXFORD_DB_AVAILABLE:
+        st.warning("⚠️ ยังไม่มี oxford_db.json — จะใช้ AI สร้างแทน (รัน generate_oxford_db.py ก่อนเพื่อประหยัด token)")
 
-            raw = call_gemini(f"""
+    # ปุ่มสุ่มการ์ด — ถ้า Oxford mode + มี DB จะไม่เรียก AI เลย
+    btn_label = "🎲 สุ่มคำศัพท์ใหม่ (5 ใบ)" if (OXFORD_DB_AVAILABLE and st.session_state["oxford_mode"]) else "🔄 เจนคำศัพท์ใหม่ (5 ใบ)"
+    if st.button(btn_label, key="gen_cards"):
+        if st.session_state["oxford_mode"] and OXFORD_DB_AVAILABLE:
+            # ── โหมด Oxford + มี DB: ไม่เรียก AI เลย ──
+            picked = get_oxford_cards_local(user_level, 5)
+            if picked:
+                st.session_state["cards"] = picked
+                st.session_state["card_idx"] = 0
+                st.session_state["flash_score"] = 0
+                st.session_state["flash_status"] = None
+                if "current_options" in st.session_state:
+                    del st.session_state["current_options"]
+                st.rerun()
+            else:
+                st.error("ไม่พบคำในระดับนี้ใน oxford_db.json กรุณารัน generate_oxford_db.py ใหม่")
+        else:
+            # ── โหมด AI ปกติ (หรือ Oxford แต่ยังไม่มี DB) ──
+            with st.spinner("AI กำลังคัดเลือกคำศัพท์วิชาการยอดเยี่ยม..."):
+                if st.session_state["oxford_mode"]:
+                    seed_words = get_oxford_seed_fallback(user_level, 8)
+                    oxford_instruction = (
+                        f'IMPORTANT: You MUST choose 5 words from this Oxford 5000 seed list: {seed_words}. '
+                        'Each card must include a field "oxford": true.'
+                    )
+                else:
+                    oxford_instruction = 'Include "oxford": false in each card.'
+
+                raw = call_gemini(f"""
 You are an academic English vocabulary teacher.
 Generate 5 vocabulary flashcards for topic: "{topic}", level: "{user_level}".
 {oxford_instruction}
@@ -753,17 +755,17 @@ Return ONLY a valid JSON array, no markdown, no extra text.
 Each object must have exactly these keys:
 {{"word":"...","pronunciation":"...","definition":"...","thai":"...","example":"...","oxford":true/false}}
 """, max_tokens=700)
-            if raw:
-                try:
-                    st.session_state["cards"] = parse_json(raw)
-                    st.session_state["card_idx"] = 0
-                    st.session_state["flash_score"] = 0
-                    st.session_state["flash_status"] = None
-                    if "current_options" in st.session_state:
-                        del st.session_state["current_options"]
-                    st.rerun()
-                except Exception as e:
-                    st.error(f"แปลงข้อมูล JSON ล้มเหลว: {e}\n\n{raw}")
+                if raw:
+                    try:
+                        st.session_state["cards"] = parse_json(raw)
+                        st.session_state["card_idx"] = 0
+                        st.session_state["flash_score"] = 0
+                        st.session_state["flash_status"] = None
+                        if "current_options" in st.session_state:
+                            del st.session_state["current_options"]
+                        st.rerun()
+                    except Exception as e:
+                        st.error(f"แปลงข้อมูล JSON ล้มเหลว: {e}\n\n{raw}")
 
     if "cards" in st.session_state and st.session_state["cards"]:
         cards = st.session_state["cards"]
