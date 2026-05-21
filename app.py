@@ -39,10 +39,23 @@ def load_oxford_db() -> dict:
 
 OXFORD_DB = load_oxford_db()
 OXFORD_DB_AVAILABLE = bool(OXFORD_DB)
-
 def get_oxford_cards_local(level: str, n: int = 5) -> list[dict]:
-    """Pick n random cards from local oxford_db.json."""
-    pool = OXFORD_DB.get(level, [])
+    """Pick n random cards from local oxford_db.json by mapping CEFR levels."""
+    if not OXFORD_DB:
+        return []
+        
+    # แปลงระดับจากหน้าบ้านให้ตรงกับ Key ในไฟล์ JSON (ปรับให้ตรงกับคีย์ที่มีในไฟล์ของคุณ)
+    if "Beginner" in level:
+        # ลองดึงคีย์ A1 ถ้าไม่มีให้ลองหา A2 หรือถ้าเก็บเป็น "A1-A2" ก็เปลี่ยนเป็น OXFORD_DB.get("A1-A2", [])
+        pool = OXFORD_DB.get("A1", []) + OXFORD_DB.get("A2", [])
+    elif "Intermediate" in level:
+        pool = OXFORD_DB.get("B1", []) + OXFORD_DB.get("B2", [])
+    else:
+        pool = OXFORD_DB.get("C1", []) + OXFORD_DB.get("C2", [])
+        
+    if not pool:
+        return []
+        
     return random.sample(pool, min(n, len(pool)))
 
 # Fallback seed words (used only when oxford_db.json not yet generated)
