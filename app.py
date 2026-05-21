@@ -18,75 +18,172 @@ if "saved_key" not in st.session_state:
     st.session_state["saved_key"] = ""
 
 st.set_page_config(
-    page_title="Academic English AI Trainer", 
-    page_icon="📖", 
+    page_title="Academic English AI Trainer",
+    page_icon="📖",
     layout="centered"
 )
 
-# ─── 2. HYBRID RESPONSIVE CSS ────────────────────────────────────────────────
+# ─── 2. REDESIGNED CSS ───────────────────────────────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
+
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; }
 
 .stApp {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #F7F5F0;
+}
+
+[data-theme="dark"] .stApp {
+    background-color: #111110;
 }
 
 #MainMenu, footer, header { visibility: hidden; }
-.block-container { padding-top: 1.5rem; padding-bottom: 4rem; max-width: 720px; }
+.block-container {
+    padding-top: 2.5rem;
+    padding-bottom: 5rem;
+    max-width: 740px;
+}
 
+/* ── Header ── */
 .app-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 2.3rem;
-    color: var(--text-color); 
-    margin-bottom: 0.15rem;
-    font-weight: 700;
+    font-family: 'Fraunces', serif;
+    font-size: 2.6rem;
+    color: #1C1B18;
+    margin-bottom: 0.1rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
 }
+[data-theme="dark"] .app-title { color: #F0EDE6; }
+
 .app-sub {
-    font-size: 0.9rem;
-    color: #888899;
-    letter-spacing: 0.06em;
+    font-size: 0.8rem;
+    color: #9B968A;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    margin-bottom: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 2.5rem;
 }
 
-.settings-dashboard {
-    background: var(--background-color);
-    background-image: linear-gradient(135deg, rgba(120, 120, 150, 0.08) 0%, rgba(120, 120, 150, 0.03) 100%);
-    border: 1px solid rgba(120, 120, 150, 0.2);
-    border-radius: 18px;
-    padding: 1.5rem;
+.title-accent {
+    display: inline-block;
+    width: 36px;
+    height: 3px;
+    background: #D4A853;
+    border-radius: 2px;
+    margin-bottom: 1.2rem;
+}
+
+/* ── Settings Area ── */
+.settings-wrapper {
+    background: #FFFFFF;
+    border: 1px solid #E8E4DC;
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
     margin-bottom: 2rem;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.03);
+}
+[data-theme="dark"] .settings-wrapper {
+    background: #1C1B18;
+    border-color: #2E2D29;
 }
 
+/* ── Inputs ── */
+.stTextInput > div > div > input,
+.stSelectbox > div > div {
+    border-radius: 10px !important;
+    border-color: #E2DDD5 !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-size: 0.875rem !important;
+    background: #FAFAF8 !important;
+}
+[data-theme="dark"] .stTextInput > div > div > input,
+[data-theme="dark"] .stSelectbox > div > div {
+    background: #222220 !important;
+    border-color: #333330 !important;
+    color: #E8E4DC !important;
+}
+
+/* ── Tabs ── */
 .stTabs [data-baseweb="tab-list"] {
-    gap: 6px;
-    background: rgba(120, 120, 150, 0.08);
-    padding: 6px;
-    border-radius: 14px;
-    border: 1px solid rgba(120, 120, 150, 0.1);
+    gap: 4px;
+    background: #EEEBE4;
+    padding: 5px;
+    border-radius: 12px;
+    border: none;
+    margin-bottom: 1.75rem;
+}
+[data-theme="dark"] .stTabs [data-baseweb="tab-list"] {
+    background: #1C1B18;
 }
 .stTabs [data-baseweb="tab"] {
-    border-radius: 10px;
-    padding: 8px 18px;
-    font-size: 0.85rem;
+    border-radius: 8px;
+    padding: 7px 16px;
+    font-size: 0.82rem;
     font-weight: 500;
-    color: #888899;
+    color: #7A7569;
     background: transparent;
     border: none;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: 0.01em;
 }
 .stTabs [aria-selected="true"] {
-    background: var(--background-color) !important;
-    color: var(--text-color) !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    background: #FFFFFF !important;
+    color: #1C1B18 !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08), 0 0 0 0.5px rgba(0,0,0,0.06) !important;
 }
-.stTabs [data-baseweb="tab-highlight"], .stTabs [data-baseweb="tab-border"] { display: none; }
+[data-theme="dark"] .stTabs [aria-selected="true"] {
+    background: #2E2D29 !important;
+    color: #F0EDE6 !important;
+}
+.stTabs [data-baseweb="tab-highlight"],
+.stTabs [data-baseweb="tab-border"] { display: none; }
 
+/* ── Buttons ── */
+.stButton > button {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 0.875rem !important;
+    border-radius: 10px !important;
+    border: 1.5px solid #E2DDD5 !important;
+    background: #FFFFFF !important;
+    color: #1C1B18 !important;
+    padding: 9px 18px !important;
+    transition: all 0.15s ease !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04) !important;
+}
+.stButton > button:hover {
+    border-color: #D4A853 !important;
+    background: #FDF9F2 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 3px 10px rgba(212,168,83,0.15) !important;
+}
+[data-theme="dark"] .stButton > button {
+    background: #222220 !important;
+    border-color: #3A3935 !important;
+    color: #E8E4DC !important;
+}
+
+/* Primary action button (generate / submit) */
+button[kind="primary"],
+.stButton > button[data-testid*="gen"],
+.stButton > button[data-testid*="submit"] {
+    background: #1C1B18 !important;
+    color: #F0EDE6 !important;
+    border-color: #1C1B18 !important;
+}
+button[kind="primary"]:hover {
+    background: #2E2D29 !important;
+}
+
+/* ── Flashcard Scene ── */
 .flashcard-scene {
     width: 100%;
-    height: 250px;
-    perspective: 1000px;
+    height: 240px;
+    perspective: 1200px;
     margin: 1rem 0;
 }
 .flashcard {
@@ -94,106 +191,280 @@ st.markdown("""
     height: 100%;
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 18px;
+    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 16px;
 }
 .flashcard.flipped { transform: rotateY(180deg); }
 .flashcard-face {
     position: absolute;
     inset: 0;
-    border-radius: 18px;
+    border-radius: 16px;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     display: flex;
     flex-direction: column;
-    padding: 2rem;
+    padding: 2rem 2.25rem;
 }
+
+/* Front face — dark ink */
 .flashcard-front {
-    background: linear-gradient(135deg, #2b3a60 0%, #1a233d 100%);
+    background: #1C1B18;
     color: white;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.14), 0 1px 3px rgba(0,0,0,0.08);
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.04);
 }
+
+/* Back face — cream */
 .flashcard-back {
-    background: var(--background-color);
-    border: 1.5px solid rgba(120, 120, 150, 0.2);
+    background: #FDFCF9;
+    border: 1.5px solid #E8E4DC;
     transform: rotateY(180deg);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.06);
     align-items: flex-start;
     justify-content: flex-start;
-    gap: 8px;
+    gap: 10px;
+    overflow-y: auto;
 }
-.card-word { font-family: 'DM Serif Display', serif; font-size: 2.5rem; color: #ffcb6b; text-align: center; }
-.card-pron { font-size: 1.1rem; opacity: 0.8; color: #fff; }
-.back-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #888; }
-.back-value { font-size: 1rem; color: var(--text-color); line-height: 1.5; }
+[data-theme="dark"] .flashcard-back {
+    background: #1C1B18;
+    border-color: #2E2D29;
+}
 
-.flashcard-quiz-box {
-    background: linear-gradient(135deg, #2b3a60 0%, #1a233d 100%);
-    color: white;
-    border-radius: 18px;
-    padding: 2.5rem 2rem;
+.card-word {
+    font-family: 'Fraunces', serif;
+    font-size: 2.6rem;
+    color: #D4A853;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
 }
-div[data-testid="stHorizontalBlock"] .stButton > button {
-    background: var(--background-color);
-    color: var(--text-color);
-    border: 1.5px solid rgba(120, 120, 150, 0.2);
-    border-radius: 12px;
-    padding: 14px 20px;
-    text-align: left;
-    font-weight: 500;
-}
-div[data-testid="stHorizontalBlock"] .stButton > button:hover {
-    border-color: #ffcb6b;
-    transform: translateY(-1px);
-}
-.stButton > button {
-    background: #ffcb6b;
-    color: #1a1a2e;
-    border-radius: 10px;
-    padding: 10px 22px;
-    font-weight: 600;
-}
-.passage-card {
-    background: rgba(120, 120, 150, 0.05);
-    border-left: 4px solid #ffcb6b;
-    border-radius: 4px 14px 14px 4px;
-    padding: 1.5rem 1.75rem;
+.card-pron {
     font-size: 1rem;
-    line-height: 1.9;
-    color: var(--text-color);
+    opacity: 0.55;
+    color: #fff;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+}
+.card-hint {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.35);
+    margin-top: 0.75rem;
+    letter-spacing: 0.05em;
+}
+
+.back-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #9B968A;
+}
+.back-value {
+    font-size: 0.95rem;
+    color: #1C1B18;
+    line-height: 1.6;
+    margin-top: 1px;
+}
+[data-theme="dark"] .back-value { color: #E8E4DC; }
+
+/* ── Quiz Box ── */
+.flashcard-quiz-box {
+    background: #1C1B18;
+    color: white;
+    border-radius: 16px;
+    padding: 2.25rem 2rem;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
     margin-bottom: 1.25rem;
 }
-.quiz-card {
-    background: rgba(120, 120, 150, 0.02);
-    border: 1.5px solid rgba(120, 120, 150, 0.15);
-    border-radius: 16px;
-    padding: 1.5rem 1.75rem;
-    margin-bottom: 1rem;
+.quiz-word-title {
+    font-family: 'Fraunces', serif;
+    font-size: 2.4rem;
+    color: #D4A853;
+    letter-spacing: -0.02em;
 }
-.quiz-q { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: var(--text-color); }
+.quiz-word-pron {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.45);
+    margin-top: 0.4rem;
+}
 
+/* Quiz answer options */
+div[data-testid="stHorizontalBlock"] .stButton > button {
+    background: #FFFFFF !important;
+    color: #1C1B18 !important;
+    border: 1.5px solid #E2DDD5 !important;
+    border-radius: 10px !important;
+    padding: 12px 16px !important;
+    text-align: left !important;
+    font-weight: 400 !important;
+    font-size: 0.875rem !important;
+    line-height: 1.4 !important;
+    height: auto !important;
+    min-height: 52px !important;
+    transition: all 0.15s ease !important;
+}
+div[data-testid="stHorizontalBlock"] .stButton > button:hover {
+    border-color: #D4A853 !important;
+    background: #FDF9F2 !important;
+}
+[data-theme="dark"] div[data-testid="stHorizontalBlock"] .stButton > button {
+    background: #1C1B18 !important;
+    color: #E8E4DC !important;
+    border-color: #2E2D29 !important;
+}
+
+/* ── Passage Card ── */
+.passage-card {
+    background: #FFFFFF;
+    border-left: 3px solid #D4A853;
+    border-radius: 0 14px 14px 0;
+    padding: 1.5rem 1.75rem;
+    font-size: 0.975rem;
+    line-height: 2;
+    color: #2A2924;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+[data-theme="dark"] .passage-card {
+    background: #1C1B18;
+    color: #D8D4CC;
+    border-left-color: #D4A853;
+}
+
+/* ── Quiz Cards ── */
+.quiz-card {
+    background: #FFFFFF;
+    border: 1.5px solid #EDEAE3;
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+[data-theme="dark"] .quiz-card {
+    background: #1C1B18;
+    border-color: #2E2D29;
+}
+.quiz-q {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    color: #1C1B18;
+    line-height: 1.5;
+    margin-top: 6px;
+}
+[data-theme="dark"] .quiz-q { color: #F0EDE6; }
+.quiz-type-badge {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: #9B968A;
+    background: #F0EDE6;
+    padding: 2px 9px;
+    border-radius: 5px;
+}
+[data-theme="dark"] .quiz-type-badge {
+    background: #2A2924;
+    color: #7A7569;
+}
+
+/* ── Chat Bubbles ── */
 .chat-bubble-user {
-    background: #ffcb6b; color: #1a1a2e; border-radius: 18px 18px 4px 18px;
-    padding: 0.8rem 1.2rem; font-size: 0.95rem; max-width: 80%; margin-left: auto; margin-bottom: 10px;
-    font-weight: 500;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    background: #1C1B18;
+    color: #F0EDE6;
+    border-radius: 18px 18px 4px 18px;
+    padding: 0.75rem 1.1rem;
+    font-size: 0.9rem;
+    max-width: 78%;
+    margin-left: auto;
+    margin-bottom: 10px;
+    font-weight: 400;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    line-height: 1.55;
 }
 .chat-bubble-ai {
-    background: rgba(120, 120, 150, 0.08); color: var(--text-color); border-radius: 18px 18px 18px 4px;
-    padding: 0.8rem 1.2rem; font-size: 0.95rem; max-width: 80%; margin-right: auto; margin-bottom: 10px;
-    border: 1px solid rgba(120, 120, 150, 0.05);
+    background: #FFFFFF;
+    color: #1C1B18;
+    border-radius: 18px 18px 18px 4px;
+    padding: 0.75rem 1.1rem;
+    font-size: 0.9rem;
+    max-width: 78%;
+    margin-right: auto;
+    margin-bottom: 10px;
+    border: 1.5px solid #EDEAE3;
+    line-height: 1.55;
+}
+[data-theme="dark"] .chat-bubble-ai {
+    background: #1C1B18;
+    border-color: #2E2D29;
+    color: #D8D4CC;
+}
+
+/* ── Result Boxes ── */
+.result-correct {
+    background: #F2FAF4;
+    border: 1px solid #A8D5B5;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    color: #1A4A28;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-top: 0.5rem;
+}
+.result-wrong {
+    background: #FEF5F5;
+    border: 1px solid #F5B8B8;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    color: #6B1A1A;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-top: 0.5rem;
+}
+
+/* ── Dividers & misc ── */
+hr { border-color: #EDEAE3 !important; margin: 1.5rem 0 !important; }
+[data-theme="dark"] hr { border-color: #2E2D29 !important; }
+
+.stProgress > div > div > div {
+    background-color: #D4A853 !important;
+    border-radius: 4px;
+}
+.stProgress > div > div {
+    background-color: #EDEAE3 !important;
+    border-radius: 4px;
+}
+[data-theme="dark"] .stProgress > div > div {
+    background-color: #2E2D29 !important;
+}
+
+/* Caption & small text */
+.stCaption { color: #9B968A !important; font-size: 0.8rem !important; }
+
+/* ── Section headers inside tabs ── */
+h4 {
+    font-family: 'Fraunces', serif !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.02em !important;
+    color: #1C1B18 !important;
+    font-size: 1.35rem !important;
+}
+[data-theme="dark"] h4 { color: #F0EDE6 !important; }
+
+/* ── Warning / info boxes ── */
+.stAlert {
+    border-radius: 12px !important;
+    border: none !important;
+    font-size: 0.875rem !important;
 }
 </style>
 """, unsafe_allow_html=True)
 
 # ─── 3. APP HEADER ───────────────────────────────────────────────────────────
-st.markdown('<p class="app-title">Academic English Trainer</p>', unsafe_allow_html=True)
+st.markdown('<div class="title-accent"></div>', unsafe_allow_html=True)
+st.markdown('<p class="app-title">Academic English<br>Trainer</p>', unsafe_allow_html=True)
 st.markdown('<p class="app-sub">AI-Powered · Gemini · ฝึกภาษาอังกฤษเชิงวิชาการ</p>', unsafe_allow_html=True)
 
 # ─── 4. SETTINGS DASHBOARD ───────────────────────────────────────────────────
@@ -201,16 +472,16 @@ col_key, col_lvl, col_tpc = st.columns([2, 2, 2])
 
 with col_key:
     api_input = st.text_input(
-        "Gemini API Key", 
-        type="password", 
-        placeholder="AIza...", 
+        "Gemini API Key",
+        type="password",
+        placeholder="AIza...",
         value=st.session_state["saved_key"],
         help="รับคีย์ฟรีที่ https://aistudio.google.com/app/apikey"
     )
     if api_input != st.session_state["saved_key"]:
         st.session_state["saved_key"] = api_input
         st.rerun()
-        
+
 with col_lvl:
     user_level = st.selectbox(
         "ระดับภาษาอังกฤษ",
@@ -230,23 +501,20 @@ with col_tpc:
     if topic != st.session_state["topic"]:
         st.session_state["topic"] = topic
         st.rerun()
-        
+
 api_key = st.session_state["saved_key"]
 if not api_key:
     st.warning("⚠️ โปรดระบุ Gemini API Key ในช่องตั้งค่าด้านบนเพื่อเชื่อมต่อระบบบอทและเข้าสู่บทเรียนครับ!")
     st.stop()
 
-# ─── 5. GEMINI HELPER (ปรับแต่ง Configuration เพื่อเซฟโควต้าคำตอบ) ───────────────
+# ─── 5. GEMINI HELPER ────────────────────────────────────────────────────────
 def call_gemini(prompt: str) -> str | None:
     try:
         client = genai.Client(api_key=api_key)
-        
-        # ✨ แก้ไขจุดนี้: เปลี่ยนจาก GenerationConfig เป็น GenerateContentConfig ของแท้
         config = genai.types.GenerateContentConfig(
-            max_output_tokens=500,  
-            temperature=0.3        
+            max_output_tokens=500,
+            temperature=0.3
         )
-        
         response = client.models.generate_content(
             model="gemini-2.5-flash-lite",
             contents=prompt,
@@ -273,15 +541,15 @@ def parse_json(text: str):
         clean = "\n".join(lines).strip()
     return json.loads(clean)
 
-# ─── 6. TABS CONTROL ──────────────────────────────────────────────────────────
+# ─── 6. TABS ─────────────────────────────────────────────────────────────────
 tab1, tab2, tab3, tab4 = st.tabs(["📇 Flashcards", "📄 Reading", "🧩 Vocab Quiz", "💬 Chat"])
 
 # ==============================================================================
 # TAB 1 — FLASHCARDS
 # ==============================================================================
 with tab1:
-    st.markdown("#### 📇 คลังคำศัพท์อัจฉริยะ (Vocab Study & Quiz)")
-    st.caption(f"หัวข้อคอร์สในปัจจุบัน: **{topic}** · ระดับผู้เรียน: **{user_level}**")
+    st.markdown("#### 📇 คลังคำศัพท์อัจฉริยะ")
+    st.caption(f"หัวข้อ: **{topic}** · ระดับ: **{user_level}**")
 
     if "flash_mode" not in st.session_state:
         st.session_state["flash_mode"] = "study"
@@ -322,19 +590,19 @@ Each object must have exactly these keys:
         cards = st.session_state["cards"]
         idx = st.session_state.get("card_idx", 0)
 
-        # ── โหมดเรียนรู้ ──
+        # ── Study Mode ──
         if st.session_state["flash_mode"] == "study":
-            st.subheader("👀 ฝึกจำคำศัพท์ (คลิกที่การ์ดเพื่อพลิกดูความหมาย)")
-            
+            st.subheader("👀 ฝึกจำคำศัพท์")
+
             if "study_idx" not in st.session_state: st.session_state["study_idx"] = 0
             s_idx = st.session_state["study_idx"]
             if s_idx >= len(cards): st.session_state["study_idx"] = 0; s_idx = 0
-            
+
             card = cards[s_idx]
-            
+
             if f"flipped_{s_idx}" not in st.session_state:
                 st.session_state[f"flipped_{s_idx}"] = False
-                
+
             is_flipped = st.session_state[f"flipped_{s_idx}"]
             flip_class = "flipped" if is_flipped else ""
 
@@ -344,26 +612,27 @@ Each object must have exactly these keys:
                     <div class="flashcard-face flashcard-front">
                         <div class="card-word">{card['word']}</div>
                         <div class="card-pron">{card.get('pronunciation','')}</div>
-                        <div class="card-hint">💡 คลิกปุ่มด้านล่างเพื่อพลิกดูความหมาย</div>
+                        <div class="card-hint">คลิกปุ่มด้านล่างเพื่อพลิกดูความหมาย</div>
                     </div>
-                    <div class="flashcard-face flashcard-back" style="overflow-y: auto;">
+                    <div class="flashcard-face flashcard-back">
                         <div style="width:100%;">
                             <div class="back-label">ความหมายภาษาไทย</div>
-                            <div class="back-value" style="font-weight:bold; color:#1a1a2e; font-size:1.1rem;">{card.get('thai','')}</div>
+                            <div class="back-value" style="font-weight:600; font-size:1.05rem;">{card.get('thai','')}</div>
                         </div>
-                        <div style="width:100%; margin-top:5px;">
+                        <div style="width:100%; margin-top:6px;">
                             <div class="back-label">Definition</div>
                             <div class="back-value">{card['definition']}</div>
                         </div>
-                        <div class="back-example" style="width:100%;">
-                            <b>Example:</b><br>"{card.get('example','')}"
+                        <div style="width:100%; margin-top:6px;">
+                            <div class="back-label">Example</div>
+                            <div class="back-value" style="font-style:italic; color:#6B6460;">"{card.get('example','')}"</div>
                         </div>
                     </div>
                 </div>
             </div>
             """, unsafe_allow_html=True)
 
-            if st.button("🔄 พลิกการ์ด (Flip)", key=f"flip_btn_{s_idx}", use_container_width=True):
+            if st.button("🔄 พลิกการ์ด", key=f"flip_btn_{s_idx}", use_container_width=True):
                 st.session_state[f"flipped_{s_idx}"] = not st.session_state[f"flipped_{s_idx}"]
                 st.rerun()
 
@@ -374,16 +643,16 @@ Each object must have exactly these keys:
                     st.session_state["study_idx"] = s_idx - 1
                     st.rerun()
             with col_b2:
-                st.markdown(f"<p style='text-align:center; font-size:0.9rem; color:#666; margin-top:8px;'>ใบที่ {s_idx + 1} / {len(cards)}</p>", unsafe_allow_html=True)
+                st.markdown(f"<p style='text-align:center; font-size:0.82rem; color:#9B968A; margin-top:10px; font-weight:500; letter-spacing:0.05em;'>ใบที่ {s_idx + 1} / {len(cards)}</p>", unsafe_allow_html=True)
             with col_b3:
                 if st.button("ถัดไป ➡️", disabled=(s_idx == len(cards) - 1), use_container_width=True):
                     st.session_state["study_idx"] = s_idx + 1
                     st.rerun()
-                    
-            st.markdown("---")
-            st.info("💡 ทยอยจำให้ครบทั้ง 5 คำก่อน แล้วกดคลิกที่แท็บ **[🎮 โหมดเกมควิซ]** ด้านบน เพื่อทำแบบทดสอบเก็บคะแนนกันครับ!")
 
-        # ── โหมดทำควิซ ──
+            st.markdown("---")
+            st.info("💡 ทยอยจำให้ครบทั้ง 5 คำก่อน แล้วกดแท็บ **[🎮 โหมดเกมควิซ]** ด้านบน เพื่อทำแบบทดสอบเก็บคะแนน")
+
+        # ── Quiz Mode ──
         elif st.session_state["flash_mode"] == "quiz":
             if "flash_score" not in st.session_state: st.session_state["flash_score"] = 0
             if "flash_status" not in st.session_state: st.session_state["flash_status"] = None
@@ -391,13 +660,13 @@ Each object must have exactly these keys:
             if idx >= len(cards):
                 st.balloons()
                 st.markdown(f"""
-                <div style="background:#e8f4ea; border-radius:12px; padding:2rem; text-align:center; border:1px solid #c3e6cb; margin: 1rem 0;">
-                    <h2 style="color:#1e4620; margin:0 0 0.5rem 0;">🏁 เก่งมาก! ทดสอบครบจบเซ็ตแล้ว</h2>
-                    <h4 style="color:#2e6930; margin:0;">คะแนนรวมของคุณ: <span style="font-size:2rem; font-weight:bold;">{st.session_state['flash_score']}</span> / {len(cards)} คะแนน</h4>
+                <div style="background:#F2FAF4; border-radius:16px; padding:2rem; text-align:center; border:1px solid #A8D5B5; margin: 1rem 0;">
+                    <h2 style="font-family:'Fraunces',serif; color:#1A4A28; margin:0 0 0.5rem 0; font-size:1.75rem;">🏁 จบเซ็ตแล้ว!</h2>
+                    <p style="color:#2E6930; margin:0; font-size:1rem;">คะแนนรวม: <span style="font-family:'Fraunces',serif; font-size:2.25rem; font-weight:600;">{st.session_state['flash_score']}</span> / {len(cards)}</p>
                 </div>
                 """, unsafe_allow_html=True)
-                
-                if st.button("🔄 เริ่มเล่นเกมใหม่อีกครั้ง", use_container_width=True):
+
+                if st.button("🔄 เริ่มเล่นใหม่", use_container_width=True):
                     st.session_state["card_idx"] = 0
                     st.session_state["flash_score"] = 0
                     st.session_state["flash_status"] = None
@@ -417,10 +686,10 @@ Each object must have exactly these keys:
 
                 col_prog, col_sco = st.columns([3, 1])
                 with col_prog:
-                    st.markdown(f"**คำถามข้อที่: {idx + 1} / {len(cards)}")
+                    st.markdown(f"<p style='font-size:0.82rem; color:#9B968A; font-weight:500; margin-bottom:4px;'>ข้อที่ {idx + 1} / {len(cards)}</p>", unsafe_allow_html=True)
                     st.progress((idx) / len(cards))
                 with col_sco:
-                    st.markdown(f"<p style='text-align:right; font-weight:bold; color:#ff9800; font-size:1.1rem;'>🏆 Score: {st.session_state['flash_score']}</p>", unsafe_allow_html=True)
+                    st.markdown(f"<p style='text-align:right; font-weight:600; color:#D4A853; font-size:1rem; margin-top:4px;'>🏆 {st.session_state['flash_score']} คะแนน</p>", unsafe_allow_html=True)
 
                 st.markdown(f"""
                 <div class="flashcard-quiz-box">
@@ -429,9 +698,9 @@ Each object must have exactly these keys:
                 </div>
                 """, unsafe_allow_html=True)
 
-                st.markdown("<p style='font-size:0.9rem; font-weight:bold; color:#555;'>เลือกคำแปลภาษาไทยที่ถูกต้อง:</p>", unsafe_allow_html=True)
+                st.markdown("<p style='font-size:0.82rem; font-weight:600; color:#9B968A; letter-spacing:0.05em; text-transform:uppercase;'>เลือกคำแปลที่ถูกต้อง</p>", unsafe_allow_html=True)
                 options = st.session_state["current_options"]
-                
+
                 col1, col2 = st.columns(2)
                 col3, col4 = st.columns(2)
                 choice_buttons = [col1, col2, col3, col4]
@@ -452,13 +721,14 @@ Each object must have exactly these keys:
                         st.rerun()
 
                 if st.session_state["flash_status"] == "correct":
-                    st.success(f"🎉 ถูกต้อง! ** แปลว่า: **{card.get('thai','')}**")
                     st.markdown(f"""
-                    <div style="background:#f0faf1; padding:1rem; border-radius:10px; color:#1e6b3f; font-size:0.9rem; margin-bottom:1rem; border-left:4px solid #6fcf97;">
-                        <b>Definition:</b> {card['definition']}<br>
-                        <b>Example:</b> "{card.get('example','')}"
+                    <div class="result-correct">
+                        🎉 <strong>ถูกต้อง!</strong> แปลว่า <strong>{card.get('thai','')}</strong><br>
+                        <span style="opacity:0.8;">{card['definition']}</span><br>
+                        <em style="opacity:0.7;">"{card.get('example','')}"</em>
                     </div>
                     """, unsafe_allow_html=True)
+                    st.markdown("<br>", unsafe_allow_html=True)
                     if st.button("ข้อถัดไป ➡️", key="next_c", use_container_width=True):
                         st.session_state["card_idx"] = idx + 1
                         st.session_state["flash_status"] = None
@@ -466,14 +736,14 @@ Each object must have exactly these keys:
                         st.rerun()
 
                 elif st.session_state["flash_status"] == "wrong":
-                    st.error(f"❌ ยังไม่ถูกเฉลยคลาดเคลื่อนครับ")
-                    st.info(f"💡 คำตอบที่ถูกต้องคือ: **{card.get('thai','')}**")
                     st.markdown(f"""
-                    <div style="background:#fff5f5; padding:1rem; border-radius:10px; color:#8b1a1a; font-size:0.9rem; margin-bottom:1rem; border-left:4px solid #f48c8c;">
-                        <b>Definition:</b> {card['definition']}<br>
-                        <b>Example:</b> "{card.get('example','')}"
+                    <div class="result-wrong">
+                        ❌ <strong>ยังไม่ถูกครับ</strong> — คำตอบที่ถูกต้องคือ <strong>{card.get('thai','')}</strong><br>
+                        <span style="opacity:0.8;">{card['definition']}</span><br>
+                        <em style="opacity:0.7;">"{card.get('example','')}"</em>
                     </div>
                     """, unsafe_allow_html=True)
+                    st.markdown("<br>", unsafe_allow_html=True)
                     if st.button("ข้ามไปข้อถัดไป ➡️", key="next_w", use_container_width=True):
                         st.session_state["card_idx"] = idx + 1
                         st.session_state["flash_status"] = None
@@ -492,18 +762,18 @@ READING_TOPICS = [
 ]
 
 with tab2:
-    st.markdown("#### อ่านบทความและตอบคำถาม")
-    
+    st.markdown("#### 📄 อ่านบทความและตอบคำถาม")
+
     def randomize_topic_callback():
         st.session_state["reading_topic_sel"] = random.choice(READING_TOPICS)
         st.session_state["article"] = None
         st.session_state["reading_result"] = None
 
     col_sel, col_rand = st.columns([3, 1])
-        
+
     with col_sel:
         reading_topic = st.selectbox("เลือกหัวข้อบทความ:", READING_TOPICS, key="reading_topic_sel")
-            
+
     with col_rand:
         st.markdown("<div style='margin-top:1.6rem'>", unsafe_allow_html=True)
         st.button("🎲 สุ่ม", key="random_topic", on_click=randomize_topic_callback)
@@ -531,9 +801,9 @@ Return ONLY valid JSON, no markdown:
         art = st.session_state["article"]
 
         st.markdown(
-            f'<span style="display:inline-block;background:#ececf8;color:#5555aa;font-size:0.75rem;' +
-            'font-weight:500;letter-spacing:0.07em;text-transform:uppercase;' +
-            f'padding:3px 12px;border-radius:6px;margin-bottom:0.75rem">{art.get("topic","")}</span>',
+            f'<span style="display:inline-block; background:#F0EDE6; color:#6B6460; font-size:0.7rem;'
+            'font-weight:600; letter-spacing:0.09em; text-transform:uppercase;'
+            f'padding:3px 10px; border-radius:5px; margin-bottom:0.75rem">{art.get("topic","")}</span>',
             unsafe_allow_html=True
         )
 
@@ -560,14 +830,15 @@ Return ONLY valid JSON, no markdown:
 
         if art.get("vocab"):
             vocab_items = "".join(
-                f'<span style="margin-right:1.2rem; display:inline-block; color:#1e1e2f">'
-                f'<b>{v["word"]}</b> — <span style="color:#4a4a5a">{v["meaning"]}</span></span>'
+                f'<span style="margin-right:1.25rem; display:inline-block;">'
+                f'<strong style="color:#1C1B18;">{v["word"]}</strong>'
+                f'<span style="color:#6B6460; margin-left:4px;">— {v["meaning"]}</span></span>'
                 for v in art["vocab"]
             )
             st.markdown(
-                '<div style="background:#f4f4fb; color:#1e1e2f; border-radius:10px; padding:0.75rem 1rem;' +
-                'font-size:0.85rem; margin-bottom:1rem; line-height:2">' +
-                '<span style="font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:#666677; display:block; margin-bottom:4px">คำศัพท์ในบทความ</span>' +
+                '<div style="background:#FAFAF7; border:1px solid #EDEAE3; color:#1C1B18; border-radius:12px; padding:0.85rem 1.1rem;'
+                'font-size:0.85rem; margin-bottom:1.25rem; line-height:2.2;">'
+                '<span style="font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color:#9B968A; font-weight:600; display:block; margin-bottom:4px;">คำศัพท์ในบทความ</span>'
                 f'{vocab_items}</div>',
                 unsafe_allow_html=True
             )
@@ -605,17 +876,17 @@ Keep it encouraging and concise.
             fb_lower = (res["feedback"] or "").lower()
             css_class = "result-correct" if any(w in fb_lower for w in ["correct","good","right","great","well"]) else "result-wrong"
             st.markdown(
-                f'<div class="{css_class}">' +
-                f'<b>ผลการตรวจ:</b><br>{res["feedback"]}<br><br>' +
-                f'<b>เฉลย:</b> {res["model"]}</div>',
+                f'<div class="{css_class}">'
+                f'<strong>ผลการตรวจ:</strong><br>{res["feedback"]}<br><br>'
+                f'<strong>เฉลย:</strong> {res["model"]}</div>',
                 unsafe_allow_html=True
             )
 
 # ==============================================================================
-# TAB 3 — VOCAB QUIZ (ปรับปรุงระบบ Batch ยิง API รอบเดียวเพื่อประหยัดโควต้า)
+# TAB 3 — VOCAB QUIZ
 # ==============================================================================
 with tab3:
-    st.markdown("#### ทบทวนคำศัพท์")
+    st.markdown("#### 🧩 ทบทวนคำศัพท์")
     st.caption("AI จะถามให้เดาคำศัพท์จากนิยามหรือตัวอย่างประโยค")
 
     if st.button("🎲 สร้างชุดคำถามใหม่", key="gen_quiz"):
@@ -668,11 +939,10 @@ Return ONLY valid JSON array, no markdown:
                     css = "result-correct" if result["ok"] else "result-wrong"
                     icon = "✅" if result["ok"] else "❌"
                     st.markdown(
-                        f'<div class="{css}">{icon} เฉลย: <b>{result["ans"]}</b><br>{result["fb"]}</div>',
+                        f'<div class="{css}">{icon} เฉลย: <strong>{result["ans"]}</strong><br>{result["fb"]}</div>',
                         unsafe_allow_html=True
                     )
 
-        # ปุ่มส่งคำตอบที่ยุบรวมการยิง API เป็นครั้งเดียว (Batching)
         if st.button("📝 ส่งคำตอบทั้งหมด", key="submit_quiz"):
             quiz_data_to_send = []
             for i, q in enumerate(quiz):
@@ -683,8 +953,8 @@ Return ONLY valid JSON array, no markdown:
                     "correct_answer": q['answer'],
                     "student_answer": u_ans
                 })
-            
-            with st.spinner("AI กำลังตรวจคำตอบทั้งหมดพร้อมกันในครั้งเดียว..."):
+
+            with st.spinner("AI กำลังตรวจคำตอบทั้งหมด..."):
                 raw_feedback = call_gemini(f"""
 You are an expert English teacher. Evaluate these student answers.
 Data: {json.dumps(quiz_data_to_send)}
@@ -704,7 +974,7 @@ Do not include markdown format wrappers.
                                 "fb": item["fb"]
                             }
                     except Exception as e:
-                        st.error(f"ประมวลผลผลลัพธ์ล้มเหลว กรุณาลองใหม่อีกครั้ง: {e}")
+                        st.error(f"ประมวลผลผลลัพธ์ล้มเหลว: {e}")
             st.rerun()
 
 # ==============================================================================
@@ -712,7 +982,7 @@ Do not include markdown format wrappers.
 # ==============================================================================
 with tab4:
     st.markdown("#### 💬 สนทนากับ AI Tutor")
-    
+
     ICE_BREAKERS = [
         "What did you do today? Tell me a little bit about your day.",
         "What is your favorite food, and why do you like it?",
@@ -737,12 +1007,12 @@ with tab4:
     if user_chat:
         st.session_state.chat_history.append({"role": "user", "text": user_chat})
         history_str = "\n".join(f'{"Student" if m["role"]=="user" else "Tutor"}: {m["text"]}' for m in st.session_state.chat_history)
-        
-        with st.spinner("AI กำลังคิดพิมพ์ตอบ..."):
+
+        with st.spinner("AI กำลังพิมพ์ตอบ..."):
             reply = call_gemini(f"You are an English teacher. Reply to user: '{user_chat}' based on history:\n{history_str}\nKeep it short and ask a new question.")
             if reply: st.session_state.chat_history.append({"role": "assistant", "text": reply})
         st.rerun()
 
-    if st.button("🧹 ล้างประวัติการสนทนา (เริ่มคุยใหม่)"): 
-        st.session_state.chat_history = [] 
+    if st.button("🧹 ล้างประวัติการสนทนา"):
+        st.session_state.chat_history = []
         st.rerun()
