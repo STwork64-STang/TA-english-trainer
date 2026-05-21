@@ -674,7 +674,7 @@ def parse_json(text: str):
 tab1, tab2, tab3, tab4 = st.tabs(["📇 Flashcards", "📄 Reading", "🧩 Vocab Quiz", "💬 Chat"])
 
 # ==============================================================================
-# TAB 1 — FLASHCARDS  (with Oxford 5000)
+# TAB 1 — FLASHCARDS  (with Adaptive Leitner System)
 # ==============================================================================
 with tab1:
     st.markdown("#### 📇 คลังคำศัพท์อัจฉริยะ")
@@ -693,7 +693,7 @@ with tab1:
     if st.session_state["oxford_mode"]:
         st.markdown(
             '<div class="oxford-badge">📘 Oxford 5000 Active</div>',
-            unsafe_allow_html=True
+            'unsafe_allow_html=True'
         )
 
     if "flash_mode" not in st.session_state:
@@ -722,18 +722,12 @@ with tab1:
     # ปุ่มสุ่มการ์ด — ถ้า Oxford mode + มี DB จะไม่เรียก AI เลย
     btn_label = "🎲 สุ่มคำศัพท์ใหม่ (5 ใบ)" if (OXFORD_DB_AVAILABLE and st.session_state["oxford_mode"]) else "🔄 เจนคำศัพท์ใหม่ (5 ใบ)"
     if st.button(btn_label, key="gen_cards"):
+        picked_cards = None
+        
         if st.session_state["oxford_mode"] and OXFORD_DB_AVAILABLE:
             # ── โหมด Oxford + มี DB: ไม่เรียก AI เลย ──
-            picked = get_oxford_cards_local(user_level, 5)
-            if picked:
-                st.session_state["cards"] = picked
-                st.session_state["card_idx"] = 0
-                st.session_state["flash_score"] = 0
-                st.session_state["flash_status"] = None
-                if "current_options" in st.session_state:
-                    del st.session_state["current_options"]
-                st.rerun()
-            else:
+            picked_cards = get_oxford_cards_local(user_level, 5)
+            if not picked_cards:
                 st.error("ไม่พบคำในระดับนี้ใน oxford_db.json กรุณารัน generate_oxford_db.py ใหม่")
         else:
             # ── โหมด AI ปกติ (หรือ Oxford แต่ยังไม่มี DB) ──
@@ -757,19 +751,33 @@ Each object must have exactly these keys:
 """, max_tokens=700)
                 if raw:
                     try:
-                        st.session_state["cards"] = parse_json(raw)
-                        st.session_state["card_idx"] = 0
-                        st.session_state["flash_score"] = 0
-                        st.session_state["flash_status"] = None
-                        if "current_options" in st.session_state:
-                            del st.session_state["current_options"]
-                        st.rerun()
+                        picked_cards = parse_json(raw)
                     except Exception as e:
                         st.error(f"แปลงข้อมูล JSON ล้มเหลว: {e}\n\n{raw}")
 
+        # ถ้าโหลดหรือเจนคำศัพท์สำเร็จ ให้ทำระบบฉีด Logic ความจำตั้งต้นเข้าไป
+        if picked_cards:
+            for card in picked_cards:
+                card["streak"] = 0         # จำนวนครั้งที่ตอบถูกติดกันเริ่มต้น
+                card["mastered"] = False   # สถานะจำได้แม่นยำแล้ว
+            
+            st.session_state["cards"] = picked_cards
+            st.session_state["card_idx"] = 0
+            st.session_state["flash_score"] = 0
+            st.session_state["flash_status"] = None
+            if "current_options" in st.session_state:
+                del st.session_state["current_options"]
+            st.rerun()
+
+    # ── เริ่มส่วนการแสดงผลเนื้อหาคำศัพท์ ──
     if "cards" in st.session_state and st.session_state["cards"]:
         cards = st.session_state["cards"]
         idx = st.session_state.get("card_idx", 0)
+
+        # Safety Check ป้องกัน Index เกินกรณีข้อมูลเปลี่ยนไปมา
+        if idx >= len(cards):
+            idx = 0
+            st.session_state["card_idx"] = 0
 
         # ── Study Mode ──
         if st.session_state["flash_mode"] == "study":
@@ -852,26 +860,36 @@ Each object must have exactly these keys:
             if "flash_status" not in st.session_state:
                 st.session_state["flash_status"] = None
 
-            if idx >= len(cards):
+            # ตรวจหาการ์ดที่ผู้เล่นยังจำไม่ได้ (mastered == False)
+            unmastered_cards = [c for c in cards if not c.get("mastered", False)]
+
+            # กรณีชนะเกม: บรรลุเป้าหมายครบถ้วนทุกคำ
+            if not unmastered_cards:
                 st.balloons()
                 st.markdown(f"""
                 <div style="background:var(--correct-bg); border-radius:16px; padding:2rem; text-align:center; border:1px solid var(--correct-bd); margin: 1rem 0;">
-                    <h2 style="font-family:'Fraunces',serif; color:var(--correct-txt); margin:0 0 0.5rem 0; font-size:1.75rem;">🏁 จบเซ็ตแล้ว!</h2>
-                    <p style="color:var(--correct-txt); margin:0; font-size:1rem; font-family:'Plus Jakarta Sans',sans-serif;">คะแนนรวม: <span style="font-family:'Fraunces',serif; font-size:2.25rem; font-weight:600;">{st.session_state['flash_score']}</span> / {len(cards)}</p>
+                    <h2 style="font-family:'Fraunces',serif; color:var(--correct-txt); margin:0 0 0.5rem 0; font-size:1.75rem;">🏆 ยอดเยี่ยม! จำได้ครบเซ็ตแล้ว</h2>
+                    <p style="color:var(--correct-txt); margin:0; font-size:1rem; font-family:'Plus Jakarta Sans',sans-serif;">คุณผ่านเงื่อนไขตอบถูก 3 ครั้งติดต่อกันครบทั้ง {len(cards)} คำเรียบร้อย!</p>
                 </div>
                 """, unsafe_allow_html=True)
 
-                if st.button("🔄 เริ่มเล่นใหม่", use_container_width=True):
+                if st.button("🔄 เริ่มเล่นใหม่อีกครั้ง", use_container_width=True):
+                    for c in cards:
+                        c["streak"] = 0
+                        c["mastered"] = False
                     st.session_state["card_idx"] = 0
                     st.session_state["flash_score"] = 0
                     st.session_state["flash_status"] = None
                     if "current_options" in st.session_state:
                         del st.session_state["current_options"]
                     st.rerun()
+            
             else:
+                # ดึงข้อมูลการ์ดใบปัจจุบันมาเล่นควิซ
                 card = cards[idx]
                 is_oxford = card.get("oxford", False)
 
+                # สุ่มตัวเลือกคำตอบรอบใหม่
                 if "current_options" not in st.session_state:
                     correct_ans = card.get('thai', '')
                     wrong_answers = [c.get('thai', '') for i, c in enumerate(cards) if i != idx and c.get('thai', '')]
@@ -881,19 +899,26 @@ Each object must have exactly these keys:
                     random.shuffle(selected_options)
                     st.session_state["current_options"] = selected_options
 
+                # ส่วนแถบแสดง Progress ความจำรวมในกอง
+                mastered_count = len(cards) - len(unmastered_cards)
                 col_prog, col_sco = st.columns([3, 1])
                 with col_prog:
-                    st.markdown(f"<p style='font-size:0.82rem; color:var(--ink-faint); font-weight:500; margin-bottom:4px; font-family:\"Plus Jakarta Sans\",sans-serif;'>ข้อที่ {idx + 1} / {len(cards)}</p>", unsafe_allow_html=True)
-                    st.progress((idx) / len(cards))
+                    st.markdown(f"<p style='font-size:0.82rem; color:var(--ink-faint); font-weight:500; margin-bottom:4px; font-family:\"Plus Jakarta Sans\",sans-serif;'>จำได้แม่นยำแล้ว {mastered_count} / {len(cards)} คำ</p>", unsafe_allow_html=True)
+                    st.progress(mastered_count / len(cards))
                 with col_sco:
-                    st.markdown(f"<p style='text-align:right; font-weight:600; color:var(--amber); font-size:1rem; margin-top:4px; font-family:\"Plus Jakarta Sans\",sans-serif;'>🏆 {st.session_state['flash_score']} คะแนน</p>", unsafe_allow_html=True)
+                    st.markdown(f"<p style='text-align:right; font-weight:600; color:var(--amber); font-size:1rem; margin-top:4px; font-family:\"Plus Jakarta Sans\",sans-serif;'>🏆 รวม {st.session_state['flash_score']} คะแนน</p>", unsafe_allow_html=True)
 
                 oxford_quiz_tag = '<div class="quiz-oxford-tag">Oxford 5000</div>' if is_oxford else ""
+                
+                # แสดงคะแนนตอบถูกต่อเนื่อง (Streak) รายข้อเป็นรูปดาว
+                current_streak = card.get("streak", 0)
+                stars_ui = f'<div style="font-size:0.85rem; color:#f59e0b; margin-top:6px;">🔥 จำได้ต่อเนื่อง: {"⭐" * current_streak if current_streak > 0 else "🎯 พยายามเข้า"} ({current_streak}/3)</div>'
 
                 st.markdown(f"""
                 <div class="flashcard-quiz-box">
                     <div class="quiz-word-title">{card['word']}</div>
                     <div class="quiz-word-pron">{card.get('pronunciation','')}</div>
+                    {stars_ui}
                     {oxford_quiz_tag}
                 </div>
                 """, unsafe_allow_html=True)
@@ -911,15 +936,25 @@ Each object must have exactly these keys:
                         if st.button(f"{i+1}. {options[i]}", key=f"opt_{idx}_{i}", use_container_width=True, disabled=(st.session_state["flash_status"] is not None)):
                             user_choice = options[i]
 
+                # ── ประมวลผลเมื่อผู้ใช้งานกดตอบ ──
                 if user_choice:
                     if user_choice == card.get('thai', ''):
                         st.session_state["flash_status"] = "correct"
                         st.session_state["flash_score"] += 1
+                        
+                        # อัปเดตสเตตัสฉลาด: เพิ่มพลังตอบถูกสะสม
+                        card["streak"] += 1
+                        if card["streak"] >= 3:
+                            card["mastered"] = True
                         st.rerun()
                     else:
                         st.session_state["flash_status"] = "wrong"
+                        
+                        # อัปเดตสเตตัสฉลาด: ตอบผิดโดนรีเซ็ตความจำข้อนี้ใหม่หมดทันที!
+                        card["streak"] = 0
                         st.rerun()
 
+                # หน้าจอสรุปผลลัพธ์หลังเลือกตอบ
                 if st.session_state["flash_status"] == "correct":
                     st.markdown(f"""
                     <div class="result-correct">
@@ -929,8 +964,15 @@ Each object must have exactly these keys:
                     </div>
                     """, unsafe_allow_html=True)
                     st.markdown("<br>", unsafe_allow_html=True)
+                    
                     if st.button("ข้อถัดไป ➡️", key="next_c", use_container_width=True):
-                        st.session_state["card_idx"] = idx + 1
+                        # วนหาการ์ดใบถัดไปในกองที่ยังไม่เซียน (mastered == False)
+                        remains = [c for c in cards if not c.get("mastered", False)]
+                        if remains:
+                            # สุ่มสลับคำที่เหลือมาถามเพื่อความท้าทาย ไม่จำซ้ำที่เดิม
+                            next_card = random.choice(remains)
+                            st.session_state["card_idx"] = cards.index(next_card)
+                        
                         st.session_state["flash_status"] = None
                         if "current_options" in st.session_state:
                             del st.session_state["current_options"]
@@ -945,8 +987,14 @@ Each object must have exactly these keys:
                     </div>
                     """, unsafe_allow_html=True)
                     st.markdown("<br>", unsafe_allow_html=True)
+                    
                     if st.button("ข้ามไปข้อถัดไป ➡️", key="next_w", use_container_width=True):
-                        st.session_state["card_idx"] = idx + 1
+                        # แม้จะตอบผิดก็ให้สุ่มคำอื่นที่ยังไม่ผ่านขึ้นมาทดสอบวนลูปต่อไป
+                        remains = [c for c in cards if not c.get("mastered", False)]
+                        if remains:
+                            next_card = random.choice(remains)
+                            st.session_state["card_idx"] = cards.index(next_card)
+                            
                         st.session_state["flash_status"] = None
                         if "current_options" in st.session_state:
                             del st.session_state["current_options"]
