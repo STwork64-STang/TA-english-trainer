@@ -851,7 +851,7 @@ Each object must have exactly these keys:
                     st.rerun()
 
             st.markdown("---")
-            st.info("💡 ทยอยจำให้ครบทั้ง 5 คำก่อน แล้วกดแท็บ **[🎮 โหมดเกมควิซ]** ด้านบน เพื่อทำแบบทดสอบเก็บคะแนน")
+            st.info("💡 จำให้ครบทั้ง 5 คำก่อน แล้วกดแท็บ 🎮 โหมดเกมควิซ เพื่อทำแบบทดสอบเก็บคะแนน")
 
         # ── Quiz Mode ──
         elif st.session_state["flash_mode"] == "quiz":
