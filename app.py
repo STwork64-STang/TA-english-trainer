@@ -693,7 +693,7 @@ with tab1:
     if st.session_state["oxford_mode"]:
         st.markdown(
             '<div class="oxford-badge">📘 Oxford 5000 Active</div>',
-            'unsafe_allow_html=True'
+            unsafe_allow_html=True
         )
 
     if "flash_mode" not in st.session_state:
