@@ -725,8 +725,48 @@ with tab1:
         picked_cards = None
         
         if st.session_state["oxford_mode"] and OXFORD_DB_AVAILABLE:
-            # ── โหมด Oxford + มี DB: ไม่เรียก AI เลย ──
-            picked_cards = get_oxford_cards_local(user_level, 5)
+            # 1. สุ่มศัพท์ดิบจากไฟล์ JSON มา 5 คำก่อน
+            picked_raw = get_oxford_cards_local(user_level, 5)
+            
+            if picked_raw:
+                # 2. ส่งคำศัพท์ดิบไปให้ AI ช่วยเติม คำแปล, คำอ่าน และประโยคตัวอย่าง ให้สมบูรณ์
+                with st.spinner("🔮 AI กำลังเตรียมคำแปลและประโยคตัวอย่างอัจฉริยะสำหรับคุณ..."):
+                    words_list = [item['word'] for item in picked_raw]
+                    
+                    raw_ai_response = call_gemini(f"""
+                    You are an expert English-Thai lexicographer.
+                    I will give you 5 words: {words_list}
+                    For each word, you MUST provide:
+                    1. "pronunciation": IPA pronunciation (e.g. /əˈbaʊt/)
+                    2. "thai": Accurate Thai translation suitable for level {user_level}
+                    3. "example": A clear, meaningful English example sentence.
+                    4. "definition": A short simple English definition.
+                    
+                    Return ONLY a valid JSON array matching this exact format:
+                    [
+                      {{"word": "about", "pronunciation": "/əˈbaʊt/", "definition": "Concerning or on the subject of", "thai": "เกี่ยวกับ", "example": "What are you talking about?", "oxford": true}}
+                    ]
+                    """, max_tokens=800)
+                    
+                    try:
+                        # 3. นำข้อมูลที่ AI เติมให้เต็มแล้วไปใช้งานในควิซ
+                        complete_cards = parse_json(raw_ai_response)
+                        
+                        # ตั้งสเตตัสเริ่มต้นสำหรับระบบจำศัพท์อัจฉริยะ
+                        for card in complete_cards:
+                            card["streak"] = 0
+                            card["mastered"] = False
+                            
+                        st.session_state["cards"] = complete_cards
+                        st.session_state["card_idx"] = 0
+                        st.session_state["flash_score"] = 0
+                        st.session_state["flash_status"] = None
+                        if "current_options" in st.session_state:
+                            del st.session_state["current_options"]
+                        st.rerun()
+                        
+                    except Exception as e:
+                        st.error(f"AI คืนค่ารูปแบบไม่ถูกต้อง กรุณากดสุ่มใหม่อีกครั้ง: {e}")
             if not picked_cards:
                 st.error("ไม่พบคำในระดับนี้ใน oxford_db.json กรุณารัน generate_oxford_db.py ใหม่")
         else:
