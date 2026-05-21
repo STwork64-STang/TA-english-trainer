@@ -16,6 +16,8 @@ if "flash_mode" not in st.session_state:
     st.session_state["flash_mode"] = "study"
 if "saved_key" not in st.session_state:
     st.session_state["saved_key"] = ""
+if "oxford_mode" not in st.session_state:
+    st.session_state["oxford_mode"] = False
 
 st.set_page_config(
     page_title="Academic English AI Trainer",
@@ -23,150 +25,216 @@ st.set_page_config(
     layout="centered"
 )
 
-# ─── 2. REDESIGNED CSS ───────────────────────────────────────────────────────
+# ─── OXFORD 5000 SEED WORDS (curated sample by level band) ───────────────────
+# A sample of Oxford 5000 words grouped by CEFR level for seeding AI prompts.
+# Full list: https://www.oxfordlearnersdictionaries.com/wordlist/oxford3000-5000/
+OXFORD_5000 = {
+    "A1-A2": [
+        "able","accept","add","admit","afford","agree","allow","answer","appear",
+        "arrange","arrive","ask","avoid","become","begin","believe","belong",
+        "break","bring","buy","call","carry","cause","change","check","choose",
+        "close","collect","come","complete","consider","contain","continue",
+        "control","correct","cost","count","cover","create","decide","describe",
+        "develop","discuss","do","draw","drop","eat","end","enjoy","enter",
+        "expect","experience","explain","fall","feel","find","finish","follow",
+        "forget","get","give","go","grow","happen","have","hear","help","hold",
+        "hope","include","increase","join","keep","know","learn","leave","let",
+        "like","listen","live","look","love","make","mean","meet","move","need",
+    ],
+    "B1-B2": [
+        "abandon","abstract","accumulate","achieve","acknowledge","acquire",
+        "adapt","adequate","advocate","allocate","analyse","anticipate","apply",
+        "appreciate","approach","approximate","assess","assume","attain",
+        "attribute","authorize","benefit","bias","challenge","circumstance",
+        "clarify","classify","collaborate","commitment","compensate","complex",
+        "concentrate","conclude","conduct","conflict","consequence","contrast",
+        "contribute","controversy","convince","coordinate","criteria","debate",
+        "deduce","define","demonstrate","derive","diverse","dominate","draft",
+        "dynamics","elaborate","emerge","emphasize","enable","enhance","ensure",
+        "establish","evaluate","evident","evolve","examine","exclude","exhibit",
+        "exploit","facilitate","factor","fluctuate","focus","formulate","generate",
+        "identify","illustrate","implement","imply","indicate","influence",
+        "integrate","interpret","investigate","involve","issue","justify",
+    ],
+    "C1-C2": [
+        "abolish","abstain","accentuate","accommodate","aggregate","allegation",
+        "alleviate","ambiguous","amend","analogous","antagonize","arbitrary",
+        "articulate","ascertain","aspire","assert","attrition","augment",
+        "autonomous","candid","coerce","coherent","commensurate","comply",
+        "conceive","concurrent","confer","conform","consensus","constitute",
+        "contingent","contradict","correlate","culminate","deduce","deter",
+        "deviate","differentiate","discourse","disparity","dispute","disseminate",
+        "distinguish","diverge","emancipate","empirical","enumerate","epitomize",
+        "equivocal","exacerbate","extrapolate","fundamental","hypothesize",
+        "ideology","illuminate","incorporate","infer","inherent","initiate",
+        "innovation","insight","instill","integrity","intervene","invariably",
+        "juxtapose","legitimize","manifest","marginalize","methodology","mitigate",
+        "nuance","objective","paradigm","perpetuate","phenomenon","plausible",
+        "pragmatic","preclude","predominantly","prioritize","proficiency",
+        "proliferate","rationalize","reconcile","redefine","regulate","reinforce",
+        "scrutinize","substantiate","transcend","unequivocal","validate",
+    ],
+}
+
+def get_oxford_seed(level: str, n: int = 8) -> list[str]:
+    """Pick n random Oxford 5000 words matching CEFR level."""
+    if "Beginner" in level:
+        pool = OXFORD_5000["A1-A2"]
+    elif "Intermediate" in level:
+        pool = OXFORD_5000["B1-B2"]
+    else:
+        pool = OXFORD_5000["C1-C2"]
+    return random.sample(pool, min(n, len(pool)))
+
+# ─── 2. CSS — WARM READING NOOK (light mode locked) ──────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
 
-/* ── Reset & Base ── */
+/* ── WARM READING PALETTE ──
+   Warm parchment background, aged-paper cards, amber ink accents.
+   Feels like sitting with a good book under a lamp.
+*/
+:root {
+    --ink:         #1E1810;   /* deep warm almost-black for text       */
+    --ink-muted:   #6B5E4A;   /* secondary text, labels                */
+    --ink-faint:   #9E8E78;   /* placeholder, captions                 */
+    --parchment:   #F5F0E4;   /* app background — aged paper           */
+    --page:        #FBF8F2;   /* card / panel surface                  */
+    --page-warm:   #F8F3E8;   /* slightly richer card variant          */
+    --rule:        #DDD5C4;   /* dividers, borders                     */
+    --rule-light:  #EAE4D8;   /* very light borders                    */
+    --amber:       #C8922A;   /* primary accent — amber ink            */
+    --amber-light: #E8B855;   /* highlight                             */
+    --amber-bg:    #FDF4E0;   /* amber tint background                 */
+    --amber-deep:  #9E6E18;   /* pressed / hover deep amber            */
+    --sepia-1:     #3A2E1E;   /* flashcard dark face                   */
+    --sepia-2:     #4A3C26;   /* flashcard dark hover                  */
+    --correct-bg:  #EFF7EE;
+    --correct-bd:  #A8C9A0;
+    --correct-txt: #1C4A1E;
+    --wrong-bg:    #FBF0EE;
+    --wrong-bd:    #E0A8A0;
+    --wrong-txt:   #5A1A18;
+}
+
 *, *::before, *::after { box-sizing: border-box; }
 
-.stApp {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background-color: #F7F5F0;
+/* Force light everywhere — override Streamlit's theming */
+.stApp,
+html, body,
+[data-testid="stAppViewContainer"],
+[data-testid="stHeader"],
+[data-testid="stToolbar"],
+[data-testid="stDecoration"],
+[data-testid="stMainBlockContainer"],
+section[data-testid="stSidebar"] {
+    background-color: var(--parchment) !important;
+    color: var(--ink) !important;
 }
 
-/* Dark mode base — Streamlit sets data-theme on <html> */
-html[data-theme="dark"] .stApp { background-color: #141412; }
-
-/* Global dark text override — Streamlit's own text elements */
-html[data-theme="dark"] p,
-html[data-theme="dark"] span,
-html[data-theme="dark"] div,
-html[data-theme="dark"] label,
-html[data-theme="dark"] li,
-html[data-theme="dark"] .stMarkdown,
-html[data-theme="dark"] .stText,
-html[data-theme="dark"] [data-testid="stMarkdownContainer"] p,
-html[data-theme="dark"] [data-testid="stMarkdownContainer"] li {
-    color: #D8D4CC;
+/* Subtle paper texture via SVG noise */
+.stApp::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    pointer-events: none;
+    z-index: 0;
 }
-
-/* Keep gold accent elements their color in dark */
-html[data-theme="dark"] strong { color: #E8E4DC; }
 
 #MainMenu, footer, header { visibility: hidden; }
 .block-container {
     padding-top: 2.5rem;
     padding-bottom: 5rem;
     max-width: 740px;
+    position: relative;
+    z-index: 1;
 }
 
 /* ── Header ── */
 .app-title {
     font-family: 'Fraunces', serif;
     font-size: 2.6rem;
-    color: #1C1B18;
+    color: var(--ink);
     margin-bottom: 0.1rem;
     font-weight: 600;
     letter-spacing: -0.03em;
     line-height: 1.15;
 }
-html[data-theme="dark"] .app-title { color: #F0EDE6; }
-
 .app-sub {
-    font-size: 0.8rem;
-    color: #9B968A;
-    letter-spacing: 0.12em;
+    font-size: 0.78rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.13em;
     text-transform: uppercase;
     font-weight: 500;
     margin-bottom: 2.5rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
-
 .title-accent {
     display: inline-block;
     width: 36px;
     height: 3px;
-    background: #D4A853;
+    background: var(--amber);
     border-radius: 2px;
     margin-bottom: 1.2rem;
 }
 
-/* ── Inputs ── */
+/* ── Inputs & Selects ── */
 .stTextInput > div > div > input,
-.stSelectbox > div > div {
+.stSelectbox [data-baseweb="select"] > div:first-child {
     border-radius: 10px !important;
-    border-color: #E2DDD5 !important;
+    border-color: var(--rule) !important;
     font-family: 'Plus Jakarta Sans', sans-serif !important;
     font-size: 0.875rem !important;
-    background: #FAFAF8 !important;
-    color: #1C1B18 !important;
+    background: var(--page) !important;
+    color: var(--ink) !important;
 }
-html[data-theme="dark"] .stTextInput > div > div > input {
-    background: #1E1D1A !important;
-    border-color: #38362F !important;
-    color: #E8E4DC !important;
+.stTextInput label,
+.stSelectbox label,
+.stCheckbox label {
+    color: var(--ink-muted) !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-size: 0.82rem !important;
 }
-html[data-theme="dark"] .stTextInput label,
-html[data-theme="dark"] .stSelectbox label,
-html[data-theme="dark"] .stCheckbox label,
-html[data-theme="dark"] .stTextInput > label,
-html[data-theme="dark"] .stSelectbox > label {
-    color: #A8A49C !important;
+/* Dropdown list */
+[data-baseweb="popover"] li,
+[data-baseweb="menu"] li,
+[role="option"] {
+    background: var(--page) !important;
+    color: var(--ink) !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
 }
-/* Selectbox in dark — the div wrapper */
-html[data-theme="dark"] .stSelectbox [data-baseweb="select"] > div:first-child {
-    background: #1E1D1A !important;
-    border-color: #38362F !important;
-}
-html[data-theme="dark"] .stSelectbox [data-baseweb="select"] span,
-html[data-theme="dark"] .stSelectbox [data-baseweb="select"] div {
-    color: #E8E4DC !important;
-}
-/* Selectbox dropdown list */
-html[data-theme="dark"] [data-baseweb="popover"] li,
-html[data-theme="dark"] [data-baseweb="menu"] li,
-html[data-theme="dark"] [role="option"] {
-    background: #1E1D1A !important;
-    color: #D8D4CC !important;
-}
-html[data-theme="dark"] [data-baseweb="popover"] li:hover,
-html[data-theme="dark"] [role="option"]:hover {
-    background: #2A2924 !important;
+[data-baseweb="popover"] li:hover,
+[role="option"]:hover {
+    background: var(--amber-bg) !important;
 }
 
 /* ── Tabs ── */
 .stTabs [data-baseweb="tab-list"] {
     gap: 4px;
-    background: #EEEBE4;
+    background: var(--page-warm);
     padding: 5px;
     border-radius: 12px;
-    border: none;
+    border: 1px solid var(--rule-light);
     margin-bottom: 1.75rem;
-}
-html[data-theme="dark"] .stTabs [data-baseweb="tab-list"] {
-    background: #1E1D1A;
 }
 .stTabs [data-baseweb="tab"] {
     border-radius: 8px;
     padding: 7px 16px;
     font-size: 0.82rem;
     font-weight: 500;
-    color: #7A7569;
+    color: var(--ink-muted);
     background: transparent;
     border: none;
     font-family: 'Plus Jakarta Sans', sans-serif;
     letter-spacing: 0.01em;
 }
-html[data-theme="dark"] .stTabs [data-baseweb="tab"] { color: #5C5850; }
 .stTabs [aria-selected="true"] {
-    background: #FFFFFF !important;
-    color: #1C1B18 !important;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.08), 0 0 0 0.5px rgba(0,0,0,0.06) !important;
-}
-html[data-theme="dark"] .stTabs [aria-selected="true"] {
-    background: #2E2D29 !important;
-    color: #F0EDE6 !important;
+    background: var(--page) !important;
+    color: var(--ink) !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08), 0 0 0 0.5px rgba(0,0,0,0.04) !important;
 }
 .stTabs [data-baseweb="tab-highlight"],
 .stTabs [data-baseweb="tab-border"] { display: none; }
@@ -177,36 +245,44 @@ html[data-theme="dark"] .stTabs [aria-selected="true"] {
     font-weight: 500 !important;
     font-size: 0.875rem !important;
     border-radius: 10px !important;
-    border: 1.5px solid #E2DDD5 !important;
-    background: #FFFFFF !important;
-    color: #1C1B18 !important;
+    border: 1.5px solid var(--rule) !important;
+    background: var(--page) !important;
+    color: var(--ink) !important;
     padding: 9px 18px !important;
     transition: all 0.15s ease !important;
     box-shadow: 0 1px 2px rgba(0,0,0,0.04) !important;
 }
 .stButton > button:hover {
-    border-color: #D4A853 !important;
-    background: #FDF9F2 !important;
+    border-color: var(--amber) !important;
+    background: var(--amber-bg) !important;
     transform: translateY(-1px) !important;
-    box-shadow: 0 3px 10px rgba(212,168,83,0.15) !important;
+    box-shadow: 0 3px 10px rgba(200,146,42,0.18) !important;
+    color: var(--amber-deep) !important;
 }
-html[data-theme="dark"] .stButton > button {
-    background: #222220 !important;
-    border-color: #3A3935 !important;
-    color: #D8D4CC !important;
-}
-html[data-theme="dark"] .stButton > button:hover {
-    background: #2A2924 !important;
-    border-color: #D4A853 !important;
-    color: #F0EDE6 !important;
-}
-/* Disabled buttons in dark */
-html[data-theme="dark"] .stButton > button:disabled {
-    color: #4A4845 !important;
-    border-color: #2A2924 !important;
+.stButton > button:active {
+    transform: translateY(0) !important;
+    background: var(--amber-bg) !important;
 }
 
-/* ── Flashcard Scene ── */
+/* ── Oxford Badge ── */
+.oxford-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--amber-bg);
+    border: 1px solid var(--amber-light);
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--amber-deep);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    margin-bottom: 0.5rem;
+}
+
+/* ── Flashcard ── */
 .flashcard-scene {
     width: 100%;
     height: 240px;
@@ -232,21 +308,23 @@ html[data-theme="dark"] .stButton > button:disabled {
     flex-direction: column;
     padding: 2rem 2.25rem;
 }
-
-/* Front face — same in both modes */
+/* Front — warm dark sepia */
 .flashcard-front {
-    background: #1C1B18;
+    background: var(--sepia-1);
+    /* subtle warm grain */
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"),
+        linear-gradient(135deg, var(--sepia-1) 0%, var(--sepia-2) 100%);
     color: white;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.2), 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25), 0 1px 3px rgba(0,0,0,0.1);
     align-items: center;
     justify-content: center;
     border: 1px solid rgba(255,255,255,0.06);
 }
-
-/* Back face */
+/* Back — warm parchment */
 .flashcard-back {
-    background: #FDFCF9;
-    border: 1.5px solid #E8E4DC;
+    background: var(--page);
+    border: 1.5px solid var(--rule);
     transform: rotateY(180deg);
     box-shadow: 0 8px 32px rgba(0,0,0,0.06);
     align-items: flex-start;
@@ -254,51 +332,61 @@ html[data-theme="dark"] .stButton > button:disabled {
     gap: 10px;
     overflow-y: auto;
 }
-html[data-theme="dark"] .flashcard-back {
-    background: #252420;
-    border-color: #38362F;
-}
-
 .card-word {
     font-family: 'Fraunces', serif;
     font-size: 2.6rem;
-    color: #D4A853;
+    color: var(--amber);
     text-align: center;
     letter-spacing: -0.02em;
     line-height: 1.1;
 }
 .card-pron {
     font-size: 1rem;
-    opacity: 0.55;
+    opacity: 0.5;
     color: #fff;
     font-weight: 300;
     letter-spacing: 0.04em;
+    font-family: 'Source Serif 4', serif;
 }
 .card-hint {
-    font-size: 0.75rem;
-    color: rgba(255,255,255,0.35);
+    font-size: 0.73rem;
+    color: rgba(255,255,255,0.3);
     margin-top: 0.75rem;
     letter-spacing: 0.05em;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
-
+.card-oxford {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--amber-light);
+    opacity: 0.7;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
 .back-label {
     font-size: 0.65rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #9B968A;
+    color: var(--ink-faint);
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 .back-value {
     font-size: 0.95rem;
-    color: #1C1B18;
-    line-height: 1.6;
+    color: var(--ink);
+    line-height: 1.65;
     margin-top: 1px;
+    font-family: 'Source Serif 4', serif;
 }
-html[data-theme="dark"] .back-value { color: #D8D4CC !important; }
 
-/* ── Quiz Box ── */
+/* ── Quiz box ── */
 .flashcard-quiz-box {
-    background: #1C1B18;
+    background: var(--sepia-1);
+    background-image: linear-gradient(135deg, var(--sepia-1) 0%, var(--sepia-2) 100%);
     color: white;
     border-radius: 16px;
     padding: 2.25rem 2rem;
@@ -306,27 +394,34 @@ html[data-theme="dark"] .back-value { color: #D8D4CC !important; }
     box-shadow: 0 8px 32px rgba(0,0,0,0.2);
     margin-bottom: 1.25rem;
 }
-html[data-theme="dark"] .flashcard-quiz-box {
-    background: #252420;
-    border: 1px solid #38362F;
-}
 .quiz-word-title {
     font-family: 'Fraunces', serif;
     font-size: 2.4rem;
-    color: #D4A853;
+    color: var(--amber);
     letter-spacing: -0.02em;
 }
 .quiz-word-pron {
     font-size: 0.95rem;
-    color: rgba(255,255,255,0.45);
+    color: rgba(255,255,255,0.4);
     margin-top: 0.4rem;
+    font-family: 'Source Serif 4', serif;
+}
+.quiz-oxford-tag {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--amber-light);
+    opacity: 0.65;
+    margin-top: 0.6rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 /* Quiz answer options */
 div[data-testid="stHorizontalBlock"] .stButton > button {
-    background: #FFFFFF !important;
-    color: #1C1B18 !important;
-    border: 1.5px solid #E2DDD5 !important;
+    background: var(--page) !important;
+    color: var(--ink) !important;
+    border: 1.5px solid var(--rule) !important;
     border-radius: 10px !important;
     padding: 12px 16px !important;
     text-align: left !important;
@@ -335,205 +430,186 @@ div[data-testid="stHorizontalBlock"] .stButton > button {
     line-height: 1.4 !important;
     height: auto !important;
     min-height: 52px !important;
-    transition: all 0.15s ease !important;
+    font-family: 'Source Serif 4', serif !important;
 }
 div[data-testid="stHorizontalBlock"] .stButton > button:hover {
-    border-color: #D4A853 !important;
-    background: #FDF9F2 !important;
-}
-html[data-theme="dark"] div[data-testid="stHorizontalBlock"] .stButton > button {
-    background: #252420 !important;
-    color: #D8D4CC !important;
-    border-color: #38362F !important;
-}
-html[data-theme="dark"] div[data-testid="stHorizontalBlock"] .stButton > button:hover {
-    background: #2E2D29 !important;
-    border-color: #D4A853 !important;
-    color: #F0EDE6 !important;
+    border-color: var(--amber) !important;
+    background: var(--amber-bg) !important;
+    color: var(--amber-deep) !important;
 }
 
-/* ── Passage Card ── */
+/* ── Passage Card — the "reading book" feel ── */
 .passage-card {
-    background: #FFFFFF;
-    border-left: 3px solid #D4A853;
+    background: var(--page);
+    border-left: 3px solid var(--amber);
     border-radius: 0 14px 14px 0;
-    padding: 1.5rem 1.75rem;
-    font-size: 0.975rem;
-    line-height: 2;
-    color: #2A2924;
+    padding: 1.75rem 2rem;
+    font-family: 'Source Serif 4', serif;
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: var(--ink);
     margin-bottom: 1.25rem;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-}
-html[data-theme="dark"] .passage-card {
-    background: #1E1D1A;
-    color: #C8C4BC !important;
-    border-left-color: #D4A853;
-    border: 1px solid #38362F;
-    border-left: 3px solid #D4A853;
+    box-shadow:
+        0 1px 4px rgba(0,0,0,0.04),
+        inset 0 0 0 1px var(--rule-light);
+    letter-spacing: 0.01em;
 }
 
 /* ── Quiz Cards ── */
 .quiz-card {
-    background: #FFFFFF;
-    border: 1.5px solid #EDEAE3;
+    background: var(--page);
+    border: 1.5px solid var(--rule-light);
     border-radius: 14px;
     padding: 1.25rem 1.5rem;
     margin-bottom: 0.75rem;
     box-shadow: 0 1px 3px rgba(0,0,0,0.03);
 }
-html[data-theme="dark"] .quiz-card {
-    background: #1E1D1A;
-    border-color: #38362F;
-}
 .quiz-q {
     font-family: 'Fraunces', serif;
     font-size: 1.15rem;
-    color: #1C1B18;
+    color: var(--ink);
     line-height: 1.5;
     margin-top: 6px;
 }
-html[data-theme="dark"] .quiz-q { color: #E8E4DC !important; }
 .quiz-type-badge {
     font-size: 0.68rem;
     font-weight: 600;
     letter-spacing: 0.09em;
     text-transform: uppercase;
-    color: #9B968A;
-    background: #F0EDE6;
+    color: var(--ink-muted);
+    background: var(--page-warm);
     padding: 2px 9px;
     border-radius: 5px;
-}
-html[data-theme="dark"] .quiz-type-badge {
-    background: #2A2924;
-    color: #7A7569;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 /* ── Chat Bubbles ── */
 .chat-bubble-user {
-    background: #1C1B18;
-    color: #F0EDE6 !important;
+    background: var(--sepia-1);
+    color: #F5EDD8 !important;
     border-radius: 18px 18px 4px 18px;
     padding: 0.75rem 1.1rem;
-    font-size: 0.9rem;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.95rem;
     max-width: 78%;
     margin-left: auto;
     margin-bottom: 10px;
-    font-weight: 400;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    line-height: 1.55;
-}
-html[data-theme="dark"] .chat-bubble-user {
-    background: #D4A853;
-    color: #1C1B18 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    line-height: 1.6;
 }
 .chat-bubble-ai {
-    background: #FFFFFF;
-    color: #1C1B18 !important;
+    background: var(--page);
+    color: var(--ink) !important;
     border-radius: 18px 18px 18px 4px;
     padding: 0.75rem 1.1rem;
-    font-size: 0.9rem;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.95rem;
     max-width: 78%;
     margin-right: auto;
     margin-bottom: 10px;
-    border: 1.5px solid #EDEAE3;
-    line-height: 1.55;
-}
-html[data-theme="dark"] .chat-bubble-ai {
-    background: #252420;
-    border-color: #38362F;
-    color: #C8C4BC !important;
+    border: 1.5px solid var(--rule-light);
+    line-height: 1.6;
 }
 
 /* ── Result Boxes ── */
 .result-correct {
-    background: #F2FAF4;
-    border: 1px solid #A8D5B5;
+    background: var(--correct-bg);
+    border: 1px solid var(--correct-bd);
     border-radius: 12px;
     padding: 1rem 1.25rem;
-    color: #1A4A28;
-    font-size: 0.9rem;
-    line-height: 1.6;
+    color: var(--correct-txt);
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.95rem;
+    line-height: 1.65;
     margin-top: 0.5rem;
 }
-html[data-theme="dark"] .result-correct {
-    background: #172318;
-    border-color: #2D5E36;
-    color: #7EC896 !important;
-}
-html[data-theme="dark"] .result-correct strong { color: #A8DFBA !important; }
 .result-wrong {
-    background: #FEF5F5;
-    border: 1px solid #F5B8B8;
+    background: var(--wrong-bg);
+    border: 1px solid var(--wrong-bd);
     border-radius: 12px;
     padding: 1rem 1.25rem;
-    color: #6B1A1A;
-    font-size: 0.9rem;
-    line-height: 1.6;
+    color: var(--wrong-txt);
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.95rem;
+    line-height: 1.65;
     margin-top: 0.5rem;
 }
-html[data-theme="dark"] .result-wrong {
-    background: #231515;
-    border-color: #5E2D2D;
-    color: #D48888 !important;
-}
-html[data-theme="dark"] .result-wrong strong { color: #E8AAAA !important; }
 
-/* ── Dividers & misc ── */
-hr { border-color: #EDEAE3 !important; margin: 1.5rem 0 !important; }
-html[data-theme="dark"] hr { border-color: #2E2D29 !important; }
+/* ── Misc ── */
+hr { border-color: var(--rule) !important; margin: 1.5rem 0 !important; }
 
 .stProgress > div > div > div {
-    background-color: #D4A853 !important;
+    background-color: var(--amber) !important;
     border-radius: 4px;
 }
 .stProgress > div > div {
-    background-color: #EDEAE3 !important;
+    background-color: var(--rule-light) !important;
     border-radius: 4px;
 }
-html[data-theme="dark"] .stProgress > div > div {
-    background-color: #2E2D29 !important;
+
+.stCaption {
+    color: var(--ink-faint) !important;
+    font-size: 0.8rem !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
 }
 
-/* Caption & small text */
-.stCaption { color: #9B968A !important; font-size: 0.8rem !important; }
-html[data-theme="dark"] .stCaption { color: #6B6760 !important; }
-
-/* ── Section headers inside tabs ── */
 h4 {
     font-family: 'Fraunces', serif !important;
     font-weight: 600 !important;
     letter-spacing: -0.02em !important;
-    color: #1C1B18 !important;
+    color: var(--ink) !important;
     font-size: 1.35rem !important;
 }
-html[data-theme="dark"] h4 { color: #F0EDE6 !important; }
 
-/* Subheader / h3 */
-html[data-theme="dark"] h3 { color: #E8E4DC !important; }
+/* Streamlit text elements */
+p, span, div, label, li,
+.stMarkdown,
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stMarkdownContainer"] li {
+    color: var(--ink);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
 
-/* ── Warning / info / success / error boxes ── */
+/* Alert boxes */
 .stAlert {
     border-radius: 12px !important;
     border: none !important;
     font-size: 0.875rem !important;
-}
-html[data-theme="dark"] .stAlert [data-testid="stMarkdownContainer"] p {
-    color: inherit !important;
+    background: var(--page-warm) !important;
 }
 
-/* ── Chat input box ── */
-html[data-theme="dark"] .stChatInput textarea {
-    background: #1E1D1A !important;
-    border-color: #38362F !important;
-    color: #E8E4DC !important;
+/* Chat input */
+.stChatInput textarea {
+    background: var(--page) !important;
+    border-color: var(--rule) !important;
+    color: var(--ink) !important;
+    font-family: 'Source Serif 4', serif !important;
 }
-html[data-theme="dark"] .stChatInput textarea::placeholder { color: #5C5850 !important; }
+.stChatInput textarea::placeholder { color: var(--ink-faint) !important; }
 
-/* ── Text input placeholder ── */
-html[data-theme="dark"] .stTextInput input::placeholder { color: #5C5850 !important; }
+/* Text input placeholder */
+.stTextInput input::placeholder { color: var(--ink-faint) !important; }
 
-/* Score / progress text in quizzes */
-html[data-theme="dark"] .stMarkdown p { color: #C8C4BC; }
+/* Vocab pill row */
+.vocab-pill-row {
+    background: var(--page-warm);
+    border: 1px solid var(--rule-light);
+    border-radius: 12px;
+    padding: 0.85rem 1.1rem;
+    font-size: 0.87rem;
+    margin-bottom: 1.25rem;
+    line-height: 2.2;
+}
+.vocab-pill-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -583,11 +659,11 @@ if not api_key:
     st.stop()
 
 # ─── 5. GEMINI HELPER ────────────────────────────────────────────────────────
-def call_gemini(prompt: str) -> str | None:
+def call_gemini(prompt: str, max_tokens: int = 500) -> str | None:
     try:
         client = genai.Client(api_key=api_key)
         config = genai.types.GenerateContentConfig(
-            max_output_tokens=500,
+            max_output_tokens=max_tokens,
             temperature=0.3
         )
         response = client.models.generate_content(
@@ -620,11 +696,27 @@ def parse_json(text: str):
 tab1, tab2, tab3, tab4 = st.tabs(["📇 Flashcards", "📄 Reading", "🧩 Vocab Quiz", "💬 Chat"])
 
 # ==============================================================================
-# TAB 1 — FLASHCARDS
+# TAB 1 — FLASHCARDS  (with Oxford 5000)
 # ==============================================================================
 with tab1:
     st.markdown("#### 📇 คลังคำศัพท์อัจฉริยะ")
     st.caption(f"หัวข้อ: **{topic}** · ระดับ: **{user_level}**")
+
+    # Oxford 5000 toggle
+    oxford_on = st.toggle(
+        "🎓 Oxford 5000 Mode — เลือกคำจาก Oxford 5000 เท่านั้น",
+        value=st.session_state["oxford_mode"],
+        key="oxford_toggle_tab1"
+    )
+    if oxford_on != st.session_state["oxford_mode"]:
+        st.session_state["oxford_mode"] = oxford_on
+        st.rerun()
+
+    if st.session_state["oxford_mode"]:
+        st.markdown(
+            '<div class="oxford-badge">📘 Oxford 5000 Active</div>',
+            unsafe_allow_html=True
+        )
 
     if "flash_mode" not in st.session_state:
         st.session_state["flash_mode"] = "study"
@@ -643,20 +735,32 @@ with tab1:
 
     if st.button("🔄 เจนคำศัพท์ชุดใหม่ (5 ใบ)", key="gen_cards"):
         with st.spinner("AI กำลังคัดเลือกคำศัพท์วิชาการยอดเยี่ยม..."):
+            if st.session_state["oxford_mode"]:
+                seed_words = get_oxford_seed(user_level, 8)
+                oxford_instruction = (
+                    f'IMPORTANT: You MUST choose 5 words from this Oxford 5000 seed list: {seed_words}. '
+                    'Each card must include a field "oxford": true.'
+                )
+            else:
+                seed_words = []
+                oxford_instruction = 'Include "oxford": false in each card.'
+
             raw = call_gemini(f"""
 You are an academic English vocabulary teacher.
 Generate 5 vocabulary flashcards for topic: "{topic}", level: "{user_level}".
+{oxford_instruction}
 Return ONLY a valid JSON array, no markdown, no extra text.
 Each object must have exactly these keys:
-{{"word":"...","pronunciation":"...","definition":"...","thai":"...","example":"..."}}
-""")
+{{"word":"...","pronunciation":"...","definition":"...","thai":"...","example":"...","oxford":true/false}}
+""", max_tokens=700)
             if raw:
                 try:
                     st.session_state["cards"] = parse_json(raw)
                     st.session_state["card_idx"] = 0
                     st.session_state["flash_score"] = 0
                     st.session_state["flash_status"] = None
-                    if "current_options" in st.session_state: del st.session_state["current_options"]
+                    if "current_options" in st.session_state:
+                        del st.session_state["current_options"]
                     st.rerun()
                 except Exception as e:
                     st.error(f"แปลงข้อมูล JSON ล้มเหลว: {e}\n\n{raw}")
@@ -669,11 +773,15 @@ Each object must have exactly these keys:
         if st.session_state["flash_mode"] == "study":
             st.subheader("👀 ฝึกจำคำศัพท์")
 
-            if "study_idx" not in st.session_state: st.session_state["study_idx"] = 0
+            if "study_idx" not in st.session_state:
+                st.session_state["study_idx"] = 0
             s_idx = st.session_state["study_idx"]
-            if s_idx >= len(cards): st.session_state["study_idx"] = 0; s_idx = 0
+            if s_idx >= len(cards):
+                st.session_state["study_idx"] = 0
+                s_idx = 0
 
             card = cards[s_idx]
+            is_oxford = card.get("oxford", False)
 
             if f"flipped_{s_idx}" not in st.session_state:
                 st.session_state[f"flipped_{s_idx}"] = False
@@ -681,10 +789,13 @@ Each object must have exactly these keys:
             is_flipped = st.session_state[f"flipped_{s_idx}"]
             flip_class = "flipped" if is_flipped else ""
 
+            oxford_tag = '<div class="card-oxford">Oxford 5000</div>' if is_oxford else ""
+
             st.markdown(f"""
             <div class="flashcard-scene">
                 <div class="flashcard {flip_class}">
                     <div class="flashcard-face flashcard-front">
+                        {oxford_tag}
                         <div class="card-word">{card['word']}</div>
                         <div class="card-pron">{card.get('pronunciation','')}</div>
                         <div class="card-hint">คลิกปุ่มด้านล่างเพื่อพลิกดูความหมาย</div>
@@ -700,7 +811,7 @@ Each object must have exactly these keys:
                         </div>
                         <div style="width:100%; margin-top:6px;">
                             <div class="back-label">Example</div>
-                            <div class="back-value" style="font-style:italic; color:#6B6460;">"{card.get('example','')}"</div>
+                            <div class="back-value" style="font-style:italic; color:var(--ink-muted);">"{card.get('example','')}"</div>
                         </div>
                     </div>
                 </div>
@@ -718,7 +829,12 @@ Each object must have exactly these keys:
                     st.session_state["study_idx"] = s_idx - 1
                     st.rerun()
             with col_b2:
-                st.markdown(f"<p style='text-align:center; font-size:0.82rem; color:#9B968A; margin-top:10px; font-weight:500; letter-spacing:0.05em;'>ใบที่ {s_idx + 1} / {len(cards)}</p>", unsafe_allow_html=True)
+                st.markdown(
+                    f"<p style='text-align:center; font-size:0.82rem; color:var(--ink-faint); margin-top:10px; "
+                    f"font-weight:500; letter-spacing:0.05em; font-family:\"Plus Jakarta Sans\",sans-serif;'>"
+                    f"ใบที่ {s_idx + 1} / {len(cards)}</p>",
+                    unsafe_allow_html=True
+                )
             with col_b3:
                 if st.button("ถัดไป ➡️", disabled=(s_idx == len(cards) - 1), use_container_width=True):
                     st.session_state["study_idx"] = s_idx + 1
@@ -729,15 +845,17 @@ Each object must have exactly these keys:
 
         # ── Quiz Mode ──
         elif st.session_state["flash_mode"] == "quiz":
-            if "flash_score" not in st.session_state: st.session_state["flash_score"] = 0
-            if "flash_status" not in st.session_state: st.session_state["flash_status"] = None
+            if "flash_score" not in st.session_state:
+                st.session_state["flash_score"] = 0
+            if "flash_status" not in st.session_state:
+                st.session_state["flash_status"] = None
 
             if idx >= len(cards):
                 st.balloons()
                 st.markdown(f"""
-                <div style="background:#F2FAF4; border-radius:16px; padding:2rem; text-align:center; border:1px solid #A8D5B5; margin: 1rem 0;">
-                    <h2 style="font-family:'Fraunces',serif; color:#1A4A28; margin:0 0 0.5rem 0; font-size:1.75rem;">🏁 จบเซ็ตแล้ว!</h2>
-                    <p style="color:#2E6930; margin:0; font-size:1rem;">คะแนนรวม: <span style="font-family:'Fraunces',serif; font-size:2.25rem; font-weight:600;">{st.session_state['flash_score']}</span> / {len(cards)}</p>
+                <div style="background:var(--correct-bg); border-radius:16px; padding:2rem; text-align:center; border:1px solid var(--correct-bd); margin: 1rem 0;">
+                    <h2 style="font-family:'Fraunces',serif; color:var(--correct-txt); margin:0 0 0.5rem 0; font-size:1.75rem;">🏁 จบเซ็ตแล้ว!</h2>
+                    <p style="color:var(--correct-txt); margin:0; font-size:1rem; font-family:'Plus Jakarta Sans',sans-serif;">คะแนนรวม: <span style="font-family:'Fraunces',serif; font-size:2.25rem; font-weight:600;">{st.session_state['flash_score']}</span> / {len(cards)}</p>
                 </div>
                 """, unsafe_allow_html=True)
 
@@ -745,10 +863,12 @@ Each object must have exactly these keys:
                     st.session_state["card_idx"] = 0
                     st.session_state["flash_score"] = 0
                     st.session_state["flash_status"] = None
-                    if "current_options" in st.session_state: del st.session_state["current_options"]
+                    if "current_options" in st.session_state:
+                        del st.session_state["current_options"]
                     st.rerun()
             else:
                 card = cards[idx]
+                is_oxford = card.get("oxford", False)
 
                 if "current_options" not in st.session_state:
                     correct_ans = card.get('thai', '')
@@ -761,19 +881,22 @@ Each object must have exactly these keys:
 
                 col_prog, col_sco = st.columns([3, 1])
                 with col_prog:
-                    st.markdown(f"<p style='font-size:0.82rem; color:#9B968A; font-weight:500; margin-bottom:4px;'>ข้อที่ {idx + 1} / {len(cards)}</p>", unsafe_allow_html=True)
+                    st.markdown(f"<p style='font-size:0.82rem; color:var(--ink-faint); font-weight:500; margin-bottom:4px; font-family:\"Plus Jakarta Sans\",sans-serif;'>ข้อที่ {idx + 1} / {len(cards)}</p>", unsafe_allow_html=True)
                     st.progress((idx) / len(cards))
                 with col_sco:
-                    st.markdown(f"<p style='text-align:right; font-weight:600; color:#D4A853; font-size:1rem; margin-top:4px;'>🏆 {st.session_state['flash_score']} คะแนน</p>", unsafe_allow_html=True)
+                    st.markdown(f"<p style='text-align:right; font-weight:600; color:var(--amber); font-size:1rem; margin-top:4px; font-family:\"Plus Jakarta Sans\",sans-serif;'>🏆 {st.session_state['flash_score']} คะแนน</p>", unsafe_allow_html=True)
+
+                oxford_quiz_tag = '<div class="quiz-oxford-tag">Oxford 5000</div>' if is_oxford else ""
 
                 st.markdown(f"""
                 <div class="flashcard-quiz-box">
                     <div class="quiz-word-title">{card['word']}</div>
                     <div class="quiz-word-pron">{card.get('pronunciation','')}</div>
+                    {oxford_quiz_tag}
                 </div>
                 """, unsafe_allow_html=True)
 
-                st.markdown("<p style='font-size:0.82rem; font-weight:600; color:#9B968A; letter-spacing:0.05em; text-transform:uppercase;'>เลือกคำแปลที่ถูกต้อง</p>", unsafe_allow_html=True)
+                st.markdown("<p style='font-size:0.82rem; font-weight:600; color:var(--ink-faint); letter-spacing:0.05em; text-transform:uppercase; font-family:\"Plus Jakarta Sans\",sans-serif;'>เลือกคำแปลที่ถูกต้อง</p>", unsafe_allow_html=True)
                 options = st.session_state["current_options"]
 
                 col1, col2 = st.columns(2)
@@ -799,7 +922,7 @@ Each object must have exactly these keys:
                     st.markdown(f"""
                     <div class="result-correct">
                         🎉 <strong>ถูกต้อง!</strong> แปลว่า <strong>{card.get('thai','')}</strong><br>
-                        <span style="opacity:0.8;">{card['definition']}</span><br>
+                        <span style="opacity:0.85;">{card['definition']}</span><br>
                         <em style="opacity:0.7;">"{card.get('example','')}"</em>
                     </div>
                     """, unsafe_allow_html=True)
@@ -807,14 +930,15 @@ Each object must have exactly these keys:
                     if st.button("ข้อถัดไป ➡️", key="next_c", use_container_width=True):
                         st.session_state["card_idx"] = idx + 1
                         st.session_state["flash_status"] = None
-                        if "current_options" in st.session_state: del st.session_state["current_options"]
+                        if "current_options" in st.session_state:
+                            del st.session_state["current_options"]
                         st.rerun()
 
                 elif st.session_state["flash_status"] == "wrong":
                     st.markdown(f"""
                     <div class="result-wrong">
                         ❌ <strong>ยังไม่ถูกครับ</strong> — คำตอบที่ถูกต้องคือ <strong>{card.get('thai','')}</strong><br>
-                        <span style="opacity:0.8;">{card['definition']}</span><br>
+                        <span style="opacity:0.85;">{card['definition']}</span><br>
                         <em style="opacity:0.7;">"{card.get('example','')}"</em>
                     </div>
                     """, unsafe_allow_html=True)
@@ -822,7 +946,8 @@ Each object must have exactly these keys:
                     if st.button("ข้ามไปข้อถัดไป ➡️", key="next_w", use_container_width=True):
                         st.session_state["card_idx"] = idx + 1
                         st.session_state["flash_status"] = None
-                        if "current_options" in st.session_state: del st.session_state["current_options"]
+                        if "current_options" in st.session_state:
+                            del st.session_state["current_options"]
                         st.rerun()
 
 # ==============================================================================
@@ -845,10 +970,8 @@ with tab2:
         st.session_state["reading_result"] = None
 
     col_sel, col_rand = st.columns([3, 1])
-
     with col_sel:
         reading_topic = st.selectbox("เลือกหัวข้อบทความ:", READING_TOPICS, key="reading_topic_sel")
-
     with col_rand:
         st.markdown("<div style='margin-top:1.6rem'>", unsafe_allow_html=True)
         st.button("🎲 สุ่ม", key="random_topic", on_click=randomize_topic_callback)
@@ -864,11 +987,13 @@ Then create 1 comprehension question with a short open-ended answer (not multipl
 Also list the key vocabulary words used with brief English definitions.
 Return ONLY valid JSON, no markdown:
 {{"topic":"{reading_topic}","passage":"...","question":"...","model_answer":"...","vocab":[{{"word":"...","meaning":"..."}}]}}
-""")
+""", max_tokens=700)
             if raw:
                 try:
                     st.session_state["article"] = parse_json(raw)
                     st.session_state["reading_result"] = None
+                    if "tts_audio" in st.session_state:
+                        del st.session_state["tts_audio"]
                 except Exception as e:
                     st.error(f"แปลง JSON ไม่ได้: {e}\n\n{raw}")
 
@@ -876,9 +1001,10 @@ Return ONLY valid JSON, no markdown:
         art = st.session_state["article"]
 
         st.markdown(
-            f'<span style="display:inline-block; background:#F0EDE6; color:#6B6460; font-size:0.7rem;'
-            'font-weight:600; letter-spacing:0.09em; text-transform:uppercase;'
-            f'padding:3px 10px; border-radius:5px; margin-bottom:0.75rem">{art.get("topic","")}</span>',
+            f'<span style="display:inline-block; background:var(--amber-bg); color:var(--amber-deep); '
+            f'font-size:0.7rem; font-weight:600; letter-spacing:0.09em; text-transform:uppercase; '
+            f'padding:3px 10px; border-radius:5px; margin-bottom:0.75rem; '
+            f'font-family:\'Plus Jakarta Sans\',sans-serif;">{art.get("topic","")}</span>',
             unsafe_allow_html=True
         )
 
@@ -905,21 +1031,19 @@ Return ONLY valid JSON, no markdown:
 
         if art.get("vocab"):
             vocab_items = "".join(
-                f'<span style="margin-right:1.25rem; display:inline-block;">'
-                f'<strong style="color:#1C1B18;">{v["word"]}</strong>'
-                f'<span style="color:#6B6460; margin-left:4px;">— {v["meaning"]}</span></span>'
+                f'<span style="margin-right:1.25rem; display:inline-block; font-family:\'Plus Jakarta Sans\',sans-serif;">'
+                f'<strong style="color:var(--ink);">{v["word"]}</strong>'
+                f'<span style="color:var(--ink-muted); margin-left:4px;">— {v["meaning"]}</span></span>'
                 for v in art["vocab"]
             )
             st.markdown(
-                '<div style="background:#FAFAF7; border:1px solid #EDEAE3; color:#1C1B18; border-radius:12px; padding:0.85rem 1.1rem;'
-                'font-size:0.85rem; margin-bottom:1.25rem; line-height:2.2;">'
-                '<span style="font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color:#9B968A; font-weight:600; display:block; margin-bottom:4px;">คำศัพท์ในบทความ</span>'
+                f'<div class="vocab-pill-row">'
+                f'<span class="vocab-pill-label">คำศัพท์ในบทความ</span>'
                 f'{vocab_items}</div>',
                 unsafe_allow_html=True
             )
 
         st.markdown(f'**คำถาม:** {art["question"]}')
-
         user_ans = st.text_input(
             "พิมพ์คำตอบของคุณเป็นภาษาอังกฤษ:",
             key="reading_ans_input",
@@ -964,15 +1088,34 @@ with tab3:
     st.markdown("#### 🧩 ทบทวนคำศัพท์")
     st.caption("AI จะถามให้เดาคำศัพท์จากนิยามหรือตัวอย่างประโยค")
 
+    # Oxford 5000 toggle for quiz tab
+    oxford_quiz_on = st.toggle(
+        "🎓 Oxford 5000 Mode",
+        value=st.session_state["oxford_mode"],
+        key="oxford_toggle_tab3"
+    )
+    if oxford_quiz_on != st.session_state["oxford_mode"]:
+        st.session_state["oxford_mode"] = oxford_quiz_on
+
     if st.button("🎲 สร้างชุดคำถามใหม่", key="gen_quiz"):
         with st.spinner("กำลังสร้างคำถาม..."):
+            if st.session_state["oxford_mode"]:
+                seed_words = get_oxford_seed(user_level, 6)
+                oxford_instr = (
+                    f'Use words from this Oxford 5000 list where relevant: {seed_words}. '
+                    'Mark each question with "oxford": true if the target word is from that list.'
+                )
+            else:
+                oxford_instr = 'Set "oxford": false for all questions.'
+
             raw = call_gemini(f"""
 You are an academic English vocabulary quiz creator.
 Create 4 vocabulary review questions for topic: "{topic}", level: "{user_level}".
+{oxford_instr}
 Mix question types: fill-in-the-blank, definition-to-word, or usage question.
 Return ONLY valid JSON array, no markdown:
-[{{"type":"fill_blank","question":"...","answer":"...","hint":"..."}}, ...]
-""")
+[{{"type":"fill_blank","question":"...","answer":"...","hint":"...","oxford":false}}, ...]
+""", max_tokens=700)
             if raw:
                 try:
                     st.session_state["quiz"] = parse_json(raw)
@@ -992,11 +1135,13 @@ Return ONLY valid JSON array, no markdown:
         for i, q in enumerate(quiz):
             label = type_labels.get(q.get("type",""), "Question")
             ans_key = f"quiz_ans_{i}"
+            is_oxford_q = q.get("oxford", False)
+            oxford_tag = " · <span style='color:var(--amber);font-weight:700;font-size:0.65rem;letter-spacing:0.08em;'>Oxford 5000</span>" if is_oxford_q else ""
 
             with st.container():
                 st.markdown(
                     f'<div class="quiz-card">'
-                    f'<span class="quiz-type-badge">{label}</span>'
+                    f'<span class="quiz-type-badge">{label}{oxford_tag}</span>'
                     f'<div class="quiz-q">Q{i+1}. {q["question"]}</div>'
                     f'</div>',
                     unsafe_allow_html=True
@@ -1033,17 +1178,17 @@ Return ONLY valid JSON array, no markdown:
                 raw_feedback = call_gemini(f"""
 You are an expert English teacher. Evaluate these student answers.
 Data: {json.dumps(quiz_data_to_send)}
-
-Return ONLY a JSON array of objects matching the structure, with 'index' (int), 'ok' (boolean status), and 'fb' (if correct: return 'ถูกต้อง! 🎉', if wrong: write 1 short gentle explanation sentence in Thai explaining why the correct answer is right).
-Do not include markdown format wrappers.
+Return ONLY a JSON array with 'index' (int), 'ok' (boolean), and 'fb'
+(if correct: 'ถูกต้อง! 🎉', if wrong: 1 short gentle explanation in Thai).
+No markdown wrappers.
 """)
                 if raw_feedback:
                     try:
                         parsed_feedback_list = parse_json(raw_feedback)
                         for item in parsed_feedback_list:
-                            idx = item["index"]
-                            correct_ans = quiz[idx]["answer"]
-                            st.session_state["quiz_results"][idx] = {
+                            idx2 = item["index"]
+                            correct_ans = quiz[idx2]["answer"]
+                            st.session_state["quiz_results"][idx2] = {
                                 "ok": item["ok"],
                                 "ans": correct_ans,
                                 "fb": item["fb"]
@@ -1081,11 +1226,18 @@ with tab4:
     user_chat = st.chat_input("พิมพ์ตอบตรงนี้เพื่อคุยภาษาอังกฤษ...")
     if user_chat:
         st.session_state.chat_history.append({"role": "user", "text": user_chat})
-        history_str = "\n".join(f'{"Student" if m["role"]=="user" else "Tutor"}: {m["text"]}' for m in st.session_state.chat_history)
-
+        history_str = "\n".join(
+            f'{"Student" if m["role"]=="user" else "Tutor"}: {m["text"]}'
+            for m in st.session_state.chat_history
+        )
         with st.spinner("AI กำลังพิมพ์ตอบ..."):
-            reply = call_gemini(f"You are an English teacher. Reply to user: '{user_chat}' based on history:\n{history_str}\nKeep it short and ask a new question.")
-            if reply: st.session_state.chat_history.append({"role": "assistant", "text": reply})
+            reply = call_gemini(
+                f"You are a warm and encouraging English teacher. "
+                f"Reply to the student based on this conversation:\n{history_str}\n"
+                f"Keep it conversational (2-4 sentences), gently correct any grammar errors, then ask a follow-up question."
+            )
+            if reply:
+                st.session_state.chat_history.append({"role": "assistant", "text": reply})
         st.rerun()
 
     if st.button("🧹 ล้างประวัติการสนทนา"):
