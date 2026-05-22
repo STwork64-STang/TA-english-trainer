@@ -1010,12 +1010,6 @@ Each object must have exactly these keys:
             
             <button class="flip-btn" onclick="toggleFlip()">🔄 พลิกการ์ด</button>
             
-            <div class="nav-row">
-              <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" {'disabled' if s_idx == 0 else ''}>⬅️ ก่อนหน้า</button>
-              <div class="counter">ใบที่ {s_idx + 1} / {len(cards)}</div>
-              <button class="nav-btn" id="btn-next" onclick="navigate(1)" {'disabled' if s_idx == len(cards)-1 else ''}>ถัดไป ➡️</button>
-            </div>
-            
             <script>
               const fc = document.getElementById('fc');
             
