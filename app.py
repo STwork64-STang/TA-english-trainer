@@ -1008,8 +1008,6 @@ Each object must have exactly these keys:
               </div>
             </div>
             
-            <button class="flip-btn" onclick="toggleFlip()">🔄 พลิกการ์ด</button>
-            
             <script>
               const fc = document.getElementById('fc');
             
