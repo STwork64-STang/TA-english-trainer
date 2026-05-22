@@ -1,5 +1,6 @@
 import streamlit as st
 import streamlit.components.v1 as components
+from streamlit_js_eval import streamlit_js_eval
 from google import genai
 from google.genai.errors import APIError
 import json
@@ -865,23 +866,17 @@ Each object must have exactly these keys:
             <html>
             <head>
             <style>
-              /* ใส่เฉพาะ CSS ที่ flashcard ต้องการ */
               :root {{
-                --ink: #1E1810;
-                --ink-muted: #6B5E4A;
-                --parchment: #F5F0E4;
-                --page: #FBF8F2;
-                --rule: #DDD5C4;
-                --rule-light: #EAE4D8;
-                --amber: #C8922A;
-                --amber-light: #E8B855;
-                --amber-bg: #FDF4E0;
-                --sepia-1: #3A2E1E;
-                --sepia-2: #4A3C26;
+                --ink: #1E1810; --ink-muted: #6B5E4A;
+                --page: #FBF8F2; --rule: #DDD5C4;
+                --amber: #C8922A; --amber-light: #E8B855; --amber-bg: #FDF4E0;
+                --sepia-1: #3A2E1E; --sepia-2: #4A3C26;
               }}
+              body {{ margin: 0; background: transparent; font-family: sans-serif; }}
+            
               .flashcard-scene {{
                 width: 100%; height: 240px;
-                perspective: 1200px; margin: 1rem 0;
+                perspective: 1200px; margin: 0.5rem 0;
               }}
               .flashcard {{
                 width: 100%; height: 100%;
@@ -889,20 +884,23 @@ Each object must have exactly these keys:
                 transform-style: preserve-3d;
                 transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
                 border-radius: 16px;
+                cursor: pointer;
               }}
               .flashcard.flipped {{ transform: rotateY(180deg); }}
+            
               .flashcard-face {{
                 position: absolute; inset: 0;
                 border-radius: 16px;
                 backface-visibility: hidden;
                 -webkit-backface-visibility: hidden;
-                display: flex; flex-direction: column; padding: 2rem 2.25rem;
+                display: flex; flex-direction: column;
+                padding: 2rem 2.25rem;
               }}
               .flashcard-front {{
                 background: linear-gradient(135deg, var(--sepia-1), var(--sepia-2));
                 color: white;
                 box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-                align-items: center; justify-content: center;
+                align-items: center; justify-content: center; text-align: center;
               }}
               .flashcard-back {{
                 background: var(--page);
@@ -911,13 +909,13 @@ Each object must have exactly these keys:
                 align-items: flex-start; justify-content: flex-start;
                 gap: 10px; overflow-y: auto;
               }}
+            
               .card-word {{
-                font-family: Georgia, serif; font-size: 2.6rem;
-                color: var(--amber); text-align: center;
-                letter-spacing: -0.02em; line-height: 1.1;
+                font-size: 2.6rem; color: var(--amber);
+                letter-spacing: -0.02em; line-height: 1.1; font-weight: 600;
               }}
-              .card-pron {{ font-size: 1rem; opacity: 0.5; color: #fff; }}
-              .card-hint {{ font-size: 0.73rem; color: rgba(255,255,255,0.3); margin-top: 0.75rem; }}
+              .card-pron {{ font-size: 1rem; opacity: 0.5; color: #fff; margin-top: 4px; }}
+              .card-hint {{ font-size: 0.73rem; color: rgba(255,255,255,0.35); margin-top: 0.75rem; }}
               .card-oxford {{
                 position: absolute; top: 14px; right: 18px;
                 font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em;
@@ -925,41 +923,118 @@ Each object must have exactly these keys:
               }}
               .back-label {{
                 font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em;
-                text-transform: uppercase; color: #9E8E78;
+                text-transform: uppercase; color: #9E8E78; margin-bottom: 2px;
               }}
               .back-value {{
-                font-size: 0.95rem; color: var(--ink); line-height: 1.65; margin-top: 1px;
+                font-size: 0.95rem; color: var(--ink); line-height: 1.65;
+              }}
+              .back-section {{ width: 100%; margin-top: 6px; }}
+            
+              .flip-btn {{
+                margin-top: 12px;
+                width: 100%;
+                padding: 10px;
+                border-radius: 10px;
+                border: 1.5px solid var(--rule);
+                background: var(--page);
+                color: var(--ink);
+                font-size: 0.875rem;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.15s ease;
+              }}
+              .flip-btn:hover {{
+                border-color: var(--amber);
+                background: var(--amber-bg);
+                color: #9E6E18;
+              }}
+            
+              .nav-row {{
+                display: flex; gap: 8px; margin-top: 8px;
+              }}
+              .nav-btn {{
+                flex: 1; padding: 9px;
+                border-radius: 10px;
+                border: 1.5px solid var(--rule);
+                background: var(--page);
+                color: var(--ink);
+                font-size: 0.85rem;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.15s ease;
+              }}
+              .nav-btn:hover {{
+                border-color: var(--amber);
+                background: var(--amber-bg);
+                color: #9E6E18;
+              }}
+              .nav-btn:disabled {{
+                opacity: 0.35; cursor: not-allowed;
+              }}
+              .counter {{
+                text-align: center; font-size: 0.82rem;
+                color: #9E8E78; padding-top: 10px;
+                flex: 1;
               }}
             </style>
             </head>
-            <body style="margin:0; background:transparent;">
-              <div class="flashcard-scene">
-                <div class="flashcard" id="fc">
-                  <div class="flashcard-face flashcard-front">
-                    {oxford_tag}
-                    <div class="card-word">{card['word']}</div>
-                    <div class="card-pron">{card.get('pronunciation','')}</div>
-                    <div class="card-hint">คลิกปุ่มด้านล่างเพื่อพลิกดูความหมาย</div>
+            <body>
+            
+            <div class="flashcard-scene">
+              <div class="flashcard" id="fc">
+            
+                <div class="flashcard-face flashcard-front">
+                  {'<div class="card-oxford">Oxford 5000</div>' if card.get('oxford') else ''}
+                  <div class="card-word">{card['word']}</div>
+                  <div class="card-pron">{card.get('pronunciation','')}</div>
+                  <div class="card-hint">คลิกที่การ์ดหรือปุ่มด้านล่างเพื่อพลิก</div>
+                </div>
+            
+                <div class="flashcard-face flashcard-back">
+                  <div class="back-section">
+                    <div class="back-label">ความหมายภาษาไทย</div>
+                    <div class="back-value" style="font-weight:600; font-size:1.05rem;">{card.get('thai','')}</div>
                   </div>
-                  <div class="flashcard-face flashcard-back">
-                    <div style="width:100%">
-                      <div class="back-label">ความหมายภาษาไทย</div>
-                      <div class="back-value" style="font-weight:600">{card.get('thai','')}</div>
-                    </div>
-                    <div style="width:100%; margin-top:6px">
-                      <div class="back-label">Definition</div>
-                      <div class="back-value">{card['definition']}</div>
-                    </div>
-                    <div style="width:100%; margin-top:6px">
-                      <div class="back-label">Example</div>
-                      <div class="back-value" style="font-style:italic; color:#6B5E4A">"{card.get('example','')}"</div>
-                    </div>
+                  <div class="back-section">
+                    <div class="back-label">Definition</div>
+                    <div class="back-value">{card.get('definition','')}</div>
+                  </div>
+                  <div class="back-section">
+                    <div class="back-label">Example</div>
+                    <div class="back-value" style="font-style:italic; color:#6B5E4A;">"{card.get('example','')}"</div>
                   </div>
                 </div>
+            
               </div>
+            </div>
+            
+            <button class="flip-btn" onclick="toggleFlip()">🔄 พลิกการ์ด</button>
+            
+            <div class="nav-row">
+              <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" {'disabled' if s_idx == 0 else ''}>⬅️ ก่อนหน้า</button>
+              <div class="counter">ใบที่ {s_idx + 1} / {len(cards)}</div>
+              <button class="nav-btn" id="btn-next" onclick="navigate(1)" {'disabled' if s_idx == len(cards)-1 else ''}>ถัดไป ➡️</button>
+            </div>
+            
+            <script>
+              const fc = document.getElementById('fc');
+            
+              // พลิกด้วยการคลิกที่การ์ดก็ได้
+              fc.addEventListener('click', toggleFlip);
+            
+              function toggleFlip() {{
+                fc.classList.toggle('flipped');
+              }}
+            
+              function navigate(dir) {{
+                // ส่ง message ออกไปให้ Streamlit รับผ่าน postMessage
+                window.parent.postMessage({{type: 'navigate', dir: dir}}, '*');
+              }}
+            </script>
+            
             </body>
             </html>
-            """, height=270)
+            """, height=380)
 
             if st.button("🔄 พลิกการ์ด", key=f"flip_btn_{s_idx}", use_container_width=True):
                 st.session_state[f"flipped_{s_idx}"] = not st.session_state[f"flipped_{s_idx}"]
