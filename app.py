@@ -1028,7 +1028,7 @@ Each object must have exactly these keys:
             
             </body>
             </html>
-            """, height=200)
+            """, height=320)
 
             st.markdown("<br>", unsafe_allow_html=True)
             col_b1, col_b2, col_b3 = st.columns([1, 2, 1])
