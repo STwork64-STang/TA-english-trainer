@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 from google import genai
 from google.genai.errors import APIError
 import json
@@ -859,32 +860,106 @@ Each object must have exactly these keys:
 
             oxford_tag = '<div class="card-oxford">Oxford 5000</div>' if is_oxford else ""
 
-            st.markdown(f"""
-            <div class="flashcard-scene">
-                <div class="flashcard {flip_class}">
-                    <div class="flashcard-face flashcard-front">
-                        {oxford_tag}
-                        <div class="card-word">{card['word']}</div>
-                        <div class="card-pron">{card.get('pronunciation','')}</div>
-                        <div class="card-hint">คลิกปุ่มด้านล่างเพื่อพลิกดูความหมาย</div>
+            components.html(f"""
+            <!DOCTYPE html>
+            <html>
+            <head>
+            <style>
+              /* ใส่เฉพาะ CSS ที่ flashcard ต้องการ */
+              :root {{
+                --ink: #1E1810;
+                --ink-muted: #6B5E4A;
+                --parchment: #F5F0E4;
+                --page: #FBF8F2;
+                --rule: #DDD5C4;
+                --rule-light: #EAE4D8;
+                --amber: #C8922A;
+                --amber-light: #E8B855;
+                --amber-bg: #FDF4E0;
+                --sepia-1: #3A2E1E;
+                --sepia-2: #4A3C26;
+              }}
+              .flashcard-scene {{
+                width: 100%; height: 240px;
+                perspective: 1200px; margin: 1rem 0;
+              }}
+              .flashcard {{
+                width: 100%; height: 100%;
+                position: relative;
+                transform-style: preserve-3d;
+                transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
+                border-radius: 16px;
+              }}
+              .flashcard.flipped {{ transform: rotateY(180deg); }}
+              .flashcard-face {{
+                position: absolute; inset: 0;
+                border-radius: 16px;
+                backface-visibility: hidden;
+                -webkit-backface-visibility: hidden;
+                display: flex; flex-direction: column; padding: 2rem 2.25rem;
+              }}
+              .flashcard-front {{
+                background: linear-gradient(135deg, var(--sepia-1), var(--sepia-2));
+                color: white;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+                align-items: center; justify-content: center;
+              }}
+              .flashcard-back {{
+                background: var(--page);
+                border: 1.5px solid var(--rule);
+                transform: rotateY(180deg);
+                align-items: flex-start; justify-content: flex-start;
+                gap: 10px; overflow-y: auto;
+              }}
+              .card-word {{
+                font-family: Georgia, serif; font-size: 2.6rem;
+                color: var(--amber); text-align: center;
+                letter-spacing: -0.02em; line-height: 1.1;
+              }}
+              .card-pron {{ font-size: 1rem; opacity: 0.5; color: #fff; }}
+              .card-hint {{ font-size: 0.73rem; color: rgba(255,255,255,0.3); margin-top: 0.75rem; }}
+              .card-oxford {{
+                position: absolute; top: 14px; right: 18px;
+                font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em;
+                text-transform: uppercase; color: var(--amber-light); opacity: 0.7;
+              }}
+              .back-label {{
+                font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em;
+                text-transform: uppercase; color: #9E8E78;
+              }}
+              .back-value {{
+                font-size: 0.95rem; color: var(--ink); line-height: 1.65; margin-top: 1px;
+              }}
+            </style>
+            </head>
+            <body style="margin:0; background:transparent;">
+              <div class="flashcard-scene">
+                <div class="flashcard" id="fc">
+                  <div class="flashcard-face flashcard-front">
+                    {oxford_tag}
+                    <div class="card-word">{card['word']}</div>
+                    <div class="card-pron">{card.get('pronunciation','')}</div>
+                    <div class="card-hint">คลิกปุ่มด้านล่างเพื่อพลิกดูความหมาย</div>
+                  </div>
+                  <div class="flashcard-face flashcard-back">
+                    <div style="width:100%">
+                      <div class="back-label">ความหมายภาษาไทย</div>
+                      <div class="back-value" style="font-weight:600">{card.get('thai','')}</div>
                     </div>
-                    <div class="flashcard-face flashcard-back">
-                        <div style="width:100%;">
-                            <div class="back-label">ความหมายภาษาไทย</div>
-                            <div class="back-value" style="font-weight:600; font-size:1.05rem;">{card.get('thai','')}</div>
-                        </div>
-                        <div style="width:100%; margin-top:6px;">
-                            <div class="back-label">Definition</div>
-                            <div class="back-value">{card['definition']}</div>
-                        </div>
-                        <div style="width:100%; margin-top:6px;">
-                            <div class="back-label">Example</div>
-                            <div class="back-value" style="font-style:italic; color:var(--ink-muted);">"{card.get('example','')}"</div>
-                        </div>
+                    <div style="width:100%; margin-top:6px">
+                      <div class="back-label">Definition</div>
+                      <div class="back-value">{card['definition']}</div>
                     </div>
+                    <div style="width:100%; margin-top:6px">
+                      <div class="back-label">Example</div>
+                      <div class="back-value" style="font-style:italic; color:#6B5E4A">"{card.get('example','')}"</div>
+                    </div>
+                  </div>
                 </div>
-            </div>
-            """, unsafe_allow_html=True)
+              </div>
+            </body>
+            </html>
+            """, height=270)
 
             if st.button("🔄 พลิกการ์ด", key=f"flip_btn_{s_idx}", use_container_width=True):
                 st.session_state[f"flipped_{s_idx}"] = not st.session_state[f"flipped_{s_idx}"]
