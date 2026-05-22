@@ -1030,10 +1030,6 @@ Each object must have exactly these keys:
             </html>
             """, height=380)
 
-            if st.button("🔄 พลิกการ์ด", key=f"flip_btn_{s_idx}", use_container_width=True):
-                st.session_state[f"flipped_{s_idx}"] = not st.session_state[f"flipped_{s_idx}"]
-                st.rerun()
-
             st.markdown("<br>", unsafe_allow_html=True)
             col_b1, col_b2, col_b3 = st.columns([1, 2, 1])
             with col_b1:
