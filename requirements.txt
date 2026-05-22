@@ -1,3 +1,4 @@
 streamlit
 google-genai
 gtts
+streamlit-js-eval
